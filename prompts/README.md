@@ -124,6 +124,15 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`fairness-audit.md`](fairness-audit.md) | Bias audit — demographic parity, disparate impact, equal opportunity, mitigation | `MODEL_CONTEXT`, `PROTECTED_ATTRIBUTES`, `REGULATORY_CONTEXT` |
 | [`explainability.md`](explainability.md) | SHAP / LIME / counterfactuals — global + local explanations by audience | `MODEL_CONTEXT`, `EXPLANATION_GOALS`, `AUDIENCE` |
 
+**MLOps / Lifecycle:**
+
+| File | Use case | Key placeholders |
+|---|---|---|
+| [`experiment-tracking.md`](experiment-tracking.md) | Run logging schema, registry promotion criteria, reproducibility checklist | `PROJECT_CONTEXT`, `TRACKING_TOOL`, `REPRODUCIBILITY_REQUIREMENTS` |
+| [`ab-test-design.md`](ab-test-design.md) | Sample size, assignment strategy, guardrail metrics, stopping rules, analysis plan | `EXPERIMENT_CONTEXT`, `TRAFFIC_METRICS_CONTEXT`, `BUSINESS_CONSTRAINTS` |
+| [`retraining-strategy.md`](retraining-strategy.md) | Trigger types, data window design, full vs. incremental, promotion gates | `MODEL_CONTEXT`, `MONITORING_CONTEXT`, `RETRAINING_CONSTRAINTS` |
+| [`data-versioning.md`](data-versioning.md) | Dataset versioning, DVC / time-travel, lineage chain, reproducibility | `DATA_INFRASTRUCTURE_CONTEXT`, `VERSIONING_REQUIREMENTS`, `COMPLIANCE_CONTEXT` |
+
 ---
 
 ## How to use a template

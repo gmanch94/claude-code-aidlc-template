@@ -192,6 +192,15 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/fairness-audit` | Demographic parity, disparate impact ratio (80% rule), equal opportunity, protected-attribute slice analysis, mitigation strategies |
 | `/explainability` | SHAP / LIME / PDP / counterfactuals — global + local explanations, method selection by model type, audience-appropriate output |
 
+**MLOps / Lifecycle:**
+
+| Command | What it does |
+|---|---|
+| `/experiment-tracking` | Run logging schema (params, metrics, artifacts, env), registry promotion criteria, reproducibility checklist |
+| `/ab-test-design` | Sample size calculation, assignment strategy, guardrail metrics, stopping rules, analysis plan + decision criteria |
+| `/retraining-strategy` | Trigger types (drift/calendar/performance), data window design, full vs. incremental, validation gates before promotion |
+| `/data-versioning` | Dataset versioning approach (DVC/time-travel/snapshot), registration schema, lineage chain, reproducibility checklist |
+
 ---
 
 ## Stack add-ons

@@ -172,6 +172,12 @@ The `[Used in / Referenced by]` column (or equivalent) maps each row to downstre
 - `/fairness-audit` — demographic parity; disparate impact ratio (80% rule); equal opportunity; protected-attribute slices; mitigation strategies
 - `/explainability` — SHAP / LIME / PDP / counterfactuals; global + local; method selection by model type; audience-appropriate output
 
+*MLOps / Lifecycle:*
+- `/experiment-tracking` — run logging schema; registry promotion criteria; reproducibility checklist; MLflow patterns
+- `/ab-test-design` — sample size calculation; assignment strategy; guardrail metrics; stopping rules; analysis plan
+- `/retraining-strategy` — drift/calendar/performance triggers; data window design; full vs. incremental; promotion gates
+- `/data-versioning` — DVC / time-travel / snapshot approach; dataset registration schema; lineage chain; reproducibility
+
 **Hooks:** [List any hooks in `.claude/hooks/` and what they do.]
 
 **Scheduled routines:** [List any automated agents or cron routines.]

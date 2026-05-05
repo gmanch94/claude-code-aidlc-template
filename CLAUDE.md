@@ -50,6 +50,21 @@ The `[Used in / Referenced by]` column (or equivalent) maps each row to downstre
 
 ---
 
+## Sprint workflow
+
+For any non-trivial task, follow this order:
+
+1. **Assumptions** — run `/office-hours` to surface unstated assumptions and produce a design doc before writing code
+2. **Plan** — agree on approach; use `/tradeoff` if options need evaluating, `/adr` if a decision needs recording
+3. **Implement** — build against the design doc; invoke Confusion Protocol if new ambiguity surfaces
+4. **Review** — run `/review` before opening a PR
+5. **Ship** — feature branch + PR; no direct commits to master
+6. **Retro** — run `/retro` at end of session or sprint; write new lessons to LESSONS_LEARNED.md
+
+Skip steps only with explicit agreement — not because the task feels small.
+
+---
+
 ## Working conventions
 
 [Fill in project-specific conventions. Examples:]
@@ -101,6 +116,7 @@ The `[Used in / Referenced by]` column (or equivalent) maps each row to downstre
 - `/eda` — dataset profiling (target, missingness, cardinality, correlations, leakage candidates); EDA summary report
 
 *General:*
+- `/office-hours` — assumptions gate; six forcing questions + design doc before any implementation
 - `/review` — code review with [BLOCKER] / [SUGGESTION] / [NITPICK] format
 - `/adr` — draft an Architecture Decision Record
 - `/tradeoff` — structured tradeoff analysis for a decision

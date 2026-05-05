@@ -2,36 +2,35 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = 6aeda01**
+**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = 4607731**
 
 ---
 
 ## State
 
 ```
-6aeda01  Merge PR #3 — Add sprint workflow + /office-hours skill
+4607731  Merge pull request #4 — Add specialist personas to all 67 skills
+c025b9d  Add specialist personas to all 66 skills (SKILL.md + README + CLAUDE.md)
+7e4d67c  Update NEXT_SESSION.md — master, HEAD 6aeda01, session close
+6aeda01  Merge pull request #3 — Add sprint workflow + /office-hours skill
 1728824  Add sprint workflow + /office-hours skill (assumptions gate)
-de1221c  Merge PR #2 — Add /retro skill and prompt template
-f97048a  Update NEXT_SESSION.md — master, HEAD 15bd13a
 ```
 
-Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of beabe68)
+Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of 4607731)
 
 ---
 
 ## What landed in the most recent session
 
-1. **Sprint workflow** — 6-step order added to `CLAUDE.md` (assumptions → plan → implement → review → ship → retro)
-2. **`/office-hours` skill** — `.claude/skills/office-hours/SKILL.md`; assumptions gate with six forcing questions and design doc output
-3. **`/retro` skill** — `.claude/skills/retro/SKILL.md`; structured retro with LESSONS_LEARNED.md integration
-4. **`prompts/retro.md`** — system prompt template for retro facilitator
+1. **Specialist personas** — all 67 SKILL.md files now have `## Role` with a task-anchored functional title
+2. **README + CLAUDE.md** — every skill entry prefixed with `**Persona** —` for AIDLC mindset reinforcement
+3. Role names are durable (task-domain, not job-title): ADR Facilitator, RAG System Architect, Data Leakage Auditor, etc.
 
 ---
 
 ## Open items
 
 - [ ] **Stack add-ons** — `stacks/` currently has Python only; TypeScript/Go stacks could be added
-- [ ] **gstack philosophy** — item 5 (specialist personas) not yet brought in
 
 ---
 

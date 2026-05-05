@@ -153,12 +153,15 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/cost-optimize` | **Token Cost Optimizer** — Token spend analysis — model tier decision tree (Opus/Sonnet/Haiku), prompt caching strategy, batch vs. real-time, token budget sizing |
 | `/feedback-loop` | **Feedback Loop Designer** — Production feedback loop design — signal taxonomy, review queue sampling, annotation workflow, signal → eval routing, improvement cadence |
 | `/fine-tune` | **Fine-Tuning Advisor** — Fine-tune vs. prompt-engineer decision tree — dataset requirements, pre/post eval plan, cost-benefit analysis, training data format |
+| `/llm-routing` | **LLM Router** — routing strategy (static/cascade/complexity-classifier/semantic), model tier map, fallback chain, quality-floor gate, cost/quality projection |
+| `/build-vs-buy` | **Build vs Buy Advisor** — 5-dimension scoring (cost/control/speed/risk/capability), AI tooling decision matrix, 3-year TCO, vendor alternatives, exit strategy |
 
 **Data engineering:**
 
 | Command | What it does |
 |---|---|
 | `/pipeline-design` | **Data Pipeline Architect** — batch vs. streaming decision, orchestration, idempotency, backfill strategy, error handling, SLA |
+| `/streaming-pipeline` | **Streaming Pipeline Architect** — stream vs. batch vs. hybrid decision, Kafka/Flink/Spark Streaming technology selection, windowing, state management, ML feature pipeline integration, consumer lag monitoring |
 | `/schema-design` | **Data Schema Designer** — Data modeling — dimensional vs. 3NF vs. OBT decision, SCD types, partitioning strategy, schema evolution policy |
 | `/data-quality` | **Data Quality Engineer** — Quality gate design — validation rules by dimension, anomaly detection thresholds, quarantine + replay strategy, SLAs |
 | `/data-contract` | **Data Contract Author** — Producer/consumer data contract — schema ownership, SLAs, versioning, breaking change policy, enforcement |

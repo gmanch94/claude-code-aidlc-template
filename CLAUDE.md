@@ -177,6 +177,10 @@ The `[Used in / Referenced by]` column (or equivalent) maps each row to downstre
 - `/ab-test-design` — sample size calculation; assignment strategy; guardrail metrics; stopping rules; analysis plan
 - `/retraining-strategy` — drift/calendar/performance triggers; data window design; full vs. incremental; promotion gates
 - `/data-versioning` — DVC / time-travel / snapshot approach; dataset registration schema; lineage chain; reproducibility
+- `/mlops-cicd` — ML CI/CD pipeline stages; model quality gates; artifact registration schema; rollback trigger spec; GitHub Actions YAML
+- `/responsible-ai-governance` — risk tier classification (T1–T4); 5-pillar governance framework; MRM checklist; EU AI Act flags; review board charter
+- `/model-compression` — PTQ / QAT / pruning / distillation / GPTQ selection; code patterns; eval plan on target hardware
+- `/feature-monitoring` — freshness SLAs; null rate baselines; schema drift detection; PSI per feature; dashboard spec; anomaly playbook
 
 **Hooks:** [List any hooks in `.claude/hooks/` and what they do.]
 

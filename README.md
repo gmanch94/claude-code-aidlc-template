@@ -200,6 +200,10 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/ab-test-design` | Sample size calculation, assignment strategy, guardrail metrics, stopping rules, analysis plan + decision criteria |
 | `/retraining-strategy` | Trigger types (drift/calendar/performance), data window design, full vs. incremental, validation gates before promotion |
 | `/data-versioning` | Dataset versioning approach (DVC/time-travel/snapshot), registration schema, lineage chain, reproducibility checklist |
+| `/mlops-cicd` | ML CI/CD pipeline stages, model quality gates (performance/fairness/latency), artifact registration schema, rollback triggers, GitHub Actions YAML |
+| `/responsible-ai-governance` | Risk tier classification (T1–T4), 5-pillar governance framework, MRM checklist, pre-deploy gate matrix, EU AI Act flags |
+| `/model-compression` | Compression technique selection (PTQ/QAT/pruning/distillation/GPTQ), ready-to-run code, eval plan on target hardware |
+| `/feature-monitoring` | Production feature health — freshness SLAs, null rate baselines, schema drift, PSI per feature, dashboard spec, anomaly playbook |
 
 ---
 

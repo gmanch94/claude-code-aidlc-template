@@ -132,6 +132,10 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`ab-test-design.md`](ab-test-design.md) | Sample size, assignment strategy, guardrail metrics, stopping rules, analysis plan | `EXPERIMENT_CONTEXT`, `TRAFFIC_METRICS_CONTEXT`, `BUSINESS_CONSTRAINTS` |
 | [`retraining-strategy.md`](retraining-strategy.md) | Trigger types, data window design, full vs. incremental, promotion gates | `MODEL_CONTEXT`, `MONITORING_CONTEXT`, `RETRAINING_CONSTRAINTS` |
 | [`data-versioning.md`](data-versioning.md) | Dataset versioning, DVC / time-travel, lineage chain, reproducibility | `DATA_INFRASTRUCTURE_CONTEXT`, `VERSIONING_REQUIREMENTS`, `COMPLIANCE_CONTEXT` |
+| [`mlops-cicd.md`](mlops-cicd.md) | ML CI/CD pipeline stages, quality gates, artifact schema, rollback spec | `MODEL_FRAMEWORK_AND_STORE`, `TARGET_ENVIRONMENT`, `CI_PLATFORM` |
+| [`responsible-ai-governance.md`](responsible-ai-governance.md) | AI governance framework — risk tiers, MRM checklist, review gates, EU AI Act | `USE_CASE_INVENTORY`, `REGULATORY_CONTEXT`, `ORG_CONTEXT` |
+| [`model-compression.md`](model-compression.md) | Compression technique selection + code + eval plan on target hardware | `MODEL_CONTEXT`, `LATENCY_TARGET`, `TARGET_HARDWARE` |
+| [`feature-monitoring.md`](feature-monitoring.md) | Feature health monitoring — freshness, null rate, schema drift, PSI, alerts | `FEATURE_LIST`, `SERVING_STACK`, `IMPORTANCE_RANKING` |
 
 ---
 

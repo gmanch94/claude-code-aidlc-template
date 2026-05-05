@@ -75,6 +75,14 @@ Done. The template is live.
 
 Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKILL.md`. Add your own by creating a new directory with a `SKILL.md` — it becomes `/name` automatically.
 
+**Business discovery:**
+
+| Command | What it does |
+|---|---|
+| `/stakeholder-interview` | **Business Discovery Facilitator** — structured six-group discovery interview with non-technical stakeholders; outputs a Discovery Summary Card before any ML framing |
+| `/opportunity-sizing` | **AI Opportunity Analyst** — status quo cost, AI uplift estimate, build cost, and go/no-go recommendation; validates the initiative is worth building |
+| `/kpi-mapping` | **KPI-to-Metric Mapper** — 4-level chain from business objective to ML metric with translation failure modes, Goodhart traps, and counter-metric |
+
 **Problem framing / EDA:**
 
 | Command | What it does |

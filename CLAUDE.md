@@ -111,6 +111,11 @@ Skip steps only with explicit agreement — not because the task feels small.
 
 **Custom skills** (type in Claude Code prompt — skills live in `.claude/skills/`):
 
+*Business discovery:*
+- `/stakeholder-interview` — **Business Discovery Facilitator** — structured six-group discovery interview; Discovery Summary Card output before any ML framing
+- `/opportunity-sizing` — **AI Opportunity Analyst** — status quo cost + AI uplift + build cost + go/no-go recommendation
+- `/kpi-mapping` — **KPI-to-Metric Mapper** — 4-level chain from business objective to ML metric; translation failure modes + counter-metric
+
 *Problem framing / EDA:*
 - `/problem-framing` — **ML Problem Framing Advisor** — ML vs. rules decision; solution type; success metric tied to KPI; non-ML baseline; problem statement card
 - `/eda` — **Exploratory Data Analyst** — dataset profiling (target, missingness, cardinality, correlations, leakage candidates); EDA summary report

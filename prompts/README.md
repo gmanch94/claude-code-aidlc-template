@@ -12,6 +12,14 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 
 | File | Use case | Key placeholders |
 |---|---|---|
+**Business discovery:**
+
+| File | Use case | Key placeholders |
+|---|---|---|
+| [`stakeholder-interview.md`](stakeholder-interview.md) | Six-group discovery interview with non-technical stakeholders; Discovery Summary Card | `ORGANIZATION_NAME`, `STAKEHOLDER_ROLE`, `BUSINESS_DOMAIN` |
+| [`opportunity-sizing.md`](opportunity-sizing.md) | Status quo cost, AI uplift estimate, build cost, go/no-go recommendation | `BUSINESS_PROBLEM`, `CURRENT_PROCESS`, `ANNUAL_VOLUME` |
+| [`kpi-mapping.md`](kpi-mapping.md) | Business objective → KPI → proxy → ML metric chain with failure modes and counter-metric | `BUSINESS_OBJECTIVE`, `CURRENT_KPI_SYSTEM`, `ERROR_TOLERANCE` |
+
 **Problem framing / EDA:**
 
 | File | Use case | Key placeholders |

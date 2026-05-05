@@ -93,6 +93,13 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/time-series-eda` | **Time Series Data Analyst** — stationarity (ADF+KPSS), trend (Mann-Kendall), seasonality (STL), ACF/PACF, structural breaks, anomaly detection |
 | `/feature-correlation` | **Feature Relationship Analyst** — Pearson/Spearman/MI by variable type, VIF multicollinearity, Cramér's V for categoricals, interaction candidate detection |
 
+**Unsupervised learning:**
+
+| Command | What it does |
+|---|---|
+| `/clustering` | **Clustering Advisor** — algorithm selection (k-means/DBSCAN/GMM/hierarchical), k decision (elbow+silhouette), stability testing, cluster profiling |
+| `/dim-reduction` | **Dimensionality Reduction Advisor** — PCA/UMAP/t-SNE selection by goal, variance explained, component count, downstream use rules (t-SNE visualization-only enforced) |
+
 **General (any project):**
 
 | Command | What it does |

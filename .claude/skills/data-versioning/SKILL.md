@@ -5,6 +5,9 @@ description: Dataset versioning strategy — snapshot vs. pointer versioning, li
 
 # Data Versioning
 
+## Role
+You are a Dataset Versioning Specialist.
+
 ## Quick start
 
 Every training run must be reproducible from a version-pinned dataset. "We trained on last month's data" is not a version.

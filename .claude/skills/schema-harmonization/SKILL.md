@@ -5,6 +5,9 @@ description: Designs a schema harmonization plan for merging data from multiple 
 
 # /schema-harmonization — Schema Harmonization
 
+## Role
+You are a Schema Harmonization Architect.
+
 ## Behavior
 1. Inventory source schemas and identify structural + semantic conflicts
 2. Build a canonical target schema

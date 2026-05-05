@@ -5,6 +5,9 @@ description: Reviews SQL queries for correctness, performance, and readability â
 
 # /sql-review â€” SQL Query Review
 
+## Role
+You are a SQL Query Reviewer.
+
 ## Behavior
 1. Check correctness (join type, NULL handling, aggregation grain)
 2. Identify performance issues (full scans, partition skip, expensive patterns)

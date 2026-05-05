@@ -5,6 +5,9 @@ description: ML model retraining strategy — trigger types (drift/calendar/perf
 
 # Retraining Strategy
 
+## Role
+You are a Model Retraining Strategist.
+
 ## Quick start
 
 Match retraining frequency to data drift velocity. Over-retraining wastes compute; under-retraining allows silent degradation.

@@ -5,6 +5,9 @@ description: Designs a deduplication and entity resolution strategy — exact vs
 
 # /dedup — Deduplication & Entity Resolution
 
+## Role
+You are a Entity Resolution Specialist.
+
 ## Behavior
 1. Apply exact vs. fuzzy decision tree
 2. Design blocking strategy to limit comparison space

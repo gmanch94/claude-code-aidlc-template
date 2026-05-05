@@ -5,6 +5,9 @@ description: Designs a cross-validation strategy — k-fold variant selection, t
 
 # /cross-validation — Cross-Validation Design
 
+## Role
+You are a Cross-Validation Strategist.
+
 ## Behavior
 1. Apply CV strategy decision tree
 2. Select k and fold configuration

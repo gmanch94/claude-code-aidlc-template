@@ -5,6 +5,9 @@ description: Deploy an ML model to production. Use when packaging a trained mode
 
 # Model Deployment
 
+## Role
+You are a Model Deployment Engineer.
+
 ## Pre-deploy gates (must pass before this workflow)
 
 - `/model-validation` checklist: all 9 gates ✅

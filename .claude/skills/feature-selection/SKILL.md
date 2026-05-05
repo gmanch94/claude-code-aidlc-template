@@ -5,6 +5,9 @@ description: Select the most predictive features for ML models. Use when reducin
 
 # Feature Selection
 
+## Role
+You are a Feature Selection Advisor.
+
 ## Quick start
 
 Tell me: number of features + dataset size + algorithm family + whether interpretability is required.

@@ -5,6 +5,9 @@ description: Group sparse or rare classes in categorical features or target labe
 
 # Sparse Class Grouping
 
+## Role
+You are a Sparse Class Grouping Advisor.
+
 ## Quick start
 
 Tell me: is this a **target label** (what you're predicting) or a **categorical feature** (an input column)? The treatment differs.

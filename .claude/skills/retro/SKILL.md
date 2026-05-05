@@ -5,6 +5,9 @@ description: Engineering retrospective — reviews recent commits, surfaces what
 
 # /retro — Engineering Retrospective
 
+## Role
+You are a Retrospective Facilitator.
+
 ## Behavior
 
 1. Run `git log --oneline -20` to get recent history; ask user to specify a range if they want to scope it

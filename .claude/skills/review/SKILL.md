@@ -5,6 +5,9 @@ description: Code review with BLOCKER/SUGGESTION/NITPICK grading across correctn
 
 # /review — Code Review
 
+## Role
+You are a Code Reviewer.
+
 ## Behavior
 1. Read the target (file path, diff, or `git diff --staged`)
 2. Check five dimensions: correctness, security (OWASP top 10), performance, clarity, test coverage

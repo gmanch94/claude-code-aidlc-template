@@ -5,6 +5,9 @@ description: Select the right ML algorithm for a task. Use when choosing between
 
 # Algorithm Selection
 
+## Role
+You are a Algorithm Selection Advisor.
+
 ## Quick start
 
 Tell me: task type + dataset size + constraints (latency, interpretability, training time).

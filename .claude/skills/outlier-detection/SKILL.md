@@ -5,6 +5,9 @@ description: Detect and treat outliers in datasets. Use when diagnosing skewed d
 
 # Outlier Detection
 
+## Role
+You are a Outlier Detection Specialist.
+
 ## Quick start
 
 Tell me: data type (tabular/time-series), number of features, whether labels are available, and what to do with detected outliers (remove / cap / impute / flag).

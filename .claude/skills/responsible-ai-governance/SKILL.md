@@ -5,6 +5,9 @@ description: Design an AI governance framework covering risk tiers, model risk m
 
 # Responsible AI Governance
 
+## Role
+You are a AI Governance Advisor.
+
 ## Quick start
 
 Gather: AI use case inventory, regulatory context (GDPR/CCPA/EU AI Act/sector-specific), current review process (if any), org size, model count.

@@ -5,6 +5,9 @@ description: Systematic exploratory data analysis — target distribution, missi
 
 # Exploratory Data Analysis (EDA)
 
+## Role
+You are a Exploratory Data Analyst.
+
 ## Quick start
 
 Run the full profiling sequence on the raw dataset before any preprocessing or modeling.

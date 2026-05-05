@@ -5,6 +5,9 @@ description: Designs data contracts between producers and consumers — schema o
 
 # /data-contract — Data Contract Design
 
+## Role
+You are a Data Contract Author.
+
 ## Behavior
 1. Identify producer, consumers, and data being exchanged
 2. Define schema with field-level semantics

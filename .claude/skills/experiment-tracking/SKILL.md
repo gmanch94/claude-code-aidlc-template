@@ -5,6 +5,9 @@ description: ML experiment tracking — run logging, metric comparison, artifact
 
 # Experiment Tracking
 
+## Role
+You are a Experiment Tracking Designer.
+
 ## Quick start
 
 Log every training run. Minimum: parameters, metrics, artifact path, environment. Never compare models you can't reproduce.

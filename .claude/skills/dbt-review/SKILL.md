@@ -5,6 +5,9 @@ description: Reviews dbt models for structure, naming conventions, ref/source us
 
 # /dbt-review — dbt Model Review
 
+## Role
+You are a dbt Model Reviewer.
+
 ## Behavior
 1. Review model structure and naming
 2. Check ref/source usage

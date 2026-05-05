@@ -5,6 +5,9 @@ description: Remove irrelevant or low-quality observations from datasets. Use wh
 
 # Data Filtering
 
+## Role
+You are a Data Filtering Planner.
+
 ## Quick start
 
 Tell me: why observations are unwanted (domain rules / quality / relevance / duplicates) + what percentage you expect to remove.

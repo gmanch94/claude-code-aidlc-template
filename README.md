@@ -86,6 +86,7 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 
 | Command | What it does |
 |---|---|
+| `/office-hours` | Assumptions gate — six forcing questions that surface unstated assumptions and produce a design doc before any code is written |
 | `/review` | Code review — [BLOCKER] / [SUGGESTION] / [NITPICK] grading across correctness, security, performance, clarity, test coverage |
 | `/adr` | Draft an Architecture Decision Record with context, rationale, alternatives, consequences, and risks |
 | `/tradeoff` | Options × pros/cons/failure-mode table + recommendation with named constraint |

@@ -27,11 +27,11 @@ This template fixes all four in under 5 minutes of setup.
 | `LESSONS_LEARNED.md` | Process lessons that accumulate across sessions. Pre-seeded with 8 generalizable lessons; add project-specific ones as you work. |
 | `NEXT_SESSION.md` | Session bookmark — HEAD, branch, what landed, what's open. Claude reads it first after `/clear`. |
 | `.claude/settings.json` | Permission allowlist. Pre-populated with context-mode MCP tools (see below). Add project-specific read-only patterns here. |
-| `.claude/commands/review.md` | `/review` — code review with [BLOCKER] / [SUGGESTION] / [NITPICK] format. |
-| `.claude/commands/adr.md` | `/adr` — draft an Architecture Decision Record with full rationale and alternatives. |
-| `.claude/commands/tradeoff.md` | `/tradeoff` — structured tradeoff analysis: options × pros/cons/failure-mode + recommendation with named constraint. |
+| `.claude/skills/review/SKILL.md` | `/review` — code review with [BLOCKER] / [SUGGESTION] / [NITPICK] format. |
+| `.claude/skills/adr/SKILL.md` | `/adr` — draft an Architecture Decision Record with full rationale and alternatives. |
+| `.claude/skills/tradeoff/SKILL.md` | `/tradeoff` — structured tradeoff analysis: options × pros/cons/failure-mode + recommendation with named constraint. |
 | `memory/MEMORY.md` | Index for Claude's persistent project memory. |
-| `prompts/` | 8 system prompt templates — RAG Q&A, agent, chat, classifier, extractor, code reviewer, summarizer, structured output. Each has placeholders, usage notes, and a prompt health score. |
+| `prompts/` | 54 system prompt templates across ML, data engineering, LLM, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
 | `.gitignore` | Gitignores `scratch/` (personal workspace) and `.claude/settings.local.json`. |
 
 ---

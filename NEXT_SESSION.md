@@ -2,30 +2,34 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = 7fe5ac5**
+**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = 4e8635f**
 
 ---
 
 ## State
 
 ```
+4e8635f  Merge pull request #10 — Add platform/strategy skills
+7430477  Add platform/strategy skills: /llm-routing, /streaming-pipeline, /build-vs-buy
+2e9c01a  Merge pull request #9 — Add AI production skills
+2e9c01a  Add AI production skills: /anomaly-detection, /guardrails-design, /multi-agent-design
 7fe5ac5  Merge pull request #8 — Add ML domain skills
-fbcbe87  Add ML domain skills: /time-series-forecasting, /recommender-design, /nlp-pipeline
-b0c37fe  Merge pull request #7 — Add reinforcement learning skills
-595ad32  Add reinforcement learning skills: /bandit-design and /rl-design
-3dbe6e6  Update NEXT_SESSION.md — HEAD b0c37fe, RL skills PR #7 merged
 ```
 
-Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of 7fe5ac5)
+Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of 4e8635f)
 
 ---
 
 ## What landed in the most recent session
 
-1. **ML domain skills** (PR #8): `/time-series-forecasting`, `/recommender-design`, `/nlp-pipeline` + prompts
-2. `/time-series-forecasting` — ARIMA/SARIMA/ETS/Prophet/N-BEATS/TFT; seasonal naive gate (MASE < 1); time series CV only; Ljung-Box residual check
-3. `/recommender-design` — ALS/iALS/two-tower/SASRec; two-stage pipeline for >1M items; cold-start mandatory; temporal split only; NDCG@K + Coverage
-4. `/nlp-pipeline` — TF-IDF baseline gate; preprocessing decision table; entity-level F1 for NER; ROUGE for summarization; domain-BERT rule
+1. **AI production skills** (PR #9): `/anomaly-detection`, `/guardrails-design`, `/multi-agent-design` + prompts
+2. `/anomaly-detection` — Z-score/IQR/Isolation Forest/LOF/LSTM-AE/CUSUM; no-auto-remove rule; FPR gate
+3. `/guardrails-design` — input/output safety layers; threat inventory; 200ms p95 cap; fail-open vs. fail-closed
+4. `/multi-agent-design` — LangGraph/CrewAI/AutoGen; agent roster + state schema; max_iterations mandatory
+5. **Platform/strategy skills** (PR #10): `/llm-routing`, `/streaming-pipeline`, `/build-vs-buy` + prompts
+6. `/llm-routing` — static/cascade/complexity-classifier/semantic; quality-floor gate; escalation rate diagnostic
+7. `/streaming-pipeline` — stream vs. batch; Kafka/Flink; watermark → windowing; consumer lag primary health metric
+8. `/build-vs-buy` — 5-dimension score; AI tooling matrix; 3-yr TCO with 20% maintenance; exit strategy mandatory
 
 ---
 
@@ -37,13 +41,8 @@ Remote: https://github.com/gmanch94/claude-code-template (master, up to date as 
     - `/survival-analysis` — Kaplan-Meier, Cox PH, survival forests
     - `/computer-vision` — image preprocessing, augmentation, CNN/ViT, mAP/IoU
     - `/online-learning` — streaming ML (River, Vowpal Wabbit)
-  - *LLM/AI production:*
-    - `/llm-routing` — model selection at runtime (complexity/cost tradeoff, fallback chains)
   - *Data platform:*
-    - `/streaming-pipeline` — Kafka/Flink/Spark Streaming; real-time feature pipelines
     - `/data-mesh` — domain ownership, data products, federated governance
-  - *Strategy:*
-    - `/build-vs-buy` — make vs buy analysis for AI tooling
 - [ ] **Stack add-ons** — `stacks/` currently has Python only; TypeScript/Go stacks could be added
 
 ---

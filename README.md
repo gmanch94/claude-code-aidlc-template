@@ -101,6 +101,13 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/dim-reduction` | **Dimensionality Reduction Advisor** — PCA/UMAP/t-SNE selection by goal, variance explained, component count, downstream use rules (t-SNE visualization-only enforced) |
 | `/topic-modeling` | **Topic Modeling Advisor** — LDA/NMF/BERTopic selection, preprocessing pipeline, coherence-based k decision, topic labeling, downstream feature rules |
 
+**Reinforcement learning:**
+
+| Command | What it does |
+|---|---|
+| `/bandit-design` | **Bandit Strategy Designer** — epsilon-greedy/UCB/Thompson Sampling/LinUCB selection, reward model, exploration parameters, stopping criteria, offline evaluation; bandit vs A/B test decision |
+| `/rl-design` | **RL System Designer** — RL justification gate, MDP specification, algorithm selection (DQN/PPO/SAC/TD3/offline RL/RLHF), reward design, exploration strategy, safety constraints, multi-seed evaluation |
+
 **General (any project):**
 
 | Command | What it does |

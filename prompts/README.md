@@ -38,6 +38,13 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`dim-reduction.md`](dim-reduction.md) | Dimensionality reduction — PCA/UMAP/t-SNE selection, variance explained, component count, downstream rules | `ORGANIZATION_NAME`, `FEATURE_COUNT`, `GOAL`, `INFERENCE_REQUIRED` |
 | [`topic-modeling.md`](topic-modeling.md) | Topic modeling — LDA/NMF/BERTopic selection, preprocessing, coherence-based k, topic labeling, downstream rules | `ORGANIZATION_NAME`, `CORPUS_DESCRIPTION`, `AVG_DOCUMENT_LENGTH`, `DOWNSTREAM_USE` |
 
+**Reinforcement learning:**
+
+| File | Use case | Key placeholders |
+|---|---|---|
+| [`bandit-design.md`](bandit-design.md) | Bandit algorithm selection, reward model, exploration params, stopping criteria, offline evaluation | `ORGANIZATION_NAME`, `ARM_COUNT`, `REWARD_TYPE`, `CONTEXT_AVAILABLE`, `REWARD_DELAY` |
+| [`rl-design.md`](rl-design.md) | RL justification, MDP spec, algorithm selection, reward design, exploration, safety, evaluation | `ORGANIZATION_NAME`, `PROBLEM_DESCRIPTION`, `ACTION_SPACE_TYPE`, `SIMULATOR_AVAILABLE`, `RLHF_CONTEXT` |
+
 **General / AI:**
 
 | File | Use case | Key placeholders |

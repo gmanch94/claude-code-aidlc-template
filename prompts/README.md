@@ -45,6 +45,14 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`bandit-design.md`](bandit-design.md) | Bandit algorithm selection, reward model, exploration params, stopping criteria, offline evaluation | `ORGANIZATION_NAME`, `ARM_COUNT`, `REWARD_TYPE`, `CONTEXT_AVAILABLE`, `REWARD_DELAY` |
 | [`rl-design.md`](rl-design.md) | RL justification, MDP spec, algorithm selection, reward design, exploration, safety, evaluation | `ORGANIZATION_NAME`, `PROBLEM_DESCRIPTION`, `ACTION_SPACE_TYPE`, `SIMULATOR_AVAILABLE`, `RLHF_CONTEXT` |
 
+**ML domain skills:**
+
+| File | Use case | Key placeholders |
+|---|---|---|
+| [`time-series-forecasting.md`](time-series-forecasting.md) | Forecasting model selection (ARIMA/ETS/Prophet/TFT/N-BEATS), time series CV, baseline comparison | `ORGANIZATION_NAME`, `SERIES_NAME`, `HORIZON`, `STATIONARITY_VERDICT`, `FORECAST_TYPE` |
+| [`recommender-design.md`](recommender-design.md) | Recommendation system design — algorithm, two-stage pipeline, cold-start, offline/online eval | `ORGANIZATION_NAME`, `DOMAIN`, `INTERACTION_TYPE`, `USER_COUNT`, `ITEM_COUNT` |
+| [`nlp-pipeline.md`](nlp-pipeline.md) | NLP pipeline — preprocessing, embedding selection, task metrics, annotation guidance | `ORGANIZATION_NAME`, `NLP_TASK`, `CORPUS_SIZE`, `DOMAIN`, `LABEL_AVAILABILITY` |
+
 **General / AI:**
 
 | File | Use case | Key placeholders |

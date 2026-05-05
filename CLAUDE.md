@@ -132,6 +132,11 @@ Skip steps only with explicit agreement — not because the task feels small.
 - `/bandit-design` — **Bandit Strategy Designer** — epsilon-greedy/UCB/Thompson Sampling/LinUCB; reward model; exploration parameters; stopping criteria; bandit vs A/B test decision
 - `/rl-design` — **RL System Designer** — RL justification gate; MDP specification; DQN/PPO/SAC/TD3/offline RL/RLHF selection; reward design pitfalls; safety constraints; multi-seed evaluation
 
+*ML domain skills:*
+- `/time-series-forecasting` — **Time Series Forecasting Advisor** — ARIMA/SARIMA order from ACF/PACF; ETS; Prophet; N-BEATS/TFT; time series CV; seasonal naive baseline gate
+- `/recommender-design` — **Recommender System Designer** — CF/content-based/two-tower/sequential; two-stage pipeline; cold-start strategy; temporal split evaluation; exploration integration
+- `/nlp-pipeline` — **NLP Pipeline Designer** — preprocessing decisions; TF-IDF/BERT/SBERT/LLM selection by task; entity-level F1/ROUGE/BERTScore; TF-IDF baseline gate
+
 *General:*
 - `/office-hours` — **Assumptions Facilitator** — assumptions gate; six forcing questions + design doc before any implementation
 - `/review` — **Code Reviewer** — code review with [BLOCKER] / [SUGGESTION] / [NITPICK] format

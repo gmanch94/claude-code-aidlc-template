@@ -108,6 +108,14 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/bandit-design` | **Bandit Strategy Designer** — epsilon-greedy/UCB/Thompson Sampling/LinUCB selection, reward model, exploration parameters, stopping criteria, offline evaluation; bandit vs A/B test decision |
 | `/rl-design` | **RL System Designer** — RL justification gate, MDP specification, algorithm selection (DQN/PPO/SAC/TD3/offline RL/RLHF), reward design, exploration strategy, safety constraints, multi-seed evaluation |
 
+**ML domain skills:**
+
+| Command | What it does |
+|---|---|
+| `/time-series-forecasting` | **Time Series Forecasting Advisor** — ARIMA/SARIMA order from ACF/PACF, ETS, Prophet, N-BEATS/TFT, ML with lag features, time series CV, seasonal naive baseline gate |
+| `/recommender-design` | **Recommender System Designer** — CF/content-based/two-tower/sequential selection, two-stage pipeline, cold-start strategy, temporal split evaluation, exploration-exploitation integration |
+| `/nlp-pipeline` | **NLP Pipeline Designer** — preprocessing decisions, TF-IDF/BERT/SBERT/LLM embedding selection by task, task-specific metrics (entity-level F1/ROUGE/BERTScore), TF-IDF baseline gate |
+
 **General (any project):**
 
 | Command | What it does |

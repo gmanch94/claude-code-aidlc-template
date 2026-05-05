@@ -2,20 +2,20 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = afaaf6b**
+**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = 54b5761**
 
 ---
 
 ## State
 
 ```
+54b5761  Move NEXT_SESSION.md to repo root (git-tracked); update all references
 afaaf6b  Add Tier 3 AIDLC skills: mlops-cicd, responsible-ai-governance, model-compression, feature-monitoring + .gitattributes
 c04edf7  Add Tier 2 MLOps skills + prompts: experiment-tracking, ab-test-design, retraining-strategy, data-versioning
 f827014  Add remaining skills and prompts from prior sessions
-ff2eb96  Add Tier 1 AIDLC skills + batch prior session skills/prompts
 ```
 
-Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of afaaf6b)
+Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of 54b5761)
 
 ---
 
@@ -24,6 +24,7 @@ Remote: https://github.com/gmanch94/claude-code-template (master, up to date as 
 1. **Tier 3 AIDLC skills** — `/mlops-cicd`, `/responsible-ai-governance`, `/model-compression`, `/feature-monitoring` + matching prompts
 2. **`.gitattributes`** — `* text=auto eol=lf` added; kills CRLF warnings on commit
 3. **Index files updated** — `CLAUDE.md`, `README.md`, `prompts/README.md` all reflect 4 new skills
+4. **NEXT_SESSION.md moved to repo root** — now git-tracked; update + commit at end of each session
 
 ---
 

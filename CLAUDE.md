@@ -136,6 +136,7 @@ Skip steps only with explicit agreement — not because the task feels small.
 - `/time-series-forecasting` — **Time Series Forecasting Advisor** — ARIMA/SARIMA order from ACF/PACF; ETS; Prophet; N-BEATS/TFT; time series CV; seasonal naive baseline gate
 - `/recommender-design` — **Recommender System Designer** — CF/content-based/two-tower/sequential; two-stage pipeline; cold-start strategy; temporal split evaluation; exploration integration
 - `/nlp-pipeline` — **NLP Pipeline Designer** — preprocessing decisions; TF-IDF/BERT/SBERT/LLM selection by task; entity-level F1/ROUGE/BERTScore; TF-IDF baseline gate
+- `/anomaly-detection` — **Anomaly Detection Specialist** — method by data type + label availability (Z-score/IQR/Isolation Forest/LOF/LSTM-AE/CUSUM); threshold strategy; FPR evaluation; treatment decision
 
 *General:*
 - `/office-hours` — **Assumptions Facilitator** — assumptions gate; six forcing questions + design doc before any implementation
@@ -162,9 +163,12 @@ Skip steps only with explicit agreement — not because the task feels small.
 - `/cost-optimize` — **Token Cost Optimizer** — token spend analysis (model tier selection, caching strategy, batch decisions)
 - `/feedback-loop` — **Feedback Loop Designer** — production feedback loop design (signal collection, annotation, improvement routing)
 - `/fine-tune` — **Fine-Tuning Advisor** — fine-tune vs. prompt decision tree (dataset requirements, eval plan, cost-benefit)
+- `/llm-routing` — **LLM Router** — routing strategy (static/cascade/complexity-classifier/semantic); model tier map; fallback chain; quality-floor gate; cost/quality projection
+- `/build-vs-buy` — **Build vs Buy Advisor** — 5-dimension scoring; AI tooling decision matrix; 3-year TCO; vendor alternatives; exit strategy per component
 
 *Data engineering:*
 - `/pipeline-design` — **Data Pipeline Architect** — batch vs. streaming decision, orchestration, idempotency, backfill, SLA
+- `/streaming-pipeline` — **Streaming Pipeline Architect** — stream vs. batch vs. hybrid; Kafka/Flink/Spark Streaming selection; windowing; state management; ML feature pipeline integration; consumer lag monitoring
 - `/schema-design` — **Data Schema Designer** — dimensional modeling, SCD types, partitioning, schema evolution policy
 - `/data-quality` — **Data Quality Engineer** — validation rules, anomaly detection, quarantine + replay strategy
 - `/data-contract` — **Data Contract Author** — producer/consumer agreement (schema ownership, SLAs, breaking change policy)

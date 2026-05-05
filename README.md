@@ -75,12 +75,23 @@ Done. The template is live.
 
 Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKILL.md`. Add your own by creating a new directory with a `SKILL.md` — it becomes `/name` automatically.
 
+**Business discovery:**
+
+| Command | What it does |
+|---|---|
+| `/stakeholder-interview` | **Business Discovery Facilitator** — structured six-group discovery interview with non-technical stakeholders; outputs a Discovery Summary Card before any ML framing |
+| `/opportunity-sizing` | **AI Opportunity Analyst** — status quo cost, AI uplift estimate, build cost, and go/no-go recommendation; validates the initiative is worth building |
+| `/kpi-mapping` | **KPI-to-Metric Mapper** — 4-level chain from business objective to ML metric with translation failure modes, Goodhart traps, and counter-metric |
+
 **Problem framing / EDA:**
 
 | Command | What it does |
 |---|---|
 | `/problem-framing` | **ML Problem Framing Advisor** — ML vs. rules decision, solution type, success metric tied to KPI, non-ML baseline, problem statement card |
 | `/eda` | **Exploratory Data Analyst** — Dataset profiling — target distribution, missingness, cardinality, correlations, leakage candidates, EDA summary report |
+| `/cohort-analysis` | **Cohort Analysis Specialist** — segment by acquisition/behavioral/attribute cohorts; outcome comparison with significance tests, retention curves, distribution shifts |
+| `/time-series-eda` | **Time Series Data Analyst** — stationarity (ADF+KPSS), trend (Mann-Kendall), seasonality (STL), ACF/PACF, structural breaks, anomaly detection |
+| `/feature-correlation` | **Feature Relationship Analyst** — Pearson/Spearman/MI by variable type, VIF multicollinearity, Cramér's V for categoricals, interaction candidate detection |
 
 **General (any project):**
 
@@ -144,6 +155,8 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | Command | What it does |
 |---|---|
 | `/algo-select` | **Algorithm Selection Advisor** — Algorithm selection — task type × dataset size × constraint decision tree; baseline + failure mode per recommendation |
+| `/experiment-design` | **ML Experiment Designer** — hypothesis formulation, one-variable-per-experiment discipline, decision criteria before running, ordered queue by information gain / cost |
+| `/training-infrastructure` | **Training Infrastructure Designer** — compute selection (CPU/GPU/TPU/cloud), distributed training strategy (DDP/FSDP/model-parallel), orchestration, checkpointing, cost estimate |
 | `/hyperparameter-tuning` | **Hyperparameter Tuning Strategist** — Tuning strategy — random vs. Bayesian vs. async; search space by algorithm; complete Optuna/sklearn code |
 | `/model-comparison` | **Model Comparison Analyst** — Statistical model comparison — test selection, effect size, practical significance threshold, production verdict |
 

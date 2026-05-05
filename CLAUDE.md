@@ -111,9 +111,17 @@ Skip steps only with explicit agreement — not because the task feels small.
 
 **Custom skills** (type in Claude Code prompt — skills live in `.claude/skills/`):
 
+*Business discovery:*
+- `/stakeholder-interview` — **Business Discovery Facilitator** — structured six-group discovery interview; Discovery Summary Card output before any ML framing
+- `/opportunity-sizing` — **AI Opportunity Analyst** — status quo cost + AI uplift + build cost + go/no-go recommendation
+- `/kpi-mapping` — **KPI-to-Metric Mapper** — 4-level chain from business objective to ML metric; translation failure modes + counter-metric
+
 *Problem framing / EDA:*
 - `/problem-framing` — **ML Problem Framing Advisor** — ML vs. rules decision; solution type; success metric tied to KPI; non-ML baseline; problem statement card
 - `/eda` — **Exploratory Data Analyst** — dataset profiling (target, missingness, cardinality, correlations, leakage candidates); EDA summary report
+- `/cohort-analysis` — **Cohort Analysis Specialist** — segment by acquisition/behavioral/attribute cohorts; outcome comparison with significance tests, retention curves, distribution shifts
+- `/time-series-eda` — **Time Series Data Analyst** — stationarity (ADF+KPSS), trend (Mann-Kendall), seasonality (STL), ACF/PACF, structural breaks, anomaly detection
+- `/feature-correlation` — **Feature Relationship Analyst** — Pearson/Spearman/MI by variable type, VIF multicollinearity, Cramér's V for categoricals, interaction candidate detection
 
 *General:*
 - `/office-hours` — **Assumptions Facilitator** — assumptions gate; six forcing questions + design doc before any implementation
@@ -161,6 +169,8 @@ Skip steps only with explicit agreement — not because the task feels small.
 - `/leakage-audit` — **Data Leakage Auditor** — temporal/target/group/preprocessing leakage detection with code fixes
 
 *ML algorithm selection / tuning:*
+- `/experiment-design` — **ML Experiment Designer** — hypothesis formulation, one-variable control, pre-stated decision criteria, ordered run queue
+- `/training-infrastructure` — **Training Infrastructure Designer** — compute selection, distributed training strategy (DDP/FSDP), orchestration, cost estimate
 - `/algo-select` — **Algorithm Selection Advisor** — algorithm selection by task type + dataset size + constraints; baseline + failure mode per rec
 - `/hyperparameter-tuning` — **Hyperparameter Tuning Strategist** — random vs. Bayesian vs. async strategy; search space by algorithm; Optuna code
 - `/model-comparison` — **Model Comparison Analyst** — statistical comparison (paired t-test / McNemar / Friedman); practical significance; production verdict

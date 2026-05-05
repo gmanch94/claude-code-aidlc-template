@@ -12,12 +12,23 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 
 | File | Use case | Key placeholders |
 |---|---|---|
+**Business discovery:**
+
+| File | Use case | Key placeholders |
+|---|---|---|
+| [`stakeholder-interview.md`](stakeholder-interview.md) | Six-group discovery interview with non-technical stakeholders; Discovery Summary Card | `ORGANIZATION_NAME`, `STAKEHOLDER_ROLE`, `BUSINESS_DOMAIN` |
+| [`opportunity-sizing.md`](opportunity-sizing.md) | Status quo cost, AI uplift estimate, build cost, go/no-go recommendation | `BUSINESS_PROBLEM`, `CURRENT_PROCESS`, `ANNUAL_VOLUME` |
+| [`kpi-mapping.md`](kpi-mapping.md) | Business objective → KPI → proxy → ML metric chain with failure modes and counter-metric | `BUSINESS_OBJECTIVE`, `CURRENT_KPI_SYSTEM`, `ERROR_TOLERANCE` |
+
 **Problem framing / EDA:**
 
 | File | Use case | Key placeholders |
 |---|---|---|
 | [`problem-framing.md`](problem-framing.md) | ML justification, solution type, success metric, non-ML baseline | `BUSINESS_CONTEXT`, `AVAILABLE_DATA`, `CONSTRAINTS` |
 | [`eda.md`](eda.md) | Dataset profiling — target, missingness, cardinality, correlations, leakage candidates | `DATASET_CONTEXT`, `TARGET_VARIABLE`, `EDA_GOALS` |
+| [`cohort-analysis.md`](cohort-analysis.md) | Cohort segmentation — acquisition/behavioral/attribute cohorts, outcome comparison, retention curves | `ORGANIZATION_NAME`, `DATASET_DESCRIPTION`, `OUTCOME_VARIABLE`, `COHORT_DIMENSIONS` |
+| [`time-series-eda.md`](time-series-eda.md) | Time series EDA — stationarity, trend, seasonality, ACF/PACF, structural breaks, anomalies | `ORGANIZATION_NAME`, `SERIES_NAME`, `FREQUENCY`, `MODELING_GOAL` |
+| [`feature-correlation.md`](feature-correlation.md) | Feature relationships — correlation by type, VIF, Cramér's V, interaction detection | `ORGANIZATION_NAME`, `FEATURE_LIST`, `TARGET_VARIABLE`, `MODEL_FAMILY` |
 
 **General / AI:**
 
@@ -74,6 +85,8 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | File | Use case | Key placeholders |
 |---|---|---|
 | [`algo-select.md`](algo-select.md) | Select algorithm by task type + constraints | `TASK_CONTEXT`, `CONSTRAINTS` |
+| [`experiment-design.md`](experiment-design.md) | ML experiment queue — hypotheses, one-variable control, decision criteria, ordered by information gain | `PROJECT_NAME`, `BASELINE_METRIC`, `IMPROVEMENT_HYPOTHESES` |
+| [`training-infrastructure.md`](training-infrastructure.md) | Compute selection, distributed training strategy, orchestration, cost estimate | `MODEL_TYPE`, `PARAMETER_COUNT`, `DATASET_SIZE`, `COST_BUDGET` |
 | [`hyperparameter-tuning.md`](hyperparameter-tuning.md) | Tuning strategy (random / Bayesian) + search space | `ALGORITHM_CONTEXT`, `COMPUTE_BUDGET`, `OPTIMIZATION_METRIC` |
 | [`model-comparison.md`](model-comparison.md) | Statistical model comparison + production verdict | `MODELS_TO_COMPARE`, `EVALUATION_METRIC`, `DATASET_CONTEXT` |
 

@@ -38,9 +38,10 @@ Remote: https://github.com/gmanch94/claude-code-template (master, up to date as 
 
 ## Things to NOT do without explicit instruction
 
+- **All changes via feature branch + PR** — no direct commits to master (new rule as of 2026-05-05)
 - Don't push to remote without being asked — user authorizes explicitly per session
 - Don't use long PowerShell here-strings for commit messages — hits 948-byte parse limit; use inline `-m "..."` instead
-- NEXT_SESSION.md is now git-tracked at repo root — commit + push it when updating
+- NEXT_SESSION.md is git-tracked at repo root — commit + push it when updating
 
 ---
 

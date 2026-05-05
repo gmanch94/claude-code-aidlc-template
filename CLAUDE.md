@@ -76,12 +76,9 @@ The `[Used in / Referenced by]` column (or equivalent) maps each row to downstre
 
 ## Things to avoid
 
-[Fill in. Add to this list as you learn what goes wrong. Examples:]
-
-- Don't [X] without explicit instruction
-- Don't add [Y] — explicit decision: [reason]
-- Don't edit [Z] — it's auto-generated
-- Don't push to main directly — branch + PR required
+- Don't commit directly to `master` — all changes via feature branch + PR
+- Don't push to remote without explicit user instruction
+- Don't use long PowerShell here-strings for commit messages — hits 948-byte parse limit; use inline `-m "..."` instead
 
 ---
 

@@ -2,29 +2,29 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = 54b5761**
+**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = beabe68**
 
 ---
 
 ## State
 
 ```
-54b5761  Move NEXT_SESSION.md to repo root (git-tracked); update all references
-afaaf6b  Add Tier 3 AIDLC skills: mlops-cicd, responsible-ai-governance, model-compression, feature-monitoring + .gitattributes
-c04edf7  Add Tier 2 MLOps skills + prompts: experiment-tracking, ab-test-design, retraining-strategy, data-versioning
-f827014  Add remaining skills and prompts from prior sessions
+beabe68  Add general ADRs: LangGraph orchestration + Claude enterprise rollout
+ac2a9b2  Add Argus ADRs from ai-enablement-ws
+5530cad  Add OSS + policy ADRs and ADR template from ai-enablement-ws
+76018ed  Add branch+PR workflow rule to CLAUDE.md and NEXT_SESSION.md
 ```
 
-Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of 54b5761)
+Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of beabe68)
 
 ---
 
 ## What landed in the most recent session
 
-1. **Tier 3 AIDLC skills** — `/mlops-cicd`, `/responsible-ai-governance`, `/model-compression`, `/feature-monitoring` + matching prompts
-2. **`.gitattributes`** — `* text=auto eol=lf` added; kills CRLF warnings on commit
-3. **Index files updated** — `CLAUDE.md`, `README.md`, `prompts/README.md` all reflect 4 new skills
-4. **NEXT_SESSION.md moved to repo root** — now git-tracked; update + commit at end of each session
+1. **ADRs added** — 21 ADRs copied from `ai-enablement-ws` into `decisions/`: OSS (0032–0041), Policy (0042–0045), Argus (0046–0050), General (0001, 0031)
+2. **Renamed** — sequence number prefix stripped (e.g. `ADR-0032-oss-llm-selection.md` → `oss-llm-selection.md`); policy files prefixed with `policy-`
+3. **ADR template** — copied to `templates/adr/ADR-TEMPLATE.md`
+4. **Memory** — PowerShell command length feedback saved to `memory/feedback_powershell_length.md`
 
 ---
 
@@ -52,7 +52,9 @@ Remote: https://github.com/gmanch94/claude-code-template (master, up to date as 
 - `README.md` — user-facing skill command table; keep in sync with new skills
 - `CLAUDE.md` — automation section lists all skills; keep in sync
 - `stacks/python/` — Python stack add-on; `/test-gen`, `/type-fix`, `/deps-audit`
-- `.gitattributes` — LF normalization (new this session)
+- `.gitattributes` — LF normalization
+- `decisions/` — 21 ADRs (OSS, policy, Argus, general); no sequence numbers
+- `templates/adr/ADR-TEMPLATE.md` — ADR template
 
 ---
 

@@ -126,6 +126,7 @@ Skip steps only with explicit agreement — not because the task feels small.
 *Unsupervised learning:*
 - `/clustering` — **Clustering Advisor** — algorithm selection (k-means/DBSCAN/GMM/hierarchical); k decision (elbow+silhouette); stability testing; cluster profiling
 - `/dim-reduction` — **Dimensionality Reduction Advisor** — PCA/UMAP/t-SNE by goal; variance explained; component count; t-SNE visualization-only rule enforced
+- `/topic-modeling` — **Topic Modeling Advisor** — LDA/NMF/BERTopic selection; preprocessing pipeline; coherence-based k decision; topic labeling; downstream feature rules
 
 *General:*
 - `/office-hours` — **Assumptions Facilitator** — assumptions gate; six forcing questions + design doc before any implementation

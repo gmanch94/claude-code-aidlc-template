@@ -36,6 +36,7 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 |---|---|---|
 | [`clustering.md`](clustering.md) | Clustering — algorithm selection, k decision, evaluation metrics, stability, cluster profiling | `ORGANIZATION_NAME`, `DATASET_DESCRIPTION`, `K_KNOWN`, `DOWNSTREAM_USE` |
 | [`dim-reduction.md`](dim-reduction.md) | Dimensionality reduction — PCA/UMAP/t-SNE selection, variance explained, component count, downstream rules | `ORGANIZATION_NAME`, `FEATURE_COUNT`, `GOAL`, `INFERENCE_REQUIRED` |
+| [`topic-modeling.md`](topic-modeling.md) | Topic modeling — LDA/NMF/BERTopic selection, preprocessing, coherence-based k, topic labeling, downstream rules | `ORGANIZATION_NAME`, `CORPUS_DESCRIPTION`, `AVG_DOCUMENT_LENGTH`, `DOWNSTREAM_USE` |
 
 **General / AI:**
 

@@ -99,6 +99,7 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 |---|---|
 | `/clustering` | **Clustering Advisor** — algorithm selection (k-means/DBSCAN/GMM/hierarchical), k decision (elbow+silhouette), stability testing, cluster profiling |
 | `/dim-reduction` | **Dimensionality Reduction Advisor** — PCA/UMAP/t-SNE selection by goal, variance explained, component count, downstream use rules (t-SNE visualization-only enforced) |
+| `/topic-modeling` | **Topic Modeling Advisor** — LDA/NMF/BERTopic selection, preprocessing pipeline, coherence-based k decision, topic labeling, downstream feature rules |
 
 **General (any project):**
 

@@ -1,0 +1,25 @@
+{
+  "_comment": "Merge these entries into .claude/settings.json permissions.allow. Remove this _comment key.",
+  "permissions": {
+    "allow": [
+      "Bash(ruff check *)",
+      "Bash(ruff format --check *)",
+      "Bash(mypy *)",
+      "Bash(pyright *)",
+      "Bash(python -m pytest --collect-only *)",
+      "Bash(python -m mypy *)",
+      "Bash(pip list *)",
+      "Bash(pip show *)",
+      "Bash(pip-audit *)",
+      "Bash(pip install --dry-run *)",
+      "Bash(uv run ruff check *)",
+      "Bash(uv run ruff format --check *)",
+      "Bash(uv run mypy *)",
+      "Bash(uv run pyright *)",
+      "Bash(uv run pytest --collect-only *)",
+      "Bash(uv pip list *)",
+      "Bash(uv pip show *)",
+      "Bash(uv tree *)"
+    ]
+  }
+}

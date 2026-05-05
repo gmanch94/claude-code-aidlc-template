@@ -31,6 +31,7 @@ This template fixes all four in under 5 minutes of setup.
 | `.claude/commands/adr.md` | `/adr` — draft an Architecture Decision Record with full rationale and alternatives. |
 | `.claude/commands/tradeoff.md` | `/tradeoff` — structured tradeoff analysis: options × pros/cons/failure-mode + recommendation with named constraint. |
 | `memory/MEMORY.md` | Index for Claude's persistent project memory. |
+| `prompts/` | 8 system prompt templates — RAG Q&A, agent, chat, classifier, extractor, code reviewer, summarizer, structured output. Each has placeholders, usage notes, and a prompt health score. |
 | `.gitignore` | Gitignores `scratch/` (personal workspace) and `.claude/settings.local.json`. |
 
 ---
@@ -72,15 +73,147 @@ Done. The template is live.
 
 ## Slash commands
 
-Type these in the Claude Code prompt:
+Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKILL.md`. Add your own by creating a new directory with a `SKILL.md` — it becomes `/name` automatically.
+
+**Problem framing / EDA:**
 
 | Command | What it does |
 |---|---|
-| `/review` | Code review with [BLOCKER] / [SUGGESTION] / [NITPICK] grading. Pass a file path, diff, or "staged changes." |
-| `/adr` | Draft an Architecture Decision Record. Prompts for context, options, constraints, and rationale. |
-| `/tradeoff` | Structured tradeoff analysis for a decision. Produces options × pros/cons/failure-mode table + recommendation with named constraint. |
+| `/problem-framing` | ML vs. rules decision, solution type, success metric tied to KPI, non-ML baseline, problem statement card |
+| `/eda` | Dataset profiling — target distribution, missingness, cardinality, correlations, leakage candidates, EDA summary report |
 
-Add your own: drop a `.md` file in `.claude/commands/` and it becomes `/command-name`.
+**General (any project):**
+
+| Command | What it does |
+|---|---|
+| `/review` | Code review — [BLOCKER] / [SUGGESTION] / [NITPICK] grading across correctness, security, performance, clarity, test coverage |
+| `/adr` | Draft an Architecture Decision Record with context, rationale, alternatives, consequences, and risks |
+| `/tradeoff` | Options × pros/cons/failure-mode table + recommendation with named constraint |
+
+**Production systems:**
+
+| Command | What it does |
+|---|---|
+| `/threat-model` | AI-specific threat model — 8 mandatory threat categories (injection, poisoning, PII leakage, jailbreak, supply chain, excessive agency, etc.) |
+| `/rollout` | Phased rollout plan — Shadow → Internal → Canary → Limited GA → Full GA, with eval gates and rollback triggers at each boundary |
+| `/runbook` | AI incident runbook — 8 standard failure scenarios (degradation, hallucination spike, cost blowout, agentic loop runaway, etc.) with detection/triage/mitigation/escalation |
+| `/pii-scan` | PII exposure audit — maps data elements across 10 AI lifecycle stages; surfaces governance gaps; recommends ADRs |
+| `/observability` | AI observability stack design — 5 signal layers, required metrics + alert thresholds, drift indicators, dashboard spec |
+
+**AI / LLM projects:**
+
+| Command | What it does |
+|---|---|
+| `/eval-design` | LLM eval framework — metric taxonomy by task type, test set minimums, pass/fail thresholds, drift triggers |
+| `/prompt-review` | 9-dimension prompt health score — clarity, injection risk, role/persona, output format, token efficiency, hallucination surface, fallback, PII, versioning |
+| `/rag-design` | RAG system design — context window vs. RAG decision, chunking, embedding, vector store, retrieval pattern, reranking, freshness, observability |
+| `/agent-design` | Agentic system design — loop architecture, tool manifest, guardrails checklist, HITL design, fallback paths, observability |
+| `/red-team` | 4-phase AI red team battery — base model, application layer, infrastructure, operational (phases scaled to risk tier) |
+| `/model-card` | Model documentation — 9 sections: overview, intended use, training data, evals, limitations, risks, governance, versioning, ownership |
+| `/supply-chain-review` | AI supply chain audit — 6 layers (foundation model, training data, embedding, frameworks, plugins, AI-BOM) with production gate checklist |
+| `/cost-optimize` | Token spend analysis — model tier decision tree (Opus/Sonnet/Haiku), prompt caching strategy, batch vs. real-time, token budget sizing |
+| `/feedback-loop` | Production feedback loop design — signal taxonomy, review queue sampling, annotation workflow, signal → eval routing, improvement cadence |
+| `/fine-tune` | Fine-tune vs. prompt-engineer decision tree — dataset requirements, pre/post eval plan, cost-benefit analysis, training data format |
+
+**Data engineering:**
+
+| Command | What it does |
+|---|---|
+| `/pipeline-design` | Data pipeline architecture — batch vs. streaming decision, orchestration, idempotency, backfill strategy, error handling, SLA |
+| `/schema-design` | Data modeling — dimensional vs. 3NF vs. OBT decision, SCD types, partitioning strategy, schema evolution policy |
+| `/data-quality` | Quality gate design — validation rules by dimension, anomaly detection thresholds, quarantine + replay strategy, SLAs |
+| `/data-contract` | Producer/consumer data contract — schema ownership, SLAs, versioning, breaking change policy, enforcement |
+| `/dbt-review` | dbt model review — naming, ref/source usage, incremental correctness, test coverage, documentation |
+| `/sql-review` | SQL query review — join correctness, fanout bugs, partition pruning, performance anti-patterns, readability |
+| `/data-cleanse` | Data cleansing workflow — dirty data taxonomy, detection rules, remediation strategy, audit trail, cleansing order |
+| `/dedup` | Deduplication & entity resolution — exact vs. fuzzy decision, blocking strategy, algorithm selection, confidence scoring, golden record, merge rules |
+| `/schema-harmonization` | Multi-source schema merging — conflict taxonomy, canonical schema design, type/semantic/enum resolution, source priority policy |
+| `/timeseries-resample` | Time series resampling — upsample (interpolation by metric type) vs. downsample (aggregation), gap handling, temporal alignment |
+| `/class-balancing` | ML class imbalance handling — strategy by imbalance ratio, SMOTE/oversample/weights, eval setup, threshold tuning |
+| `/annotation-design` | Annotation schema design — label taxonomy, decision tree, edge case catalog, calibration process |
+| `/label-quality` | Label quality assurance — IAA metrics (κ/α), sampling strategy, adjudication workflow, quality thresholds |
+| `/active-learning` | Active learning strategy — query strategy by labeled set size, uncertainty/diversity sampling, stopping criteria |
+| `/split-design` | Train/val/test split — random/temporal/group decision, ratios by dataset size, stratification, minimum eval sizes |
+| `/cross-validation` | CV strategy — k-fold variant selection, time series CV, group k-fold, nested CV for hyperparameter tuning |
+| `/leakage-audit` | Data leakage detection — temporal, target, group, and preprocessing-order leakage with code fixes |
+
+**ML algorithm selection / tuning:**
+
+| Command | What it does |
+|---|---|
+| `/algo-select` | Algorithm selection — task type × dataset size × constraint decision tree; baseline + failure mode per recommendation |
+| `/hyperparameter-tuning` | Tuning strategy — random vs. Bayesian vs. async; search space by algorithm; complete Optuna/sklearn code |
+| `/model-comparison` | Statistical model comparison — test selection, effect size, practical significance threshold, production verdict |
+
+**Feature engineering:**
+
+| Command | What it does |
+|---|---|
+| `/feature-engineering` | Encoding (categorical cardinality rules), numeric transforms, date extraction, aggregation features, sklearn Pipeline |
+| `/feature-selection` | Filter (variance, correlation, MI) → embedded (LASSO, permutation importance) → wrapper (RFECV); selection inside CV |
+| `/feature-store-design` | Online/offline store architecture, feature definition schema, point-in-time correct joins, backfill strategy, skew prevention |
+
+**Data gathering:**
+
+| Command | What it does |
+|---|---|
+| `/data-collection-design` | Data volume targets by task type, collection strategy decision tree, representativeness checklist, labeling plan |
+| `/synthetic-data-gen` | Synthesis by data type (tabular/text/image/time-series), quality gates, synthetic-to-real ratio, placement rules |
+| `/data-sourcing` | Public registry search, vendor evaluation checklist, license interpretation guide, per-source verdict |
+
+**Data filtering / outlier handling:**
+
+| Command | What it does |
+|---|---|
+| `/outlier-detection` | Method selection (Z-score / IQR / Isolation Forest / Mahalanobis / LOF), treatment by situation, outlier report, audit trail |
+| `/data-filtering` | Domain rule filters, quality/completeness thresholds, relevance scoring, near-dedup — prescribed order + audit report |
+| `/sparse-class-grouping` | Collapse rare classes — frequency cutoff, domain hierarchy, embedding clustering, target-rate binning; MI validation |
+
+**Model validation:**
+
+| Command | What it does |
+|---|---|
+| `/model-validation` | Pre-deploy checklist (9 gates), CI bootstrap, slice analysis, edge case stress tests, latency gate, Go/No-Go verdict |
+| `/model-calibration` | ECE diagnosis, reliability diagram, Platt/isotonic/temperature scaling, AUC-preservation check |
+| `/model-drift` | Data/concept/prediction drift detection (KS/PSI), severity levels, retraining triggers, daily monitoring pipeline |
+
+**Model deployment:**
+
+| Command | What it does |
+|---|---|
+| `/model-deployment` | Artifact packaging checklist, phased rollout (shadow→canary→limited→full GA), automated + manual rollback triggers, deployment.yaml |
+| `/inference-service-design` | Serving pattern decision (REST/gRPC/batch), latency budget breakdown, scaling spec, circuit breaker + safe fallback, observability signals |
+| `/model-decommissioning` | Retire a model — retirement criteria, dependency audit, consumer notification, archive policy, retention schedule |
+
+**Responsible AI:**
+
+| Command | What it does |
+|---|---|
+| `/fairness-audit` | Demographic parity, disparate impact ratio (80% rule), equal opportunity, protected-attribute slice analysis, mitigation strategies |
+| `/explainability` | SHAP / LIME / PDP / counterfactuals — global + local explanations, method selection by model type, audience-appropriate output |
+
+---
+
+## Stack add-ons
+
+The base template is stack-agnostic. The [`stacks/`](stacks/) directory has drop-in additions for specific languages.
+
+**Available stacks:**
+
+| Stack | Commands added | What it includes |
+|---|---|---|
+| [`stacks/python/`](stacks/python/) | `/test-gen`, `/type-fix`, `/deps-audit` | pytest test generation, mypy/pyright error fixes, dependency CVE + outdated audit, ruff/mypy allowlist entries, Python CLAUDE.md block |
+
+**To adopt a stack (3 steps):**
+```bash
+# 1. Copy skills
+cp -r stacks/python/skills/* .claude/skills/
+
+# 2. Merge settings — add entries from stacks/python/settings-snippet.json into .claude/settings.json
+# 3. Paste stacks/python/claude-md-addendum.md into your CLAUDE.md
+```
+
+See [`stacks/README.md`](stacks/README.md) for how to add a new stack (TypeScript, Go, etc.).
 
 ---
 

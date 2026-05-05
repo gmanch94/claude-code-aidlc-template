@@ -2,29 +2,30 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = 4607731**
+**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = df7c9fe**
 
 ---
 
 ## State
 
 ```
-4607731  Merge pull request #4 — Add specialist personas to all 67 skills
-c025b9d  Add specialist personas to all 66 skills (SKILL.md + README + CLAUDE.md)
-7e4d67c  Update NEXT_SESSION.md — master, HEAD 6aeda01, session close
-6aeda01  Merge pull request #3 — Add sprint workflow + /office-hours skill
-1728824  Add sprint workflow + /office-hours skill (assumptions gate)
+df7c9fe  Merge pull request #5 — Add ML lifecycle skills: business discovery, model training, data exploration
+f4a3be9  Add data exploration skills: cohort-analysis, time-series-eda, feature-correlation
+227862b  Add /experiment-design and /training-infrastructure to fill model development gap
+ec9a61c  Add business discovery skills: /stakeholder-interview, /opportunity-sizing, /kpi-mapping
+46be42d  Update NEXT_SESSION.md — master, HEAD 4607731, specialist personas landed
 ```
 
-Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of 4607731)
+Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of df7c9fe)
 
 ---
 
 ## What landed in the most recent session
 
-1. **Specialist personas** — all 67 SKILL.md files now have `## Role` with a task-anchored functional title
-2. **README + CLAUDE.md** — every skill entry prefixed with `**Persona** —` for AIDLC mindset reinforcement
-3. Role names are durable (task-domain, not job-title): ADR Facilitator, RAG System Architect, Data Leakage Auditor, etc.
+1. **Business discovery** (3 skills + prompts): `/stakeholder-interview`, `/opportunity-sizing`, `/kpi-mapping` — fills gap upstream of `/problem-framing`
+2. **Model development** (2 skills + prompts): `/experiment-design`, `/training-infrastructure` — fills training stage gap (compute selection, distributed strategy, experiment hygiene)
+3. **Data exploration** (3 skills + prompts): `/cohort-analysis`, `/time-series-eda`, `/feature-correlation` — expands thin EDA stage
+4. All 8 skills indexed in README.md, CLAUDE.md, prompts/README.md
 
 ---
 

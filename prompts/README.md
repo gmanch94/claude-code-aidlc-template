@@ -30,6 +30,14 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`time-series-eda.md`](time-series-eda.md) | Time series EDA — stationarity, trend, seasonality, ACF/PACF, structural breaks, anomalies | `ORGANIZATION_NAME`, `SERIES_NAME`, `FREQUENCY`, `MODELING_GOAL` |
 | [`feature-correlation.md`](feature-correlation.md) | Feature relationships — correlation by type, VIF, Cramér's V, interaction detection | `ORGANIZATION_NAME`, `FEATURE_LIST`, `TARGET_VARIABLE`, `MODEL_FAMILY` |
 
+**Unsupervised learning:**
+
+| File | Use case | Key placeholders |
+|---|---|---|
+| [`clustering.md`](clustering.md) | Clustering — algorithm selection, k decision, evaluation metrics, stability, cluster profiling | `ORGANIZATION_NAME`, `DATASET_DESCRIPTION`, `K_KNOWN`, `DOWNSTREAM_USE` |
+| [`dim-reduction.md`](dim-reduction.md) | Dimensionality reduction — PCA/UMAP/t-SNE selection, variance explained, component count, downstream rules | `ORGANIZATION_NAME`, `FEATURE_COUNT`, `GOAL`, `INFERENCE_REQUIRED` |
+| [`topic-modeling.md`](topic-modeling.md) | Topic modeling — LDA/NMF/BERTopic selection, preprocessing, coherence-based k, topic labeling, downstream rules | `ORGANIZATION_NAME`, `CORPUS_DESCRIPTION`, `AVG_DOCUMENT_LENGTH`, `DOWNSTREAM_USE` |
+
 **General / AI:**
 
 | File | Use case | Key placeholders |

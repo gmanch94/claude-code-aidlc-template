@@ -123,6 +123,11 @@ Skip steps only with explicit agreement — not because the task feels small.
 - `/time-series-eda` — **Time Series Data Analyst** — stationarity (ADF+KPSS), trend (Mann-Kendall), seasonality (STL), ACF/PACF, structural breaks, anomaly detection
 - `/feature-correlation` — **Feature Relationship Analyst** — Pearson/Spearman/MI by variable type, VIF multicollinearity, Cramér's V for categoricals, interaction candidate detection
 
+*Unsupervised learning:*
+- `/clustering` — **Clustering Advisor** — algorithm selection (k-means/DBSCAN/GMM/hierarchical); k decision (elbow+silhouette); stability testing; cluster profiling
+- `/dim-reduction` — **Dimensionality Reduction Advisor** — PCA/UMAP/t-SNE by goal; variance explained; component count; t-SNE visualization-only rule enforced
+- `/topic-modeling` — **Topic Modeling Advisor** — LDA/NMF/BERTopic selection; preprocessing pipeline; coherence-based k decision; topic labeling; downstream feature rules
+
 *General:*
 - `/office-hours` — **Assumptions Facilitator** — assumptions gate; six forcing questions + design doc before any implementation
 - `/review` — **Code Reviewer** — code review with [BLOCKER] / [SUGGESTION] / [NITPICK] format

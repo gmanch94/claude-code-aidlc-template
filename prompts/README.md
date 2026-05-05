@@ -82,6 +82,8 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | File | Use case | Key placeholders |
 |---|---|---|
 | [`algo-select.md`](algo-select.md) | Select algorithm by task type + constraints | `TASK_CONTEXT`, `CONSTRAINTS` |
+| [`experiment-design.md`](experiment-design.md) | ML experiment queue — hypotheses, one-variable control, decision criteria, ordered by information gain | `PROJECT_NAME`, `BASELINE_METRIC`, `IMPROVEMENT_HYPOTHESES` |
+| [`training-infrastructure.md`](training-infrastructure.md) | Compute selection, distributed training strategy, orchestration, cost estimate | `MODEL_TYPE`, `PARAMETER_COUNT`, `DATASET_SIZE`, `COST_BUDGET` |
 | [`hyperparameter-tuning.md`](hyperparameter-tuning.md) | Tuning strategy (random / Bayesian) + search space | `ALGORITHM_CONTEXT`, `COMPUTE_BUDGET`, `OPTIMIZATION_METRIC` |
 | [`model-comparison.md`](model-comparison.md) | Statistical model comparison + production verdict | `MODELS_TO_COMPARE`, `EVALUATION_METRIC`, `DATASET_CONTEXT` |
 

@@ -166,6 +166,8 @@ Skip steps only with explicit agreement — not because the task feels small.
 - `/leakage-audit` — **Data Leakage Auditor** — temporal/target/group/preprocessing leakage detection with code fixes
 
 *ML algorithm selection / tuning:*
+- `/experiment-design` — **ML Experiment Designer** — hypothesis formulation, one-variable control, pre-stated decision criteria, ordered run queue
+- `/training-infrastructure` — **Training Infrastructure Designer** — compute selection, distributed training strategy (DDP/FSDP), orchestration, cost estimate
 - `/algo-select` — **Algorithm Selection Advisor** — algorithm selection by task type + dataset size + constraints; baseline + failure mode per rec
 - `/hyperparameter-tuning` — **Hyperparameter Tuning Strategist** — random vs. Bayesian vs. async strategy; search space by algorithm; Optuna code
 - `/model-comparison` — **Model Comparison Analyst** — statistical comparison (paired t-test / McNemar / Friedman); practical significance; production verdict

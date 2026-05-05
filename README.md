@@ -152,6 +152,8 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | Command | What it does |
 |---|---|
 | `/algo-select` | **Algorithm Selection Advisor** — Algorithm selection — task type × dataset size × constraint decision tree; baseline + failure mode per recommendation |
+| `/experiment-design` | **ML Experiment Designer** — hypothesis formulation, one-variable-per-experiment discipline, decision criteria before running, ordered queue by information gain / cost |
+| `/training-infrastructure` | **Training Infrastructure Designer** — compute selection (CPU/GPU/TPU/cloud), distributed training strategy (DDP/FSDP/model-parallel), orchestration, checkpointing, cost estimate |
 | `/hyperparameter-tuning` | **Hyperparameter Tuning Strategist** — Tuning strategy — random vs. Bayesian vs. async; search space by algorithm; complete Optuna/sklearn code |
 | `/model-comparison` | **Model Comparison Analyst** — Statistical model comparison — test selection, effect size, practical significance threshold, production verdict |
 

@@ -2,31 +2,31 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = 755dcc8**
+**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = b0c37fe**
 
 ---
 
 ## State
 
 ```
+b0c37fe  Merge pull request #7 — Add reinforcement learning skills
+595ad32  Add reinforcement learning skills: /bandit-design and /rl-design
+63ba9e4  Update NEXT_SESSION.md — HEAD 755dcc8, unsupervised skills PR #6 merged
 755dcc8  Merge pull request #6 — Add unsupervised learning skills
-a7e93fe  Add /topic-modeling skill (LDA/NMF/BERTopic)
-1143be2  Add unsupervised skills: /clustering and /dim-reduction
-4b74217  Update NEXT_SESSION.md — HEAD df7c9fe, ML lifecycle skills PR #5 merged
-df7c9fe  Merge pull request #5 — Add ML lifecycle skills: business discovery, model training, data exploration
+63ba9e4  Update NEXT_SESSION.md — HEAD 755dcc8, unsupervised skills PR #6 merged
 ```
 
-Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of 755dcc8)
+Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of b0c37fe)
 
 ---
 
 ## What landed in the most recent session
 
-1. **Unsupervised learning** (3 skills + prompts): `/clustering`, `/dim-reduction`, `/topic-modeling` — new "Unsupervised learning" section in all index files
-2. `/clustering` — k-means/DBSCAN/GMM/hierarchical; elbow+silhouette k decision; stability (ARI); cluster profiling
-3. `/dim-reduction` — PCA/UMAP/t-SNE by goal; variance explained; t-SNE visualization-only rule; leakage guard
-4. `/topic-modeling` — LDA/NMF/BERTopic; coherence-based k; preprocessing pipeline; topic labeling; BERTopic −1 handling
-5. **Open question**: RL coverage — deferred, to revisit with user
+1. **Unsupervised learning** (PR #6): `/clustering`, `/dim-reduction`, `/topic-modeling` + prompts
+2. **Reinforcement learning** (PR #7): `/bandit-design`, `/rl-design` + prompts — new "Reinforcement learning" section in all index files
+3. `/bandit-design` — epsilon-greedy/UCB/Thompson Sampling/LinUCB; bandit vs A/B gate; delayed reward buffering; offline replay eval
+4. `/rl-design` — RL justification gate; MDP spec; DQN/PPO/SAC/TD3/offline RL/RLHF; reward design + Goodhart risk; safety constraints; multi-seed requirement
+5. **Coverage now complete**: supervised ✅ unsupervised ✅ reinforcement learning ✅
 
 ---
 

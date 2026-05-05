@@ -52,6 +52,7 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`time-series-forecasting.md`](time-series-forecasting.md) | Forecasting model selection (ARIMA/ETS/Prophet/TFT/N-BEATS), time series CV, baseline comparison | `ORGANIZATION_NAME`, `SERIES_NAME`, `HORIZON`, `STATIONARITY_VERDICT`, `FORECAST_TYPE` |
 | [`recommender-design.md`](recommender-design.md) | Recommendation system design — algorithm, two-stage pipeline, cold-start, offline/online eval | `ORGANIZATION_NAME`, `DOMAIN`, `INTERACTION_TYPE`, `USER_COUNT`, `ITEM_COUNT` |
 | [`nlp-pipeline.md`](nlp-pipeline.md) | NLP pipeline — preprocessing, embedding selection, task metrics, annotation guidance | `ORGANIZATION_NAME`, `NLP_TASK`, `CORPUS_SIZE`, `DOMAIN`, `LABEL_AVAILABILITY` |
+| [`anomaly-detection.md`](anomaly-detection.md) | Anomaly detection — method by data type + label availability, threshold strategy, FPR evaluation, treatment | `ORGANIZATION_NAME`, `DATASET_CONTEXT`, `DATA_TYPE`, `LABEL_AVAILABILITY`, `DETECTION_GOAL` |
 
 **General / AI:**
 
@@ -59,6 +60,8 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 |---|---|---|
 | [`rag-qa.md`](rag-qa.md) | Grounded Q&A over retrieved documents | `ORGANIZATION_NAME`, `RETRIEVED_CONTEXT`, `SOURCE_IDENTIFIER` |
 | [`agentic-assistant.md`](agentic-assistant.md) | Tool-use agent with guardrails | `AGENT_NAME`, `TOOL_LIST`, `OUT_OF_SCOPE_LIST` |
+| [`multi-agent-design.md`](multi-agent-design.md) | Multi-agent orchestration — pattern selection, framework (LangGraph/CrewAI/AutoGen), agent roster, state schema, failure handling | `ORGANIZATION_NAME`, `SYSTEM_GOAL`, `TOOL_LIST`, `LATENCY_REQUIREMENT`, `FRAMEWORK_PREFERENCE` |
+| [`guardrails-design.md`](guardrails-design.md) | LLM input/output safety layers — threat inventory, detection methods, latency budget, FPR targets | `ORGANIZATION_NAME`, `APPLICATION_DESCRIPTION`, `RISK_PROFILE`, `LLM_MODEL`, `LATENCY_BUDGET` |
 | [`chat-assistant.md`](chat-assistant.md) | General-purpose chat with persona + scope | `ASSISTANT_NAME`, `SCOPE_DESCRIPTION`, `OUT_OF_SCOPE` |
 | [`classifier.md`](classifier.md) | Single-label classification → JSON | `LABEL_TAXONOMY`, `FALLBACK_LABEL` |
 | [`extractor.md`](extractor.md) | Field extraction from unstructured text → JSON | `JSON_SCHEMA_FIELDS`, `FIELD_DEFINITIONS` |

@@ -2,7 +2,7 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-05. **Current branch:** `fix/readme-audit`. **Tree:** clean. **HEAD = e905c4c**
+**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = 15bd13a**
 
 ---
 

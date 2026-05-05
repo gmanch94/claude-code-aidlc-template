@@ -128,6 +128,10 @@ Skip steps only with explicit agreement — not because the task feels small.
 - `/dim-reduction` — **Dimensionality Reduction Advisor** — PCA/UMAP/t-SNE by goal; variance explained; component count; t-SNE visualization-only rule enforced
 - `/topic-modeling` — **Topic Modeling Advisor** — LDA/NMF/BERTopic selection; preprocessing pipeline; coherence-based k decision; topic labeling; downstream feature rules
 
+*Reinforcement learning:*
+- `/bandit-design` — **Bandit Strategy Designer** — epsilon-greedy/UCB/Thompson Sampling/LinUCB; reward model; exploration parameters; stopping criteria; bandit vs A/B test decision
+- `/rl-design` — **RL System Designer** — RL justification gate; MDP specification; DQN/PPO/SAC/TD3/offline RL/RLHF selection; reward design pitfalls; safety constraints; multi-seed evaluation
+
 *General:*
 - `/office-hours` — **Assumptions Facilitator** — assumptions gate; six forcing questions + design doc before any implementation
 - `/review` — **Code Reviewer** — code review with [BLOCKER] / [SUGGESTION] / [NITPICK] format

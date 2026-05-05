@@ -89,6 +89,7 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/review` | Code review — [BLOCKER] / [SUGGESTION] / [NITPICK] grading across correctness, security, performance, clarity, test coverage |
 | `/adr` | Draft an Architecture Decision Record with context, rationale, alternatives, consequences, and risks |
 | `/tradeoff` | Options × pros/cons/failure-mode table + recommendation with named constraint |
+| `/retro` | Engineering retrospective — shipped summary, went well/wrong, one process change, writes new entries to LESSONS_LEARNED.md |
 
 **Production systems:**
 

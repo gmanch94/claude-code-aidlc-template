@@ -104,6 +104,7 @@ The `[Used in / Referenced by]` column (or equivalent) maps each row to downstre
 - `/review` — code review with [BLOCKER] / [SUGGESTION] / [NITPICK] format
 - `/adr` — draft an Architecture Decision Record
 - `/tradeoff` — structured tradeoff analysis for a decision
+- `/retro` — engineering retrospective; reviews recent commits, surfaces lessons, writes to LESSONS_LEARNED.md
 
 *Production systems:*
 - `/threat-model` — AI-specific threat modeling (8 threat categories + traditional security)

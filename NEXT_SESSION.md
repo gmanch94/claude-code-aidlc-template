@@ -2,17 +2,17 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = 15bd13a**
+**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = de1221c**
 
 ---
 
 ## State
 
 ```
-e905c4c  Add Confusion Protocol + Karpathy failure modes to CLAUDE.md
-a011259  Fix README: update prompt count to 54, fix commands→skills paths
-beabe68  Add general ADRs: LangGraph orchestration + Claude enterprise rollout
-ac2a9b2  Add Argus ADRs from ai-enablement-ws
+de1221c  Merge PR #2 — Add /retro skill and prompt template
+97f002d  Add retro prompt template
+c7029e8  Add /retro skill — engineering retrospective with LESSONS_LEARNED.md output
+15bd13a  Merge PR #1 — README audit + CLAUDE.md gstack philosophy
 ```
 
 Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of beabe68)
@@ -22,16 +22,16 @@ Remote: https://github.com/gmanch94/claude-code-template (master, up to date as 
 ## What landed in the most recent session
 
 1. **README audit** — prompt count corrected (8→54); `.claude/commands/` paths fixed to `.claude/skills/<name>/SKILL.md`
-2. **CLAUDE.md** — added Confusion Protocol (halt on ambiguous decisions, ask instead of guessing) and Karpathy's four failure modes (wrong assumptions, overcomplexity, orthogonal edits, imperative over declarative)
-3. Both changes on branch `fix/readme-audit` — PR not yet opened
+2. **CLAUDE.md** — added Confusion Protocol and Karpathy's four failure modes (from gstack philosophy review)
+3. **`/retro` skill** — `.claude/skills/retro/SKILL.md`; structured retro with LESSONS_LEARNED.md integration
+4. **`prompts/retro.md`** — system prompt template for retro facilitator; matches library format
 
 ---
 
 ## Open items
 
-- [ ] **Open PR** — `fix/readme-audit` branch has 2 commits; open PR to merge into master
 - [ ] **Stack add-ons** — `stacks/` currently has Python only; TypeScript/Go stacks could be added
-- [ ] **gstack philosophy** — items 2 (sprint order), 4 (`/retro` skill), 5 (specialist personas) not yet brought in
+- [ ] **gstack philosophy** — items 2 (sprint order) and 5 (specialist personas) not yet brought in
 
 ---
 

@@ -8,4 +8,4 @@ Format: `- [Title](file.md) — one-line hook`
 
 ---
 
-<!-- Add memory entries here as they are created -->
+- [PowerShell command length limit](feedback_powershell_length.md) — avoid long inline PS commands; use regex/loops, not hashtables

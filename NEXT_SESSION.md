@@ -32,10 +32,18 @@ Remote: https://github.com/gmanch94/claude-code-template (master, up to date as 
 ## Open items
 
 - [ ] **Backlog skills (deferred):**
-  - `/causal-inference` — DiD, propensity score matching, instrumental variables
-  - `/survival-analysis` — Kaplan-Meier, Cox PH, survival forests
-  - `/computer-vision` — image preprocessing, augmentation, CNN/ViT, mAP/IoU
-  - `/online-learning` — streaming ML (River, Vowpal Wabbit)
+  - *ML algorithms:*
+    - `/causal-inference` — DiD, propensity score matching, instrumental variables
+    - `/survival-analysis` — Kaplan-Meier, Cox PH, survival forests
+    - `/computer-vision` — image preprocessing, augmentation, CNN/ViT, mAP/IoU
+    - `/online-learning` — streaming ML (River, Vowpal Wabbit)
+  - *LLM/AI production:*
+    - `/llm-routing` — model selection at runtime (complexity/cost tradeoff, fallback chains)
+  - *Data platform:*
+    - `/streaming-pipeline` — Kafka/Flink/Spark Streaming; real-time feature pipelines
+    - `/data-mesh` — domain ownership, data products, federated governance
+  - *Strategy:*
+    - `/build-vs-buy` — make vs buy analysis for AI tooling
 - [ ] **Stack add-ons** — `stacks/` currently has Python only; TypeScript/Go stacks could be added
 
 ---

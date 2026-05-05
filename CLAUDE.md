@@ -60,6 +60,8 @@ The `[Used in / Referenced by]` column (or equivalent) maps each row to downstre
 - [PR / commit conventions]
 - [Any file that must never be edited directly (generated files, etc.)]
 
+**Confusion Protocol** — when facing an architectural decision or ambiguous requirement, stop and surface the assumption explicitly before proceeding. Never guess on design decisions. Ask one targeted question instead of producing output that may be wrong.
+
 ---
 
 ## Tone and output constraints
@@ -79,6 +81,12 @@ The `[Used in / Referenced by]` column (or equivalent) maps each row to downstre
 - Don't commit directly to `master` — all changes via feature branch + PR
 - Don't push to remote without explicit user instruction
 - Don't use long PowerShell here-strings for commit messages — hits 948-byte parse limit; use inline `-m "..."` instead
+
+**Four failure modes to guard against (Karpathy):**
+- **Wrong assumptions** — don't guess at intent; surface the assumption and ask
+- **Overcomplexity** — don't add abstraction, generalization, or flexibility the task doesn't require
+- **Orthogonal edits** — don't touch code outside the stated task scope; no drive-by cleanup
+- **Imperative over declarative** — prefer describing the desired outcome over prescribing steps
 
 ---
 

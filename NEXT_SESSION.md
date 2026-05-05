@@ -2,30 +2,31 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = df7c9fe**
+**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = 755dcc8**
 
 ---
 
 ## State
 
 ```
+755dcc8  Merge pull request #6 — Add unsupervised learning skills
+a7e93fe  Add /topic-modeling skill (LDA/NMF/BERTopic)
+1143be2  Add unsupervised skills: /clustering and /dim-reduction
+4b74217  Update NEXT_SESSION.md — HEAD df7c9fe, ML lifecycle skills PR #5 merged
 df7c9fe  Merge pull request #5 — Add ML lifecycle skills: business discovery, model training, data exploration
-f4a3be9  Add data exploration skills: cohort-analysis, time-series-eda, feature-correlation
-227862b  Add /experiment-design and /training-infrastructure to fill model development gap
-ec9a61c  Add business discovery skills: /stakeholder-interview, /opportunity-sizing, /kpi-mapping
-46be42d  Update NEXT_SESSION.md — master, HEAD 4607731, specialist personas landed
 ```
 
-Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of df7c9fe)
+Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of 755dcc8)
 
 ---
 
 ## What landed in the most recent session
 
-1. **Business discovery** (3 skills + prompts): `/stakeholder-interview`, `/opportunity-sizing`, `/kpi-mapping` — fills gap upstream of `/problem-framing`
-2. **Model development** (2 skills + prompts): `/experiment-design`, `/training-infrastructure` — fills training stage gap (compute selection, distributed strategy, experiment hygiene)
-3. **Data exploration** (3 skills + prompts): `/cohort-analysis`, `/time-series-eda`, `/feature-correlation` — expands thin EDA stage
-4. All 8 skills indexed in README.md, CLAUDE.md, prompts/README.md
+1. **Unsupervised learning** (3 skills + prompts): `/clustering`, `/dim-reduction`, `/topic-modeling` — new "Unsupervised learning" section in all index files
+2. `/clustering` — k-means/DBSCAN/GMM/hierarchical; elbow+silhouette k decision; stability (ARI); cluster profiling
+3. `/dim-reduction` — PCA/UMAP/t-SNE by goal; variance explained; t-SNE visualization-only rule; leakage guard
+4. `/topic-modeling` — LDA/NMF/BERTopic; coherence-based k; preprocessing pipeline; topic labeling; BERTopic −1 handling
+5. **Open question**: RL coverage — deferred, to revisit with user
 
 ---
 

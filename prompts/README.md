@@ -26,6 +26,9 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 |---|---|---|
 | [`problem-framing.md`](problem-framing.md) | ML justification, solution type, success metric, non-ML baseline | `BUSINESS_CONTEXT`, `AVAILABLE_DATA`, `CONSTRAINTS` |
 | [`eda.md`](eda.md) | Dataset profiling — target, missingness, cardinality, correlations, leakage candidates | `DATASET_CONTEXT`, `TARGET_VARIABLE`, `EDA_GOALS` |
+| [`cohort-analysis.md`](cohort-analysis.md) | Cohort segmentation — acquisition/behavioral/attribute cohorts, outcome comparison, retention curves | `ORGANIZATION_NAME`, `DATASET_DESCRIPTION`, `OUTCOME_VARIABLE`, `COHORT_DIMENSIONS` |
+| [`time-series-eda.md`](time-series-eda.md) | Time series EDA — stationarity, trend, seasonality, ACF/PACF, structural breaks, anomalies | `ORGANIZATION_NAME`, `SERIES_NAME`, `FREQUENCY`, `MODELING_GOAL` |
+| [`feature-correlation.md`](feature-correlation.md) | Feature relationships — correlation by type, VIF, Cramér's V, interaction detection | `ORGANIZATION_NAME`, `FEATURE_LIST`, `TARGET_VARIABLE`, `MODEL_FAMILY` |
 
 **General / AI:**
 

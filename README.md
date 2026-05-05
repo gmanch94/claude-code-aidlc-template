@@ -89,6 +89,9 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 |---|---|
 | `/problem-framing` | **ML Problem Framing Advisor** — ML vs. rules decision, solution type, success metric tied to KPI, non-ML baseline, problem statement card |
 | `/eda` | **Exploratory Data Analyst** — Dataset profiling — target distribution, missingness, cardinality, correlations, leakage candidates, EDA summary report |
+| `/cohort-analysis` | **Cohort Analysis Specialist** — segment by acquisition/behavioral/attribute cohorts; outcome comparison with significance tests, retention curves, distribution shifts |
+| `/time-series-eda` | **Time Series Data Analyst** — stationarity (ADF+KPSS), trend (Mann-Kendall), seasonality (STL), ACF/PACF, structural breaks, anomaly detection |
+| `/feature-correlation` | **Feature Relationship Analyst** — Pearson/Spearman/MI by variable type, VIF multicollinearity, Cramér's V for categoricals, interaction candidate detection |
 
 **General (any project):**
 

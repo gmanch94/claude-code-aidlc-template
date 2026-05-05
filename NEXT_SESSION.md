@@ -2,36 +2,40 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = b0c37fe**
+**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = 7fe5ac5**
 
 ---
 
 ## State
 
 ```
+7fe5ac5  Merge pull request #8 — Add ML domain skills
+fbcbe87  Add ML domain skills: /time-series-forecasting, /recommender-design, /nlp-pipeline
 b0c37fe  Merge pull request #7 — Add reinforcement learning skills
 595ad32  Add reinforcement learning skills: /bandit-design and /rl-design
-63ba9e4  Update NEXT_SESSION.md — HEAD 755dcc8, unsupervised skills PR #6 merged
-755dcc8  Merge pull request #6 — Add unsupervised learning skills
-63ba9e4  Update NEXT_SESSION.md — HEAD 755dcc8, unsupervised skills PR #6 merged
+3dbe6e6  Update NEXT_SESSION.md — HEAD b0c37fe, RL skills PR #7 merged
 ```
 
-Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of b0c37fe)
+Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of 7fe5ac5)
 
 ---
 
 ## What landed in the most recent session
 
-1. **Unsupervised learning** (PR #6): `/clustering`, `/dim-reduction`, `/topic-modeling` + prompts
-2. **Reinforcement learning** (PR #7): `/bandit-design`, `/rl-design` + prompts — new "Reinforcement learning" section in all index files
-3. `/bandit-design` — epsilon-greedy/UCB/Thompson Sampling/LinUCB; bandit vs A/B gate; delayed reward buffering; offline replay eval
-4. `/rl-design` — RL justification gate; MDP spec; DQN/PPO/SAC/TD3/offline RL/RLHF; reward design + Goodhart risk; safety constraints; multi-seed requirement
-5. **Coverage now complete**: supervised ✅ unsupervised ✅ reinforcement learning ✅
+1. **ML domain skills** (PR #8): `/time-series-forecasting`, `/recommender-design`, `/nlp-pipeline` + prompts
+2. `/time-series-forecasting` — ARIMA/SARIMA/ETS/Prophet/N-BEATS/TFT; seasonal naive gate (MASE < 1); time series CV only; Ljung-Box residual check
+3. `/recommender-design` — ALS/iALS/two-tower/SASRec; two-stage pipeline for >1M items; cold-start mandatory; temporal split only; NDCG@K + Coverage
+4. `/nlp-pipeline` — TF-IDF baseline gate; preprocessing decision table; entity-level F1 for NER; ROUGE for summarization; domain-BERT rule
 
 ---
 
 ## Open items
 
+- [ ] **Backlog skills (deferred):**
+  - `/causal-inference` — DiD, propensity score matching, instrumental variables
+  - `/survival-analysis` — Kaplan-Meier, Cox PH, survival forests
+  - `/computer-vision` — image preprocessing, augmentation, CNN/ViT, mAP/IoU
+  - `/online-learning` — streaming ML (River, Vowpal Wabbit)
 - [ ] **Stack add-ons** — `stacks/` currently has Python only; TypeScript/Go stacks could be added
 
 ---

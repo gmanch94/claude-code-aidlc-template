@@ -16,7 +16,7 @@ Guidance for Claude Code working in this repo. Auto-loaded at the start of every
 
 Before any tool calls beyond basic orientation:
 
-1. Read [`scratch/NEXT_SESSION.md`](scratch/NEXT_SESSION.md) — resume bookmark: HEAD, branch, what landed last session, open items, things NOT to do without explicit instruction
+1. Read [`NEXT_SESSION.md`](NEXT_SESSION.md) — resume bookmark: HEAD, branch, what landed last session, open items, things NOT to do without explicit instruction
 2. Read [`LESSONS_LEARNED.md`](LESSONS_LEARNED.md) — process lessons from prior sessions; re-reading prevents repeat mistakes
 3. Read this file — repo posture and constraints
 4. `git status` + `git log --oneline -5` — confirm state matches the bookmark

@@ -25,7 +25,7 @@ This template fixes all four in under 5 minutes of setup.
 |---|---|
 | `CLAUDE.md` | Auto-loaded every session. Defines project posture, session-start protocol, tone constraints, and things to avoid. Fill in 5 placeholders. |
 | `LESSONS_LEARNED.md` | Process lessons that accumulate across sessions. Pre-seeded with 8 generalizable lessons; add project-specific ones as you work. |
-| `scratch/NEXT_SESSION.md` | Session bookmark — HEAD, branch, what landed, what's open. Claude reads it first after `/clear`. Gitignored (personal workspace). |
+| `NEXT_SESSION.md` | Session bookmark — HEAD, branch, what landed, what's open. Claude reads it first after `/clear`. |
 | `.claude/settings.json` | Permission allowlist. Pre-populated with context-mode MCP tools (see below). Add project-specific read-only patterns here. |
 | `.claude/commands/review.md` | `/review` — code review with [BLOCKER] / [SUGGESTION] / [NITPICK] format. |
 | `.claude/commands/adr.md` | `/adr` — draft an Architecture Decision Record with full rationale and alternatives. |
@@ -65,7 +65,7 @@ Open Claude Code in your repo. Claude reads `CLAUDE.md` automatically. It will f
 
 **4. End your first session**
 
-Update `scratch/NEXT_SESSION.md` with: current HEAD hash, branch, what landed, what's open. This is the resume point for every future session.
+Update `NEXT_SESSION.md` with: current HEAD hash, branch, what landed, what's open. This is the resume point for every future session.
 
 Done. The template is live.
 
@@ -293,12 +293,12 @@ Rules:
 Every session, Claude reads `CLAUDE.md` and follows:
 
 ```
-scratch/NEXT_SESSION.md  →  LESSONS_LEARNED.md  →  CLAUDE.md  →  git status + log
+NEXT_SESSION.md  →  LESSONS_LEARNED.md  →  CLAUDE.md  →  git status + log
                                                                           ↓
                                                               Ask what to work on
 ```
 
-At the end of each session, you (or Claude) update `scratch/NEXT_SESSION.md` with HEAD, what landed, and what's open. The next session picks up exactly where the last one left off — no re-orientation.
+At the end of each session, you (or Claude) update `NEXT_SESSION.md` with HEAD, what landed, and what's open. The next session picks up exactly where the last one left off — no re-orientation.
 
 `scratch/` is gitignored, so NEXT_SESSION.md stays local. If you work across machines, copy it manually or move it to a committed location.
 

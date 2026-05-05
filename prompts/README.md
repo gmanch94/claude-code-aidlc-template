@@ -62,6 +62,8 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`agentic-assistant.md`](agentic-assistant.md) | Tool-use agent with guardrails | `AGENT_NAME`, `TOOL_LIST`, `OUT_OF_SCOPE_LIST` |
 | [`llm-routing.md`](llm-routing.md) | LLM routing — routing strategy, model tier map, fallback chain, quality-floor gate, cost/quality projection | `ORGANIZATION_NAME`, `APPLICATION_DESCRIPTION`, `TASK_TYPES`, `QUALITY_FLOOR`, `COST_CONSTRAINT` |
 | [`build-vs-buy.md`](build-vs-buy.md) | Build vs buy — 5-dimension scoring, AI tooling decision matrix, 3-year TCO, vendor alternatives, exit strategy | `ORGANIZATION_NAME`, `COMPONENTS`, `TEAM_SIZE`, `BUDGET_HORIZON`, `CONSTRAINTS` |
+| [`multi-agent-design.md`](multi-agent-design.md) | Multi-agent orchestration — pattern selection, framework (LangGraph/CrewAI/AutoGen), agent roster, state schema, failure handling | `ORGANIZATION_NAME`, `SYSTEM_GOAL`, `TOOL_LIST`, `LATENCY_REQUIREMENT`, `FRAMEWORK_PREFERENCE` |
+| [`guardrails-design.md`](guardrails-design.md) | LLM input/output safety layers — threat inventory, detection methods, latency budget, FPR targets | `ORGANIZATION_NAME`, `APPLICATION_DESCRIPTION`, `RISK_PROFILE`, `LLM_MODEL`, `LATENCY_BUDGET` |
 | [`chat-assistant.md`](chat-assistant.md) | General-purpose chat with persona + scope | `ASSISTANT_NAME`, `SCOPE_DESCRIPTION`, `OUT_OF_SCOPE` |
 | [`classifier.md`](classifier.md) | Single-label classification → JSON | `LABEL_TAXONOMY`, `FALLBACK_LABEL` |
 | [`extractor.md`](extractor.md) | Field extraction from unstructured text → JSON | `JSON_SCHEMA_FIELDS`, `FIELD_DEFINITIONS` |

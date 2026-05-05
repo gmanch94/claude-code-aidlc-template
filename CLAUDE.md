@@ -157,6 +157,8 @@ Skip steps only with explicit agreement — not because the task feels small.
 - `/prompt-review` — **Prompt Quality Reviewer** — 9-dimension prompt health score
 - `/rag-design` — **RAG System Architect** — RAG system design (chunking, embedding, retrieval, reranking, observability)
 - `/agent-design` — **Agentic System Designer** — agentic system design (loop, tool manifest, guardrails, fallbacks)
+- `/multi-agent-design` — **Multi-Agent System Designer** — orchestration pattern + framework (LangGraph/CrewAI/AutoGen); agent roster; state schema; failure handling; max_iterations gate
+- `/guardrails-design` — **Guardrails System Designer** — input/output safety layers; threat inventory; detection per threat (Llama Guard/Presidio/NLI); latency budget; FPR targets; fail-open vs. fail-closed
 - `/red-team` — **AI Red Team Lead** — 4-phase AI red team battery (base model → app → infra → operational)
 - `/model-card` — **Model Documentation Author** — model documentation standard (9 sections, governance checklist)
 - `/supply-chain-review` — **AI Supply Chain Auditor** — AI model supply chain audit + AI-BOM generation

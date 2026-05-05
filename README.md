@@ -145,6 +145,8 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/prompt-review` | **Prompt Quality Reviewer** — 9-dimension prompt health score — clarity, injection risk, role/persona, output format, token efficiency, hallucination surface, fallback, PII, versioning |
 | `/rag-design` | **RAG System Architect** — context window vs. RAG decision, chunking, embedding, vector store, retrieval pattern, reranking, freshness, observability |
 | `/agent-design` | **Agentic System Designer** — Agentic system design — loop architecture, tool manifest, guardrails checklist, HITL design, fallback paths, observability |
+| `/multi-agent-design` | **Multi-Agent System Designer** — orchestration pattern (sequential/parallel/hierarchical/debate), framework selection (LangGraph/CrewAI/AutoGen), agent roster, state schema, failure handling, max_iterations gate |
+| `/guardrails-design` | **Guardrails System Designer** — input/output safety layers, threat inventory, detection method per threat (Llama Guard/Presidio/NLI), latency budget, FPR targets, fail-open vs. fail-closed policy |
 | `/red-team` | **AI Red Team Lead** — 4-phase AI red team battery — base model, application layer, infrastructure, operational (phases scaled to risk tier) |
 | `/model-card` | **Model Documentation Author** — Model documentation — 9 sections: overview, intended use, training data, evals, limitations, risks, governance, versioning, ownership |
 | `/supply-chain-review` | **AI Supply Chain Auditor** — AI supply chain audit — 6 layers (foundation model, training data, embedding, frameworks, plugins, AI-BOM) with production gate checklist |

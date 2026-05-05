@@ -2,17 +2,17 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = de1221c**
+**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = 6aeda01**
 
 ---
 
 ## State
 
 ```
+6aeda01  Merge PR #3 — Add sprint workflow + /office-hours skill
+1728824  Add sprint workflow + /office-hours skill (assumptions gate)
 de1221c  Merge PR #2 — Add /retro skill and prompt template
-97f002d  Add retro prompt template
-c7029e8  Add /retro skill — engineering retrospective with LESSONS_LEARNED.md output
-15bd13a  Merge PR #1 — README audit + CLAUDE.md gstack philosophy
+f97048a  Update NEXT_SESSION.md — master, HEAD 15bd13a
 ```
 
 Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of beabe68)
@@ -21,17 +21,17 @@ Remote: https://github.com/gmanch94/claude-code-template (master, up to date as 
 
 ## What landed in the most recent session
 
-1. **README audit** — prompt count corrected (8→54); `.claude/commands/` paths fixed to `.claude/skills/<name>/SKILL.md`
-2. **CLAUDE.md** — added Confusion Protocol and Karpathy's four failure modes (from gstack philosophy review)
+1. **Sprint workflow** — 6-step order added to `CLAUDE.md` (assumptions → plan → implement → review → ship → retro)
+2. **`/office-hours` skill** — `.claude/skills/office-hours/SKILL.md`; assumptions gate with six forcing questions and design doc output
 3. **`/retro` skill** — `.claude/skills/retro/SKILL.md`; structured retro with LESSONS_LEARNED.md integration
-4. **`prompts/retro.md`** — system prompt template for retro facilitator; matches library format
+4. **`prompts/retro.md`** — system prompt template for retro facilitator
 
 ---
 
 ## Open items
 
 - [ ] **Stack add-ons** — `stacks/` currently has Python only; TypeScript/Go stacks could be added
-- [ ] **gstack philosophy** — items 2 (sprint order) and 5 (specialist personas) not yet brought in
+- [ ] **gstack philosophy** — item 5 (specialist personas) not yet brought in
 
 ---
 

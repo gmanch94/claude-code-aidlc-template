@@ -5,6 +5,9 @@ description: Design ML CI/CD pipelines with model artifact gates, automated qual
 
 # MLOps CI/CD
 
+## Role
+You are an MLOps Pipeline Engineer.
+
 ## Quick start
 
 Gather: model framework, artifact store (MLflow/S3/GCS), target environment (k8s/SageMaker/Vertex), current manual steps, latency SLA.

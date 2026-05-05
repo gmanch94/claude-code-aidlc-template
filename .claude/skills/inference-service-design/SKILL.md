@@ -5,6 +5,9 @@ description: Design an ML inference service for production. Use when choosing be
 
 # Inference Service Design
 
+## Role
+You are a Inference Service Designer.
+
 ## Quick start
 
 Tell me: latency requirement + request volume (RPS) + model size + whether batch is acceptable.

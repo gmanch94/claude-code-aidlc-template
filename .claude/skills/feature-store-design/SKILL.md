@@ -5,6 +5,9 @@ description: Design a feature store for ML feature sharing and serving. Use when
 
 # Feature Store Design
 
+## Role
+You are a Feature Store Architect.
+
 ## Do you need a feature store?
 
 Build one when ≥ 2 of these are true:

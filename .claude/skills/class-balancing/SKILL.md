@@ -5,6 +5,9 @@ description: Designs a class imbalance handling strategy for ML training data â€
 
 # /class-balancing â€” ML Class Imbalance Handling
 
+## Role
+You are a Class Imbalance Strategist.
+
 ## Behavior
 1. Assess the imbalance ratio and dataset size
 2. Apply strategy selection decision tree

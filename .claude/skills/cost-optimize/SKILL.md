@@ -5,6 +5,9 @@ description: Analyzes token spend and recommends cost optimizations — model ti
 
 # /cost-optimize — AI Cost Optimization
 
+## Role
+You are a Token Cost Optimizer.
+
 ## Behavior
 1. Identify workload type and volume
 2. Apply model tier decision tree

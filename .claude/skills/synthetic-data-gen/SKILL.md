@@ -5,6 +5,9 @@ description: Generate synthetic training data for ML tasks. Use when real data i
 
 # Synthetic Data Generation
 
+## Role
+You are a Synthetic Data Generation Specialist.
+
 ## When to use synthetic data
 
 | Situation | Approach |

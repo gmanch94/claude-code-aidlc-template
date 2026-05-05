@@ -79,133 +79,133 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 
 | Command | What it does |
 |---|---|
-| `/problem-framing` | ML vs. rules decision, solution type, success metric tied to KPI, non-ML baseline, problem statement card |
-| `/eda` | Dataset profiling — target distribution, missingness, cardinality, correlations, leakage candidates, EDA summary report |
+| `/problem-framing` | **ML Problem Framing Advisor** — ML vs. rules decision, solution type, success metric tied to KPI, non-ML baseline, problem statement card |
+| `/eda` | **Exploratory Data Analyst** — Dataset profiling — target distribution, missingness, cardinality, correlations, leakage candidates, EDA summary report |
 
 **General (any project):**
 
 | Command | What it does |
 |---|---|
-| `/office-hours` | Assumptions gate — six forcing questions that surface unstated assumptions and produce a design doc before any code is written |
-| `/review` | Code review — [BLOCKER] / [SUGGESTION] / [NITPICK] grading across correctness, security, performance, clarity, test coverage |
-| `/adr` | Draft an Architecture Decision Record with context, rationale, alternatives, consequences, and risks |
-| `/tradeoff` | Options × pros/cons/failure-mode table + recommendation with named constraint |
-| `/retro` | Engineering retrospective — shipped summary, went well/wrong, one process change, writes new entries to LESSONS_LEARNED.md |
+| `/office-hours` | **Assumptions Facilitator** — assumptions gate, six forcing questions that surface unstated assumptions and produce a design doc before any code is written |
+| `/review` | **Code Reviewer** — [BLOCKER] / [SUGGESTION] / [NITPICK] grading across correctness, security, performance, clarity, test coverage |
+| `/adr` | **ADR Facilitator** — Draft an Architecture Decision Record with context, rationale, alternatives, consequences, and risks |
+| `/tradeoff` | **Tradeoff Analyst** — Options × pros/cons/failure-mode table + recommendation with named constraint |
+| `/retro` | **Retrospective Facilitator** — Engineering retrospective — shipped summary, went well/wrong, one process change, writes new entries to LESSONS_LEARNED.md |
 
 **Production systems:**
 
 | Command | What it does |
 |---|---|
-| `/threat-model` | AI-specific threat model — 8 mandatory threat categories (injection, poisoning, PII leakage, jailbreak, supply chain, excessive agency, etc.) |
-| `/rollout` | Phased rollout plan — Shadow → Internal → Canary → Limited GA → Full GA, with eval gates and rollback triggers at each boundary |
-| `/runbook` | AI incident runbook — 8 standard failure scenarios (degradation, hallucination spike, cost blowout, agentic loop runaway, etc.) with detection/triage/mitigation/escalation |
-| `/pii-scan` | PII exposure audit — maps data elements across 10 AI lifecycle stages; surfaces governance gaps; recommends ADRs |
-| `/observability` | AI observability stack design — 5 signal layers, required metrics + alert thresholds, drift indicators, dashboard spec |
+| `/threat-model` | **AI Threat Modeling Analyst** — AI-specific threat model — 8 mandatory threat categories (injection, poisoning, PII leakage, jailbreak, supply chain, excessive agency, etc.) |
+| `/rollout` | **Rollout Planner** — Phased rollout plan — Shadow → Internal → Canary → Limited GA → Full GA, with eval gates and rollback triggers at each boundary |
+| `/runbook` | **Incident Runbook Author** — AI incident runbook — 8 standard failure scenarios (degradation, hallucination spike, cost blowout, agentic loop runaway, etc.) with detection/triage/mitigation/escalation |
+| `/pii-scan` | **PII Exposure Auditor** — PII exposure audit — maps data elements across 10 AI lifecycle stages; surfaces governance gaps; recommends ADRs |
+| `/observability` | **Observability Stack Designer** — AI observability stack design — 5 signal layers, required metrics + alert thresholds, drift indicators, dashboard spec |
 
 **AI / LLM projects:**
 
 | Command | What it does |
 |---|---|
-| `/eval-design` | LLM eval framework — metric taxonomy by task type, test set minimums, pass/fail thresholds, drift triggers |
-| `/prompt-review` | 9-dimension prompt health score — clarity, injection risk, role/persona, output format, token efficiency, hallucination surface, fallback, PII, versioning |
-| `/rag-design` | RAG system design — context window vs. RAG decision, chunking, embedding, vector store, retrieval pattern, reranking, freshness, observability |
-| `/agent-design` | Agentic system design — loop architecture, tool manifest, guardrails checklist, HITL design, fallback paths, observability |
-| `/red-team` | 4-phase AI red team battery — base model, application layer, infrastructure, operational (phases scaled to risk tier) |
-| `/model-card` | Model documentation — 9 sections: overview, intended use, training data, evals, limitations, risks, governance, versioning, ownership |
-| `/supply-chain-review` | AI supply chain audit — 6 layers (foundation model, training data, embedding, frameworks, plugins, AI-BOM) with production gate checklist |
-| `/cost-optimize` | Token spend analysis — model tier decision tree (Opus/Sonnet/Haiku), prompt caching strategy, batch vs. real-time, token budget sizing |
-| `/feedback-loop` | Production feedback loop design — signal taxonomy, review queue sampling, annotation workflow, signal → eval routing, improvement cadence |
-| `/fine-tune` | Fine-tune vs. prompt-engineer decision tree — dataset requirements, pre/post eval plan, cost-benefit analysis, training data format |
+| `/eval-design` | **LLM Evaluation Designer** — LLM eval framework — metric taxonomy by task type, test set minimums, pass/fail thresholds, drift triggers |
+| `/prompt-review` | **Prompt Quality Reviewer** — 9-dimension prompt health score — clarity, injection risk, role/persona, output format, token efficiency, hallucination surface, fallback, PII, versioning |
+| `/rag-design` | **RAG System Architect** — context window vs. RAG decision, chunking, embedding, vector store, retrieval pattern, reranking, freshness, observability |
+| `/agent-design` | **Agentic System Designer** — Agentic system design — loop architecture, tool manifest, guardrails checklist, HITL design, fallback paths, observability |
+| `/red-team` | **AI Red Team Lead** — 4-phase AI red team battery — base model, application layer, infrastructure, operational (phases scaled to risk tier) |
+| `/model-card` | **Model Documentation Author** — Model documentation — 9 sections: overview, intended use, training data, evals, limitations, risks, governance, versioning, ownership |
+| `/supply-chain-review` | **AI Supply Chain Auditor** — AI supply chain audit — 6 layers (foundation model, training data, embedding, frameworks, plugins, AI-BOM) with production gate checklist |
+| `/cost-optimize` | **Token Cost Optimizer** — Token spend analysis — model tier decision tree (Opus/Sonnet/Haiku), prompt caching strategy, batch vs. real-time, token budget sizing |
+| `/feedback-loop` | **Feedback Loop Designer** — Production feedback loop design — signal taxonomy, review queue sampling, annotation workflow, signal → eval routing, improvement cadence |
+| `/fine-tune` | **Fine-Tuning Advisor** — Fine-tune vs. prompt-engineer decision tree — dataset requirements, pre/post eval plan, cost-benefit analysis, training data format |
 
 **Data engineering:**
 
 | Command | What it does |
 |---|---|
-| `/pipeline-design` | Data pipeline architecture — batch vs. streaming decision, orchestration, idempotency, backfill strategy, error handling, SLA |
-| `/schema-design` | Data modeling — dimensional vs. 3NF vs. OBT decision, SCD types, partitioning strategy, schema evolution policy |
-| `/data-quality` | Quality gate design — validation rules by dimension, anomaly detection thresholds, quarantine + replay strategy, SLAs |
-| `/data-contract` | Producer/consumer data contract — schema ownership, SLAs, versioning, breaking change policy, enforcement |
-| `/dbt-review` | dbt model review — naming, ref/source usage, incremental correctness, test coverage, documentation |
-| `/sql-review` | SQL query review — join correctness, fanout bugs, partition pruning, performance anti-patterns, readability |
-| `/data-cleanse` | Data cleansing workflow — dirty data taxonomy, detection rules, remediation strategy, audit trail, cleansing order |
-| `/dedup` | Deduplication & entity resolution — exact vs. fuzzy decision, blocking strategy, algorithm selection, confidence scoring, golden record, merge rules |
-| `/schema-harmonization` | Multi-source schema merging — conflict taxonomy, canonical schema design, type/semantic/enum resolution, source priority policy |
-| `/timeseries-resample` | Time series resampling — upsample (interpolation by metric type) vs. downsample (aggregation), gap handling, temporal alignment |
-| `/class-balancing` | ML class imbalance handling — strategy by imbalance ratio, SMOTE/oversample/weights, eval setup, threshold tuning |
-| `/annotation-design` | Annotation schema design — label taxonomy, decision tree, edge case catalog, calibration process |
-| `/label-quality` | Label quality assurance — IAA metrics (κ/α), sampling strategy, adjudication workflow, quality thresholds |
-| `/active-learning` | Active learning strategy — query strategy by labeled set size, uncertainty/diversity sampling, stopping criteria |
-| `/split-design` | Train/val/test split — random/temporal/group decision, ratios by dataset size, stratification, minimum eval sizes |
-| `/cross-validation` | CV strategy — k-fold variant selection, time series CV, group k-fold, nested CV for hyperparameter tuning |
-| `/leakage-audit` | Data leakage detection — temporal, target, group, and preprocessing-order leakage with code fixes |
+| `/pipeline-design` | **Data Pipeline Architect** — batch vs. streaming decision, orchestration, idempotency, backfill strategy, error handling, SLA |
+| `/schema-design` | **Data Schema Designer** — Data modeling — dimensional vs. 3NF vs. OBT decision, SCD types, partitioning strategy, schema evolution policy |
+| `/data-quality` | **Data Quality Engineer** — Quality gate design — validation rules by dimension, anomaly detection thresholds, quarantine + replay strategy, SLAs |
+| `/data-contract` | **Data Contract Author** — Producer/consumer data contract — schema ownership, SLAs, versioning, breaking change policy, enforcement |
+| `/dbt-review` | **dbt Model Reviewer** — dbt model review — naming, ref/source usage, incremental correctness, test coverage, documentation |
+| `/sql-review` | **SQL Query Reviewer** — SQL query review — join correctness, fanout bugs, partition pruning, performance anti-patterns, readability |
+| `/data-cleanse` | **Data Cleansing Planner** — Data cleansing workflow — dirty data taxonomy, detection rules, remediation strategy, audit trail, cleansing order |
+| `/dedup` | **Entity Resolution Specialist** — Deduplication & entity resolution — exact vs. fuzzy decision, blocking strategy, algorithm selection, confidence scoring, golden record, merge rules |
+| `/schema-harmonization` | **Schema Harmonization Architect** — Multi-source schema merging — conflict taxonomy, canonical schema design, type/semantic/enum resolution, source priority policy |
+| `/timeseries-resample` | **Time Series Resampling Advisor** — Time series resampling — upsample (interpolation by metric type) vs. downsample (aggregation), gap handling, temporal alignment |
+| `/class-balancing` | **Class Imbalance Strategist** — ML class imbalance handling — strategy by imbalance ratio, SMOTE/oversample/weights, eval setup, threshold tuning |
+| `/annotation-design` | **Annotation Schema Designer** — Annotation schema design — label taxonomy, decision tree, edge case catalog, calibration process |
+| `/label-quality` | **Label Quality Assessor** — Label quality assurance — IAA metrics (κ/α), sampling strategy, adjudication workflow, quality thresholds |
+| `/active-learning` | **Active Learning Strategist** — Active learning strategy — query strategy by labeled set size, uncertainty/diversity sampling, stopping criteria |
+| `/split-design` | **Data Split Designer** — Train/val/test split — random/temporal/group decision, ratios by dataset size, stratification, minimum eval sizes |
+| `/cross-validation` | **Cross-Validation Strategist** — CV strategy — k-fold variant selection, time series CV, group k-fold, nested CV for hyperparameter tuning |
+| `/leakage-audit` | **Data Leakage Auditor** — Data leakage detection — temporal, target, group, and preprocessing-order leakage with code fixes |
 
 **ML algorithm selection / tuning:**
 
 | Command | What it does |
 |---|---|
-| `/algo-select` | Algorithm selection — task type × dataset size × constraint decision tree; baseline + failure mode per recommendation |
-| `/hyperparameter-tuning` | Tuning strategy — random vs. Bayesian vs. async; search space by algorithm; complete Optuna/sklearn code |
-| `/model-comparison` | Statistical model comparison — test selection, effect size, practical significance threshold, production verdict |
+| `/algo-select` | **Algorithm Selection Advisor** — Algorithm selection — task type × dataset size × constraint decision tree; baseline + failure mode per recommendation |
+| `/hyperparameter-tuning` | **Hyperparameter Tuning Strategist** — Tuning strategy — random vs. Bayesian vs. async; search space by algorithm; complete Optuna/sklearn code |
+| `/model-comparison` | **Model Comparison Analyst** — Statistical model comparison — test selection, effect size, practical significance threshold, production verdict |
 
 **Feature engineering:**
 
 | Command | What it does |
 |---|---|
-| `/feature-engineering` | Encoding (categorical cardinality rules), numeric transforms, date extraction, aggregation features, sklearn Pipeline |
-| `/feature-selection` | Filter (variance, correlation, MI) → embedded (LASSO, permutation importance) → wrapper (RFECV); selection inside CV |
-| `/feature-store-design` | Online/offline store architecture, feature definition schema, point-in-time correct joins, backfill strategy, skew prevention |
+| `/feature-engineering` | **Feature Engineering Advisor** — Encoding (categorical cardinality rules), numeric transforms, date extraction, aggregation features, sklearn Pipeline |
+| `/feature-selection` | **Feature Selection Advisor** — Filter (variance, correlation, MI) → embedded (LASSO, permutation importance) → wrapper (RFECV); selection inside CV |
+| `/feature-store-design` | **Feature Store Architect** — Online/offline store architecture, feature definition schema, point-in-time correct joins, backfill strategy, skew prevention |
 
 **Data gathering:**
 
 | Command | What it does |
 |---|---|
-| `/data-collection-design` | Data volume targets by task type, collection strategy decision tree, representativeness checklist, labeling plan |
-| `/synthetic-data-gen` | Synthesis by data type (tabular/text/image/time-series), quality gates, synthetic-to-real ratio, placement rules |
-| `/data-sourcing` | Public registry search, vendor evaluation checklist, license interpretation guide, per-source verdict |
+| `/data-collection-design` | **Data Collection Planner** — Data volume targets by task type, collection strategy decision tree, representativeness checklist, labeling plan |
+| `/synthetic-data-gen` | **Synthetic Data Generation Specialist** — Synthesis by data type (tabular/text/image/time-series), quality gates, synthetic-to-real ratio, placement rules |
+| `/data-sourcing` | **Data Sourcing Analyst** — Public registry search, vendor evaluation checklist, license interpretation guide, per-source verdict |
 
 **Data filtering / outlier handling:**
 
 | Command | What it does |
 |---|---|
-| `/outlier-detection` | Method selection (Z-score / IQR / Isolation Forest / Mahalanobis / LOF), treatment by situation, outlier report, audit trail |
-| `/data-filtering` | Domain rule filters, quality/completeness thresholds, relevance scoring, near-dedup — prescribed order + audit report |
-| `/sparse-class-grouping` | Collapse rare classes — frequency cutoff, domain hierarchy, embedding clustering, target-rate binning; MI validation |
+| `/outlier-detection` | **Outlier Detection Specialist** — Method selection (Z-score / IQR / Isolation Forest / Mahalanobis / LOF), treatment by situation, outlier report, audit trail |
+| `/data-filtering` | **Data Filtering Planner** — Domain rule filters, quality/completeness thresholds, relevance scoring, near-dedup — prescribed order + audit report |
+| `/sparse-class-grouping` | **Sparse Class Grouping Advisor** — Collapse rare classes — frequency cutoff, domain hierarchy, embedding clustering, target-rate binning; MI validation |
 
 **Model validation:**
 
 | Command | What it does |
 |---|---|
-| `/model-validation` | Pre-deploy checklist (9 gates), CI bootstrap, slice analysis, edge case stress tests, latency gate, Go/No-Go verdict |
-| `/model-calibration` | ECE diagnosis, reliability diagram, Platt/isotonic/temperature scaling, AUC-preservation check |
-| `/model-drift` | Data/concept/prediction drift detection (KS/PSI), severity levels, retraining triggers, daily monitoring pipeline |
+| `/model-validation` | **Model Validation Engineer** — Pre-deploy checklist (9 gates), CI bootstrap, slice analysis, edge case stress tests, latency gate, Go/No-Go verdict |
+| `/model-calibration` | **Model Calibration Specialist** — ECE diagnosis, reliability diagram, Platt/isotonic/temperature scaling, AUC-preservation check |
+| `/model-drift` | **Model Drift Monitor** — Data/concept/prediction drift detection (KS/PSI), severity levels, retraining triggers, daily monitoring pipeline |
 
 **Model deployment:**
 
 | Command | What it does |
 |---|---|
-| `/model-deployment` | Artifact packaging checklist, phased rollout (shadow→canary→limited→full GA), automated + manual rollback triggers, deployment.yaml |
-| `/inference-service-design` | Serving pattern decision (REST/gRPC/batch), latency budget breakdown, scaling spec, circuit breaker + safe fallback, observability signals |
-| `/model-decommissioning` | Retire a model — retirement criteria, dependency audit, consumer notification, archive policy, retention schedule |
+| `/model-deployment` | **Model Deployment Engineer** — Artifact packaging checklist, phased rollout (shadow→canary→limited→full GA), automated + manual rollback triggers, deployment.yaml |
+| `/inference-service-design` | **Inference Service Designer** — Serving pattern decision (REST/gRPC/batch), latency budget breakdown, scaling spec, circuit breaker + safe fallback, observability signals |
+| `/model-decommissioning` | **Model Decommissioning Planner** — Retire a model — retirement criteria, dependency audit, consumer notification, archive policy, retention schedule |
 
 **Responsible AI:**
 
 | Command | What it does |
 |---|---|
-| `/fairness-audit` | Demographic parity, disparate impact ratio (80% rule), equal opportunity, protected-attribute slice analysis, mitigation strategies |
-| `/explainability` | SHAP / LIME / PDP / counterfactuals — global + local explanations, method selection by model type, audience-appropriate output |
+| `/fairness-audit` | **AI Fairness Auditor** — Demographic parity, disparate impact ratio (80% rule), equal opportunity, protected-attribute slice analysis, mitigation strategies |
+| `/explainability` | **Model Explainability Analyst** — SHAP / LIME / PDP / counterfactuals — global + local explanations, method selection by model type, audience-appropriate output |
 
 **MLOps / Lifecycle:**
 
 | Command | What it does |
 |---|---|
-| `/experiment-tracking` | Run logging schema (params, metrics, artifacts, env), registry promotion criteria, reproducibility checklist |
-| `/ab-test-design` | Sample size calculation, assignment strategy, guardrail metrics, stopping rules, analysis plan + decision criteria |
-| `/retraining-strategy` | Trigger types (drift/calendar/performance), data window design, full vs. incremental, validation gates before promotion |
-| `/data-versioning` | Dataset versioning approach (DVC/time-travel/snapshot), registration schema, lineage chain, reproducibility checklist |
-| `/mlops-cicd` | ML CI/CD pipeline stages, model quality gates (performance/fairness/latency), artifact registration schema, rollback triggers, GitHub Actions YAML |
-| `/responsible-ai-governance` | Risk tier classification (T1–T4), 5-pillar governance framework, MRM checklist, pre-deploy gate matrix, EU AI Act flags |
-| `/model-compression` | Compression technique selection (PTQ/QAT/pruning/distillation/GPTQ), ready-to-run code, eval plan on target hardware |
-| `/feature-monitoring` | Production feature health — freshness SLAs, null rate baselines, schema drift, PSI per feature, dashboard spec, anomaly playbook |
+| `/experiment-tracking` | **Experiment Tracking Designer** — Run logging schema (params, metrics, artifacts, env), registry promotion criteria, reproducibility checklist |
+| `/ab-test-design` | **A/B Test Designer** — Sample size calculation, assignment strategy, guardrail metrics, stopping rules, analysis plan + decision criteria |
+| `/retraining-strategy` | **Model Retraining Strategist** — Trigger types (drift/calendar/performance), data window design, full vs. incremental, validation gates before promotion |
+| `/data-versioning` | **Dataset Versioning Specialist** — Dataset versioning approach (DVC/time-travel/snapshot), registration schema, lineage chain, reproducibility checklist |
+| `/mlops-cicd` | **MLOps Pipeline Engineer** — ML CI/CD pipeline stages, model quality gates (performance/fairness/latency), artifact registration schema, rollback triggers, GitHub Actions YAML |
+| `/responsible-ai-governance` | **AI Governance Advisor** — Risk tier classification (T1–T4), 5-pillar governance framework, MRM checklist, pre-deploy gate matrix, EU AI Act flags |
+| `/model-compression` | **Model Compression Specialist** — Compression technique selection (PTQ/QAT/pruning/distillation/GPTQ), ready-to-run code, eval plan on target hardware |
+| `/feature-monitoring` | **Feature Health Monitor** — Production feature health — freshness SLAs, null rate baselines, schema drift, PSI per feature, dashboard spec, anomaly playbook |
 
 ---
 

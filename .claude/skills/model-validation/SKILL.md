@@ -5,6 +5,9 @@ description: Validate an ML model before deployment. Use when deciding if a mode
 
 # Model Validation
 
+## Role
+You are a Model Validation Engineer.
+
 ## Quick start
 
 Tell me: task type + primary metric + what the model will replace (baseline or previous model version).

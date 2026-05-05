@@ -5,6 +5,9 @@ description: Designs the AI system observability stack — what to log, which me
 
 # /observability — AI Observability Design
 
+## Role
+You are a Observability Stack Designer.
+
 ## Behavior
 1. Identify system type (RAG, agent, chat, batch pipeline)
 2. Map 5 signal layers: inputs, outputs, latency, cost, safety

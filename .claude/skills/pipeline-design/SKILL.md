@@ -5,6 +5,9 @@ description: Designs data pipeline architecture — batch vs. streaming decision
 
 # /pipeline-design — Data Pipeline Design
 
+## Role
+You are a Data Pipeline Architect.
+
 ## Behavior
 1. Identify source, transformation steps, and destination
 2. Apply batch vs. streaming decision tree

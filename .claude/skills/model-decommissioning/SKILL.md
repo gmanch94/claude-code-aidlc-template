@@ -5,6 +5,9 @@ description: Retire a production ML model — retirement criteria, migration pla
 
 # Model Decommissioning
 
+## Role
+You are a Model Decommissioning Planner.
+
 ## Quick start
 
 Never delete a model from registry without: (1) successor serving 100% traffic, (2) rollback window expired, (3) downstream consumers notified, (4) artifacts archived.

@@ -5,6 +5,9 @@ description: Designs label quality assurance — inter-annotator agreement metri
 
 # /label-quality — Label Quality Assurance
 
+## Role
+You are a Label Quality Assessor.
+
 ## Behavior
 1. Select the right IAA metric for the task type
 2. Define sampling strategy for quality checks

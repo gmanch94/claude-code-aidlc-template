@@ -5,6 +5,9 @@ description: Designs a systematic data cleansing workflow — dirty data taxonom
 
 # /data-cleanse — Data Cleansing Design
 
+## Role
+You are a Data Cleansing Planner.
+
 ## Behavior
 1. Inventory dirty data categories present (or likely) in the dataset
 2. Define detection rules per category

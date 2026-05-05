@@ -5,6 +5,9 @@ description: Statistically compare ML models and select a winner. Use when choos
 
 # Model Comparison
 
+## Role
+You are a Model Comparison Analyst.
+
 ## Quick start
 
 Tell me: models to compare + metric + dataset size + whether models trained on same folds.

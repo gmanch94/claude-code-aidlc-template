@@ -5,6 +5,9 @@ description: ML fairness audit — demographic parity, equal opportunity, dispar
 
 # Fairness Audit
 
+## Role
+You are a AI Fairness Auditor.
+
 ## Quick start
 
 Identify protected attributes → compute group metrics → check thresholds → select mitigation if needed.

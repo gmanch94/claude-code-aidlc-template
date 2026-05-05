@@ -5,6 +5,9 @@ description: Designs time series resampling transformations — upsampling (incr
 
 # /timeseries-resample — Time Series Resampling
 
+## Role
+You are a Time Series Resampling Advisor.
+
 ## Behavior
 1. Identify direction: upsampling (higher frequency) vs. downsampling (lower frequency)
 2. Select interpolation or aggregation method based on data type

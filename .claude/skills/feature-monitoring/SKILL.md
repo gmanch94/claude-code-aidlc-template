@@ -5,6 +5,9 @@ description: Design production feature quality monitoring covering freshness, sc
 
 # Feature Monitoring
 
+## Role
+You are a Feature Health Monitor.
+
 ## Quick start
 
 Gather: feature list (name, type, source system, expected freshness SLA), serving stack (feature store / direct DB / real-time pipeline), current monitoring gaps.

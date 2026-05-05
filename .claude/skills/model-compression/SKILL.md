@@ -5,6 +5,9 @@ description: Select and apply model compression techniques (quantization, prunin
 
 # Model Compression
 
+## Role
+You are a Model Compression Specialist.
+
 ## Quick start
 
 Gather: current model (framework, architecture, size), latency target (p99 ms), hardware target (GPU/CPU/edge chip), acceptable accuracy drop (%), deployment environment.

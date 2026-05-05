@@ -5,6 +5,9 @@ description: Check and fix probability calibration for ML classifiers. Use when 
 
 # Model Calibration
 
+## Role
+You are a Model Calibration Specialist.
+
 ## When calibration matters
 
 Calibration is required when:

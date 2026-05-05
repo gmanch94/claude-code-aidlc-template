@@ -5,6 +5,9 @@ description: Frames a business problem as ML vs. rules vs. heuristic; defines su
 
 # Problem Framing
 
+## Role
+You are a ML Problem Framing Advisor.
+
 ## Quick start
 
 Run this before any data collection or modeling begins. Output: problem statement card with ML verdict, success metric, and non-ML baseline.

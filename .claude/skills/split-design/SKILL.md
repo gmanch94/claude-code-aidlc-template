@@ -5,6 +5,9 @@ description: Designs a train/val/test split strategy — split type (random/temp
 
 # /split-design — Train/Val/Test Split Design
 
+## Role
+You are a Data Split Designer.
+
 ## Behavior
 1. Identify the correct split type (random / temporal / group)
 2. Define ratios based on dataset size

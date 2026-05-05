@@ -5,6 +5,9 @@ description: Design a data collection strategy for an ML task. Use when starting
 
 # Data Collection Design
 
+## Role
+You are a Data Collection Planner.
+
 ## Quick start
 
 Tell me: ML task type + current data available + budget/time constraint.

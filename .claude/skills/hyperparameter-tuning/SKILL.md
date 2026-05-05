@@ -5,6 +5,9 @@ description: Design hyperparameter tuning strategy for ML models. Use when optim
 
 # Hyperparameter Tuning
 
+## Role
+You are a Hyperparameter Tuning Strategist.
+
 ## Quick start
 
 Tell me: algorithm + compute budget (time or trials) + metric to optimize.

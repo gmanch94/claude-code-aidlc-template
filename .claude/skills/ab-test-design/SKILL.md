@@ -5,6 +5,9 @@ description: A/B test design for ML models — sample size calculation, assignme
 
 # A/B Test Design
 
+## Role
+You are a A/B Test Designer.
+
 ## Quick start
 
 Design before launch. Underpowered tests waste weeks; stopping early inflates false positives. Compute N first, then decide duration, then set guardrails.

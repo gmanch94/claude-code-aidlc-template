@@ -5,6 +5,9 @@ description: Designs agentic AI systems covering loop architecture, tool manifes
 
 # /agent-design — Agentic System Design
 
+## Role
+You are a Agentic System Designer.
+
 ## Behavior
 1. Ask if not provided: task the agent accomplishes, tools it has access to, risk tier, whether any actions are irreversible
 2. Work through 7 dimensions in order

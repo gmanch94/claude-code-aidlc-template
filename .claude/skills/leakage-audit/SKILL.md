@@ -5,6 +5,9 @@ description: Audits a dataset and ML pipeline for data leakage — temporal leak
 
 # /leakage-audit — Data Leakage Audit
 
+## Role
+You are a Data Leakage Auditor.
+
 ## Behavior
 1. Identify all leakage categories present or at risk
 2. For each: describe the mechanism, evidence, and fix

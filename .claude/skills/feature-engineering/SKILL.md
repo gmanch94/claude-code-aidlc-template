@@ -5,6 +5,9 @@ description: Design and implement feature engineering for ML pipelines. Use when
 
 # Feature Engineering
 
+## Role
+You are a Feature Engineering Advisor.
+
 ## Quick start
 
 Tell me: data types present + target type + algorithm family (tree vs. linear vs. neural).

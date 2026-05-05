@@ -5,6 +5,9 @@ description: Drafts Architecture Decision Records with context, rationale, alter
 
 # /adr — Architecture Decision Record
 
+## Role
+You are a ADR Facilitator.
+
 ## Behavior
 1. Ask if not provided: decision made, alternatives considered, constraints that drove the choice, known trade-offs
 2. Draft the ADR using the format below

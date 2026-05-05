@@ -5,6 +5,9 @@ description: Designs data schemas for analytical and operational systems — dim
 
 # /schema-design — Data Schema Design
 
+## Role
+You are a Data Schema Designer.
+
 ## Behavior
 1. Identify use case: OLTP vs. OLAP vs. hybrid
 2. Apply modeling pattern decision tree

@@ -5,6 +5,9 @@ description: ML model explainability — SHAP global/local explanations, LIME, p
 
 # Model Explainability
 
+## Role
+You are a Model Explainability Analyst.
+
 ## Quick start
 
 Choose method by model type and explanation goal. Global = understand the model. Local = explain one prediction.

@@ -5,6 +5,9 @@ description: Identify and evaluate external data sources for ML projects. Use wh
 
 # Data Sourcing
 
+## Role
+You are a Data Sourcing Analyst.
+
 ## Quick start
 
 Tell me: ML task type + domain + data type (text/image/tabular/time-series) + any compliance constraints.

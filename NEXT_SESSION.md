@@ -2,17 +2,17 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-05. **Current branch:** `master`. **Tree:** clean. **HEAD = beabe68**
+**Last working session:** 2026-05-05. **Current branch:** `fix/readme-audit`. **Tree:** clean. **HEAD = e905c4c**
 
 ---
 
 ## State
 
 ```
+e905c4c  Add Confusion Protocol + Karpathy failure modes to CLAUDE.md
+a011259  Fix README: update prompt count to 54, fix commands→skills paths
 beabe68  Add general ADRs: LangGraph orchestration + Claude enterprise rollout
 ac2a9b2  Add Argus ADRs from ai-enablement-ws
-5530cad  Add OSS + policy ADRs and ADR template from ai-enablement-ws
-76018ed  Add branch+PR workflow rule to CLAUDE.md and NEXT_SESSION.md
 ```
 
 Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of beabe68)
@@ -21,18 +21,17 @@ Remote: https://github.com/gmanch94/claude-code-template (master, up to date as 
 
 ## What landed in the most recent session
 
-1. **ADRs added** — 21 ADRs copied from `ai-enablement-ws` into `decisions/`: OSS (0032–0041), Policy (0042–0045), Argus (0046–0050), General (0001, 0031)
-2. **Renamed** — sequence number prefix stripped (e.g. `ADR-0032-oss-llm-selection.md` → `oss-llm-selection.md`); policy files prefixed with `policy-`
-3. **ADR template** — copied to `templates/adr/ADR-TEMPLATE.md`
-4. **Memory** — PowerShell command length feedback saved to `memory/feedback_powershell_length.md`
+1. **README audit** — prompt count corrected (8→54); `.claude/commands/` paths fixed to `.claude/skills/<name>/SKILL.md`
+2. **CLAUDE.md** — added Confusion Protocol (halt on ambiguous decisions, ask instead of guessing) and Karpathy's four failure modes (wrong assumptions, overcomplexity, orthogonal edits, imperative over declarative)
+3. Both changes on branch `fix/readme-audit` — PR not yet opened
 
 ---
 
 ## Open items
 
-- [ ] **Tier 3 complete** — all 4 skills built; AIDLC skill library is comprehensive (65+ skills total)
+- [ ] **Open PR** — `fix/readme-audit` branch has 2 commits; open PR to merge into master
 - [ ] **Stack add-ons** — `stacks/` currently has Python only; TypeScript/Go stacks could be added
-- [ ] **README audit** — README describes "8 prompt templates" in the summary section (line 34) but there are now 50+ templates; consider updating the count
+- [ ] **gstack philosophy** — items 2 (sprint order), 4 (`/retro` skill), 5 (specialist personas) not yet brought in
 
 ---
 

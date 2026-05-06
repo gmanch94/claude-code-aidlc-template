@@ -1,6 +1,6 @@
 # MEMORY.md
 
-Index of Claude's persistent project memory. Each entry points to a file in `memory/`.
+Index of Claude's persistent project memory. Each entry points to a file in `context/`.
 
 Lines after 200 are truncated — keep entries concise (one line each, under 150 characters).
 

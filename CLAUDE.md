@@ -41,7 +41,7 @@ The `[Used in / Referenced by]` column (or equivalent) maps each row to downstre
 ├── CLAUDE.md                  ← This file
 ├── LESSONS_LEARNED.md         ← Process lessons (re-read each session)
 ├── scratch/                   ← Gitignored; NEXT_SESSION.md and personal workspace
-├── memory/                    ← Claude's persistent project memory
+├── context/                   ← Claude's persistent project memory
 │   └── MEMORY.md              ← Memory index
 ├── prompts/                   ← System prompt templates (RAG, agent, chat, classifier, etc.)
 │   └── README.md              ← Template index + how-to-use guide

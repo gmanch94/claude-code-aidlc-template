@@ -30,7 +30,7 @@ This template fixes all four in under 5 minutes of setup.
 | `.claude/skills/review/SKILL.md` | `/review` — code review with [BLOCKER] / [SUGGESTION] / [NITPICK] format. |
 | `.claude/skills/adr/SKILL.md` | `/adr` — draft an Architecture Decision Record with full rationale and alternatives. |
 | `.claude/skills/tradeoff/SKILL.md` | `/tradeoff` — structured tradeoff analysis: options × pros/cons/failure-mode + recommendation with named constraint. |
-| `memory/MEMORY.md` | Index for Claude's persistent project memory. |
+| `context/MEMORY.md` | Index for Claude's persistent project memory. |
 | `prompts/` | 59 system prompt templates across ML, data engineering, LLM, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
 | `.gitignore` | Gitignores `scratch/` (personal workspace) and `.claude/settings.local.json`. |
 

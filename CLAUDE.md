@@ -239,6 +239,14 @@ Skip steps only with explicit agreement — not because the task feels small.
 - `/model-compression` — **Model Compression Specialist** — PTQ / QAT / pruning / distillation / GPTQ selection; code patterns; eval plan on target hardware
 - `/feature-monitoring` — **Feature Health Monitor** — freshness SLAs; null rate baselines; schema drift detection; PSI per feature; dashboard spec; anomaly playbook
 
+**Stack add-ons** (language-specific skills in `stacks/`):
+
+| Stack | Commands | How to adopt |
+|---|---|---|
+| `stacks/python/` | `/test-gen`, `/type-fix`, `/deps-audit` | `cp -r stacks/python/skills/* .claude/skills/` + merge settings-snippet.json + paste claude-md-addendum.md |
+| `stacks/typescript/` | `/test-gen`, `/type-fix`, `/deps-audit` | `cp -r stacks/typescript/skills/* .claude/skills/` + merge settings-snippet.json + paste claude-md-addendum.md |
+| `stacks/go/` | `/test-gen`, `/type-fix`, `/deps-audit` | `cp -r stacks/go/skills/* .claude/skills/` + merge settings-snippet.json + paste claude-md-addendum.md |
+
 **Hooks:** [List any hooks in `.claude/hooks/` and what they do.]
 
 **Scheduled routines:** [List any automated agents or cron routines.]

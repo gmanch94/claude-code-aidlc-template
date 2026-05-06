@@ -2,21 +2,21 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-06. **Current branch:** `master`. **Tree:** clean. **HEAD = 74676d3**
+**Last working session:** 2026-05-06. **Current branch:** `master`. **Tree:** clean. **HEAD = 9e3bb3a**
 
 ---
 
 ## State
 
 ```
+9e3bb3a  Fill in scheduled routines placeholder in CLAUDE.md — PR #21
+0660c57  Update NEXT_SESSION.md — HEAD 74676d3, PR #20 merged
 74676d3  Add skill authoring guide (templates/skill/) — PR #20
 89aff79  Update NEXT_SESSION.md — HEAD c1038a1, PR #19 merged
 c1038a1  Add baseline permission allowlist to settings.json — PR #19
-0439bfc  Update NEXT_SESSION.md — HEAD 0f7978f, PR #18 merged
-0f7978f  Add reference hook examples (.claude/hooks/) — PR #18
 ```
 
-Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of 74676d3)
+Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of 9e3bb3a)
 
 ---
 
@@ -29,16 +29,13 @@ Remote: https://github.com/gmanch94/claude-code-template (master, up to date as 
    - `README.md` — protocol, wiring snippet, smoke tests, how-to-add guide
 2. **Baseline permissions** (PR #19): `settings.json` pre-allows `Read`, `Glob`, `Grep`, and safe git read commands; added `$schema`; CLAUDE.md permissions note added
 3. **Skill authoring guide** (PR #20): `templates/skill/SKILL-TEMPLATE.md` (annotated) + `REFERENCE-TEMPLATE.md`; CLAUDE.md repo structure updated
+4. **Scheduled routines docs** (PR #21): CLAUDE.md placeholder filled with `/schedule` usage + 3 example patterns
 
 ---
 
 ## Open items
 
-Harness engineering gaps (doing one at a time):
-- [x] Reference hooks — PR #18
-- [x] Baseline permissions — PR #19
-- [x] SKILL.md authoring guide — PR #20
-- [ ] Scheduled routines — fill CLAUDE.md automation placeholder with example cron pattern
+- No open backlog items. Harness engineering sprint complete (PRs #18–21).
 
 ---
 

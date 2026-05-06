@@ -259,4 +259,11 @@ Skip steps only with explicit agreement — not because the task feels small.
 - `scan_secrets.py` (PreToolUse/Write|Edit) — blocks files containing AWS/GitHub/Slack/OpenAI/Google/Stripe key shapes
 - `audit_log.py` (PostToolUse/*) — passive; appends every tool call to `.claude/logs/audit.jsonl`
 
-**Scheduled routines:** [List any automated agents or cron routines.]
+**Scheduled routines:** None configured by default. Use `/schedule` to create recurring remote agents. Each routine runs on a cron schedule and can invoke any skill or task.
+
+Common patterns to adapt:
+- **Weekly retro** — "Every Friday at 4pm, run `/retro`, summarize recent commits, and append new lessons to `LESSONS_LEARNED.md`"
+- **Staleness check** — "Every Monday, check if `NEXT_SESSION.md` HEAD is more than 7 days old and notify me"
+- **Dependency audit** — "Weekly: scan for outdated packages and open a GitHub issue if any are found"
+
+To create one: type `/schedule` and describe the routine in plain English. To list or remove: `/schedule` → manage existing routines.

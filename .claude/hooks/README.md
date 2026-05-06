@@ -14,6 +14,8 @@ the settings snippet below into your `.claude/settings.json` to enable.
 | `block_infra_destroy.py` | PreToolUse | Bash | Blocks `terraform destroy`, `kubectl delete namespace/--all`, mass-delete on AWS (EC2/RDS/EKS/S3), GCP (SQL/GCE/GKE), and Azure (resource group/VM/SQL). No escape hatch -- always requires explicit user confirmation. |
 | `check_sql_safety.py` | PreToolUse | Bash, Write\|Edit | Blocks `DROP TABLE/DATABASE/SCHEMA` without `IF EXISTS`, `TRUNCATE`, and `DELETE FROM` without a `WHERE` clause. Downgrades to warning for test/seed/fixture paths. |
 | `check_unsafe_patterns.py` | PreToolUse | Write\|Edit | Flags OWASP A02/A03/A05/A08 patterns and XSS: `eval`/`exec`, `subprocess shell=True`, raw SQL f-strings, weak crypto (MD5/SHA-1/DES/ECB), `DEBUG=True`, `pickle.loads`, unsafe `yaml.load`, `innerHTML=`, `document.write`. Per-line `# nosec` opt-out. |
+| `check_cloud_cost.py` | PreToolUse | Write\|Edit | Warns on expensive EC2/EKS instance families (p4d, p3dn, x1e, u-*tb1), high-cost RDS classes, `deletion_protection = false`, and `publicly_accessible = true`. Warn-only. Per-line `# cost-ok` opt-out. |
+| `check_programming_gotchas.py` | PreToolUse | Write\|Edit | Blocks three high-confidence Python gotchas: mutable default arguments, bare `except:`, and `== None` identity comparison. `.py` files only. Test/fixture paths downgrade to warning. Per-line `# nosec` opt-out. |
 | `audit_log.py` | PostToolUse | * | Passive: appends every tool call to `.claude/logs/audit.jsonl`. Never blocks. |
 
 ---
@@ -78,6 +80,14 @@ Paste into your `.claude/settings.json` (merge with any existing keys):
           {
             "type": "command",
             "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/check_unsafe_patterns.py\""
+          },
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/check_cloud_cost.py\""
+          },
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/check_programming_gotchas.py\""
           }
         ]
       }
@@ -154,6 +164,31 @@ echo '{"tool_name":"Write","tool_input":{"file_path":"app.py","content":"result 
 # nosec opt-out -- should exit 0
 echo '{"tool_name":"Write","tool_input":{"file_path":"app.py","content":"result = eval(expr)  # nosec"}}' \
   | python .claude/hooks/check_unsafe_patterns.py
+# expect: exit=0
+
+# expensive EC2 instance in Terraform -- should warn, exit 0
+echo '{"tool_name":"Write","tool_input":{"file_path":"main.tf","content":"instance_type = \"p4d.24xlarge\""}}' \
+  | python .claude/hooks/check_cloud_cost.py
+# expect: exit=0, stderr=COST WARNING: ...
+
+# cost-ok opt-out -- should exit 0, no warning
+echo '{"tool_name":"Write","tool_input":{"file_path":"main.tf","content":"instance_type = \"p4d.24xlarge\"  # cost-ok"}}' \
+  | python .claude/hooks/check_cloud_cost.py
+# expect: exit=0, no stderr
+
+# mutable default argument -- should exit 2
+echo '{"tool_name":"Write","tool_input":{"file_path":"utils.py","content":"def process(items=[]):\n    pass"}}' \
+  | python .claude/hooks/check_programming_gotchas.py
+# expect: exit=2, stderr=BLOCKED: ...
+
+# bare except -- should exit 2
+echo '{"tool_name":"Write","tool_input":{"file_path":"app.py","content":"try:\n    run()\nexcept:\n    pass"}}' \
+  | python .claude/hooks/check_programming_gotchas.py
+# expect: exit=2, stderr=BLOCKED: ...
+
+# non-Python file -- should exit 0 (gotchas hook is Python-only)
+echo '{"tool_name":"Write","tool_input":{"file_path":"app.js","content":"if (x == null) {}"}}' \
+  | python .claude/hooks/check_programming_gotchas.py
 # expect: exit=0
 ```
 

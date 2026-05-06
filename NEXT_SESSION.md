@@ -2,7 +2,7 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-06. **Current branch:** `master`. **Tree:** clean. **HEAD = 4c92d57**
+**Last working session:** 2026-05-06. **Current branch:** `master`. **Tree:** clean. **HEAD = c26cb40**
 
 ---
 

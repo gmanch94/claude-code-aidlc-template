@@ -11,6 +11,9 @@ the settings snippet below into your `.claude/settings.json` to enable.
 |---|---|---|---|
 | `block_dangerous_git.py` | PreToolUse | Bash | Blocks `--no-verify`, `--no-gpg-sign`, GPG-bypass via `-c`, force-push to main/master, `reset --hard`, `branch -D`, `clean -f`, `checkout -- .`, `restore .` |
 | `scan_secrets.py` | PreToolUse | Write\|Edit | Blocks files containing AWS / GitHub / Slack / OpenAI / Anthropic / Google / Stripe key shapes or PEM private keys. Allows placeholder tokens (`EXAMPLE`, `YOUR-`, `REDACTED`) and example paths (`.env.example`, `docs/`) |
+| `block_infra_destroy.py` | PreToolUse | Bash | Blocks `terraform destroy`, `kubectl delete namespace/--all`, mass-delete on AWS (EC2/RDS/EKS/S3), GCP (SQL/GCE/GKE), and Azure (resource group/VM/SQL). No escape hatch -- always requires explicit user confirmation. |
+| `check_sql_safety.py` | PreToolUse | Bash, Write\|Edit | Blocks `DROP TABLE/DATABASE/SCHEMA` without `IF EXISTS`, `TRUNCATE`, and `DELETE FROM` without a `WHERE` clause. Downgrades to warning for test/seed/fixture paths. |
+| `check_unsafe_patterns.py` | PreToolUse | Write\|Edit | Flags OWASP A02/A03/A05/A08 patterns and XSS: `eval`/`exec`, `subprocess shell=True`, raw SQL f-strings, weak crypto (MD5/SHA-1/DES/ECB), `DEBUG=True`, `pickle.loads`, unsafe `yaml.load`, `innerHTML=`, `document.write`. Per-line `# nosec` opt-out. |
 | `audit_log.py` | PostToolUse | * | Passive: appends every tool call to `.claude/logs/audit.jsonl`. Never blocks. |
 
 ---
@@ -50,6 +53,14 @@ Paste into your `.claude/settings.json` (merge with any existing keys):
           {
             "type": "command",
             "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/block_dangerous_git.py\""
+          },
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/block_infra_destroy.py\""
+          },
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/check_sql_safety.py\""
           }
         ]
       },
@@ -59,6 +70,14 @@ Paste into your `.claude/settings.json` (merge with any existing keys):
           {
             "type": "command",
             "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/scan_secrets.py\""
+          },
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/check_sql_safety.py\""
+          },
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/check_unsafe_patterns.py\""
           }
         ]
       }
@@ -111,6 +130,31 @@ echo '{"tool_name":"Write","tool_input":{"file_path":"config.py","content":"key=
 echo '{"tool_name":"Bash","tool_input":{"command":"git status"}}' \
   | python .claude/hooks/audit_log.py
 # expect: exit=0, .claude/logs/audit.jsonl appended
+
+# terraform destroy -- should exit 2
+echo '{"tool_name":"Bash","tool_input":{"command":"terraform destroy -auto-approve"}}' \
+  | python .claude/hooks/block_infra_destroy.py
+# expect: exit=2, stderr=BLOCKED: ...
+
+# DROP TABLE without IF EXISTS -- should exit 2
+echo '{"tool_name":"Bash","tool_input":{"command":"psql -c \"DROP TABLE users;\""}}' \
+  | python .claude/hooks/check_sql_safety.py
+# expect: exit=2, stderr=BLOCKED: ...
+
+# DROP TABLE IF EXISTS -- should exit 0
+echo '{"tool_name":"Write","tool_input":{"file_path":"migration.sql","content":"DROP TABLE IF EXISTS users;"}}' \
+  | python .claude/hooks/check_sql_safety.py
+# expect: exit=0
+
+# eval() in Python -- should exit 2
+echo '{"tool_name":"Write","tool_input":{"file_path":"app.py","content":"result = eval(user_input)"}}' \
+  | python .claude/hooks/check_unsafe_patterns.py
+# expect: exit=2, stderr=BLOCKED: ...
+
+# nosec opt-out -- should exit 0
+echo '{"tool_name":"Write","tool_input":{"file_path":"app.py","content":"result = eval(expr)  # nosec"}}' \
+  | python .claude/hooks/check_unsafe_patterns.py
+# expect: exit=0
 ```
 
 ---

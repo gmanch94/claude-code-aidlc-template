@@ -2,21 +2,21 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-06. **Current branch:** `master`. **Tree:** clean. **HEAD = b3ca777**
+**Last working session:** 2026-05-06. **Current branch:** `master`. **Tree:** clean. **HEAD = d48db7c**
 
 ---
 
 ## State
 
 ```
+d48db7c  Improve CLAUDE.md placeholder framing for cloners — PR #23
+21ab565  Update NEXT_SESSION.md — HEAD b3ca777, PR #22 merged
 b3ca777  Update README and .gitignore for harness engineering additions — PR #22
 ada0745  Update NEXT_SESSION.md — HEAD 9e3bb3a, PR #21 merged
 9e3bb3a  Fill in scheduled routines placeholder in CLAUDE.md — PR #21
-0660c57  Update NEXT_SESSION.md — HEAD 74676d3, PR #20 merged
-74676d3  Add skill authoring guide (templates/skill/) — PR #20
 ```
 
-Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of b3ca777)
+Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of d48db7c)
 
 ---
 
@@ -31,6 +31,7 @@ Remote: https://github.com/gmanch94/claude-code-template (master, up to date as 
 3. **Skill authoring guide** (PR #20): `templates/skill/SKILL-TEMPLATE.md` (annotated) + `REFERENCE-TEMPLATE.md`; CLAUDE.md repo structure updated
 4. **Scheduled routines docs** (PR #21): CLAUDE.md placeholder filled with `/schedule` usage + 3 example patterns
 5. **README + .gitignore** (PR #22): README table updated for hooks/permissions/skill template; hooks section rewritten; `.claude/logs/` gitignored
+6. **CLAUDE.md placeholder framing** (PR #23): Source of truth marked optional; working conventions intro improved; tone intro clarified; redundant Automation `[Fill in]` line removed; example comment added
 
 ---
 

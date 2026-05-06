@@ -7,6 +7,8 @@ The base template is stack-agnostic. This directory contains drop-in additions f
 | Stack | Skills added | Settings snippet | CLAUDE.md addendum |
 |---|---|---|---|
 | [`python/`](python/) | `/test-gen`, `/type-fix`, `/deps-audit` | Python linting/type-check allowlist | Python conventions block |
+| [`typescript/`](typescript/) | `/test-gen`, `/type-fix`, `/deps-audit` | tsc/eslint/vitest/npm audit allowlist | TypeScript conventions block |
+| [`go/`](go/) | `/test-gen`, `/type-fix`, `/deps-audit` | go build/vet/test/govulncheck allowlist | Go conventions block |
 
 ## How to adopt a stack
 

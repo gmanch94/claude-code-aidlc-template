@@ -45,6 +45,11 @@ The `[Used in / Referenced by]` column (or equivalent) maps each row to downstre
 │   └── MEMORY.md              ← Memory index
 ├── prompts/                   ← System prompt templates (RAG, agent, chat, classifier, etc.)
 │   └── README.md              ← Template index + how-to-use guide
+├── templates/
+│   ├── adr/ADR-TEMPLATE.md    ← ADR template (used by /adr skill)
+│   └── skill/                 ← Skill authoring guide
+│       ├── SKILL-TEMPLATE.md  ← Annotated template — copy to .claude/skills/<name>/SKILL.md
+│       └── REFERENCE-TEMPLATE.md ← Optional reference doc template
 └── [your project files here]
 ```
 

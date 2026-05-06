@@ -10,6 +10,8 @@ Guidance for Claude Code working in this repo. Auto-loaded at the start of every
 
 [Optional: one sentence on what this repo is NOT — helps Claude avoid scope creep.]
 
+<!-- Example: **Retail Pricing Engine** — ML service that updates product prices daily using demand signals; serves the merchandising team. Not a general pricing framework — single-tenant, single-SKU-hierarchy only. -->
+
 ---
 
 ## Session-start protocol
@@ -25,6 +27,8 @@ Before any tool calls beyond basic orientation:
 ---
 
 ## Source of truth
+
+[Optional — delete this section if your project has no single canonical reference file.]
 
 **[FILENAME]** is the canonical source for [what it defines — e.g., schema, feature list, API spec, pricing].
 
@@ -72,13 +76,13 @@ Skip steps only with explicit agreement — not because the task feels small.
 
 ## Working conventions
 
-[Fill in project-specific conventions. Examples:]
+[Fill in: start with 3–5 entries. Remove examples you don't use. Add more as conventions crystallize across sessions.]
 
 - [Naming conventions — files, variables, branches]
-- [How tests are run and what "passing" means]
-- [Where the source of truth lives for each type of content]
-- [PR / commit conventions]
-- [Any file that must never be edited directly (generated files, etc.)]
+- [How tests are run and what "passing" means for this project]
+- [PR / commit conventions — branch naming, squash vs. merge, etc.]
+- [Any file that must never be edited directly (generated files, lockfiles, etc.)]
+- [Stack-specific: language version, formatter, linter commands]
 
 **Confusion Protocol** — when facing an architectural decision or ambiguous requirement, stop and surface the assumption explicitly before proceeding. Never guess on design decisions. Ask one targeted question instead of producing output that may be wrong.
 
@@ -86,7 +90,7 @@ Skip steps only with explicit agreement — not because the task feels small.
 
 ## Tone and output constraints
 
-[Fill in. Remove any that don't apply to your project. Examples:]
+[Fill in: keep only what applies; delete the rest. These become hard constraints Claude follows without being reminded.]
 
 - No emojis in [artifacts / commits / output] unless explicitly requested
 - Numeric where possible — no adjectives doing numeric work ("significant improvement" fails; "42% latency reduction" passes)
@@ -111,8 +115,6 @@ Skip steps only with explicit agreement — not because the task feels small.
 ---
 
 ## Automation
-
-[Fill in any slash commands, hooks, or scheduled routines.]
 
 **Custom skills** (type in Claude Code prompt — skills live in `.claude/skills/`):
 

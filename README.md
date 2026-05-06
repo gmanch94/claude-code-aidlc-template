@@ -116,6 +116,10 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/recommender-design` | **Recommender System Designer** — CF/content-based/two-tower/sequential selection, two-stage pipeline, cold-start strategy, temporal split evaluation, exploration-exploitation integration |
 | `/nlp-pipeline` | **NLP Pipeline Designer** — preprocessing decisions, TF-IDF/BERT/SBERT/LLM embedding selection by task, task-specific metrics (entity-level F1/ROUGE/BERTScore), TF-IDF baseline gate |
 | `/anomaly-detection` | **Anomaly Detection Specialist** — method selection by data type and label availability (Z-score/IQR/Isolation Forest/LOF/LSTM-AE/CUSUM), threshold strategy, FPR evaluation, treatment decision |
+| `/causal-inference` | **Causal Inference Advisor** — method selection (DiD/PSM/IPW/IV/RDD), assumption validation, effect estimate with 95% CI, sensitivity analysis; estimand stated before method |
+| `/survival-analysis` | **Survival Analysis Advisor** — method by censoring type (KM/Cox PH/RSF/AFT/Fine-Gray), PH assumption validation, survival curves with log-rank test, C-statistic + calibration |
+| `/computer-vision` | **Computer Vision Advisor** — architecture by task × dataset size (CNN/ViT/YOLO/SegFormer), preprocessing + augmentation pipeline, mAP@0.5:0.95 evaluation, 3-phase transfer learning |
+| `/online-learning` | **Online Learning Advisor** — streaming ML method (Hoeffding Tree/HAT/VW), concept drift detection (ADWIN/EDDM), prequential evaluation; batch retrain recommended when viable |
 
 **General (any project):**
 
@@ -161,6 +165,7 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | Command | What it does |
 |---|---|
 | `/pipeline-design` | **Data Pipeline Architect** — batch vs. streaming decision, orchestration, idempotency, backfill strategy, error handling, SLA |
+| `/data-mesh` | **Data Mesh Architect** — domain ownership boundaries, data product specs (SLA/schema/access/quality contract), federated governance (policy-as-code), platform stack, one-domain-at-a-time migration |
 | `/streaming-pipeline` | **Streaming Pipeline Architect** — stream vs. batch vs. hybrid decision, Kafka/Flink/Spark Streaming technology selection, windowing, state management, ML feature pipeline integration, consumer lag monitoring |
 | `/schema-design` | **Data Schema Designer** — Data modeling — dimensional vs. 3NF vs. OBT decision, SCD types, partitioning strategy, schema evolution policy |
 | `/data-quality` | **Data Quality Engineer** — Quality gate design — validation rules by dimension, anomaly detection thresholds, quarantine + replay strategy, SLAs |

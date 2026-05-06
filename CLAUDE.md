@@ -137,6 +137,10 @@ Skip steps only with explicit agreement — not because the task feels small.
 - `/recommender-design` — **Recommender System Designer** — CF/content-based/two-tower/sequential; two-stage pipeline; cold-start strategy; temporal split evaluation; exploration integration
 - `/nlp-pipeline` — **NLP Pipeline Designer** — preprocessing decisions; TF-IDF/BERT/SBERT/LLM selection by task; entity-level F1/ROUGE/BERTScore; TF-IDF baseline gate
 - `/anomaly-detection` — **Anomaly Detection Specialist** — method by data type + label availability (Z-score/IQR/Isolation Forest/LOF/LSTM-AE/CUSUM); threshold strategy; FPR evaluation; treatment decision
+- `/causal-inference` — **Causal Inference Advisor** — method selection (DiD/PSM/IPW/IV/RDD); assumption validation; effect estimate with 95% CI; sensitivity analysis; estimand stated before method
+- `/survival-analysis` — **Survival Analysis Advisor** — method by censoring type (KM/Cox PH/RSF/AFT/Fine-Gray); PH assumption validation; survival curves + log-rank; C-statistic + calibration
+- `/computer-vision` — **Computer Vision Advisor** — architecture by task × dataset size (CNN/ViT/YOLO/SegFormer); preprocessing + augmentation; mAP@0.5:0.95; 3-phase transfer learning
+- `/online-learning` — **Online Learning Advisor** — streaming ML (Hoeffding Tree/HAT/VW); concept drift detection (ADWIN/EDDM); prequential evaluation; batch retrain recommended when viable
 
 *General:*
 - `/office-hours` — **Assumptions Facilitator** — assumptions gate; six forcing questions + design doc before any implementation
@@ -170,6 +174,7 @@ Skip steps only with explicit agreement — not because the task feels small.
 
 *Data engineering:*
 - `/pipeline-design` — **Data Pipeline Architect** — batch vs. streaming decision, orchestration, idempotency, backfill, SLA
+- `/data-mesh` — **Data Mesh Architect** — domain ownership boundaries; data product specs (SLA/schema/access/quality contract); federated governance (policy-as-code); platform stack; one-domain migration
 - `/streaming-pipeline` — **Streaming Pipeline Architect** — stream vs. batch vs. hybrid; Kafka/Flink/Spark Streaming selection; windowing; state management; ML feature pipeline integration; consumer lag monitoring
 - `/schema-design` — **Data Schema Designer** — dimensional modeling, SCD types, partitioning, schema evolution policy
 - `/data-quality` — **Data Quality Engineer** — validation rules, anomaly detection, quarantine + replay strategy

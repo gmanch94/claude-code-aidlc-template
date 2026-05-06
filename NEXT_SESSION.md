@@ -2,18 +2,18 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-06. **Current branch:** `master`. **Tree:** clean. **HEAD = 3d3794e**
+**Last working session:** 2026-05-06. **Current branch:** `master`. **Tree:** clean. **HEAD = 4c92d57**
 
 ---
 
 ## State
 
 ```
+4c92d57  Fix stale counts and paths in NEXT_SESSION.md files-of-note section
 3d3794e  Merge pull request #17 — Rename memory/ to context/
 83f1c56  Merge pull request #16 — Migrate feedback memories to LESSONS_LEARNED.md
 cb42d13  Merge pull request #15 — Add stack add-ons section to CLAUDE.md
 449ef52  Merge pull request #14 — Fix README staleness: skill/prompt counts + stacks table
-026b459  Merge pull request #13 — Add TypeScript and Go stacks
 ```
 
 Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of 4e8635f)
@@ -29,6 +29,7 @@ Remote: https://github.com/gmanch94/claude-code-template (master, up to date as 
 5. **CLAUDE.md stacks section** (PR #15): Added stack add-ons table to Automation block
 6. **Feedback → LESSONS_LEARNED** (PR #16): Migrated 3 feedback rules so team members get them on clone
 7. **Rename memory/ → context/** (PR #17): Clearer name for team members; updated CLAUDE.md, README.md, MEMORY.md
+8. **Repo staleness sweep**: fixed NEXT_SESSION.md files-of-note (70+ skills, 59 prompts, all 3 stacks, context/ path)
 
 ---
 

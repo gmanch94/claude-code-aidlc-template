@@ -49,11 +49,12 @@ Remote: https://github.com/gmanch94/claude-code-template (master, up to date as 
 
 ## Files of note
 
-- `.claude/skills/` — 65+ skills; each is a directory with `SKILL.md` (+ optional `REFERENCE.md`)
-- `prompts/` — 50+ prompt templates; `README.md` is the index
+- `.claude/skills/` — 70+ skills; each is a directory with `SKILL.md` (+ optional `REFERENCE.md`)
+- `prompts/` — 59 prompt templates; `README.md` is the index
 - `README.md` — user-facing skill command table; keep in sync with new skills
-- `CLAUDE.md` — automation section lists all skills; keep in sync
-- `stacks/python/` — Python stack add-on; `/test-gen`, `/type-fix`, `/deps-audit`
+- `CLAUDE.md` — automation section lists all skills + stacks; keep in sync
+- `stacks/` — Python, TypeScript, Go stack add-ons; each has `/test-gen`, `/type-fix`, `/deps-audit`
+- `context/` — Claude's persistent memory; `MEMORY.md` is the index
 - `.gitattributes` — LF normalization
 - `decisions/` — 21 ADRs (OSS, policy, Argus, general); no sequence numbers
 - `templates/adr/ADR-TEMPLATE.md` — ADR template

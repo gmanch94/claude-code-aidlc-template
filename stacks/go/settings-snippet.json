@@ -1,0 +1,22 @@
+{
+  "_comment": "Merge these entries into .claude/settings.json permissions.allow. Remove this _comment key.",
+  "permissions": {
+    "allow": [
+      "Bash(go build ./...)",
+      "Bash(go vet ./...)",
+      "Bash(go test ./...)",
+      "Bash(go test -run * ./...)",
+      "Bash(go test -v ./...)",
+      "Bash(go test -count=1 ./...)",
+      "Bash(go list -m -u all)",
+      "Bash(go list ./...)",
+      "Bash(go mod tidy)",
+      "Bash(go mod verify)",
+      "Bash(go mod graph)",
+      "Bash(go mod why *)",
+      "Bash(govulncheck ./...)",
+      "Bash(staticcheck ./...)",
+      "Bash(golangci-lint run *)"
+    ]
+  }
+}

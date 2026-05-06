@@ -1,0 +1,28 @@
+{
+  "_comment": "Merge these entries into .claude/settings.json permissions.allow. Remove this _comment key.",
+  "permissions": {
+    "allow": [
+      "Bash(tsc --noEmit *)",
+      "Bash(tsc --version)",
+      "Bash(npx tsc --noEmit *)",
+      "Bash(eslint --max-warnings 0 *)",
+      "Bash(npx eslint --max-warnings 0 *)",
+      "Bash(npm run lint *)",
+      "Bash(npm run typecheck *)",
+      "Bash(npm run test -- --run *)",
+      "Bash(npm run test -- --reporter=verbose *)",
+      "Bash(npm outdated *)",
+      "Bash(npm audit *)",
+      "Bash(npm ls *)",
+      "Bash(npx vitest run *)",
+      "Bash(npx jest --passWithNoTests *)",
+      "Bash(pnpm tsc --noEmit *)",
+      "Bash(pnpm lint *)",
+      "Bash(pnpm typecheck *)",
+      "Bash(pnpm test --run *)",
+      "Bash(pnpm outdated *)",
+      "Bash(pnpm audit *)",
+      "Bash(pnpm ls *)"
+    ]
+  }
+}

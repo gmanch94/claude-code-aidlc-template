@@ -26,13 +26,15 @@ This template fixes all four in under 5 minutes of setup.
 | `CLAUDE.md` | Auto-loaded every session. Defines project posture, session-start protocol, tone constraints, and things to avoid. Fill in 5 placeholders. |
 | `LESSONS_LEARNED.md` | Process lessons that accumulate across sessions. Pre-seeded with 8 generalizable lessons; add project-specific ones as you work. |
 | `NEXT_SESSION.md` | Session bookmark — HEAD, branch, what landed, what's open. Claude reads it first after `/clear`. |
-| `.claude/settings.json` | Permission allowlist. Pre-populated with context-mode MCP tools (see below). Add project-specific read-only patterns here. |
+| `.claude/settings.json` | Permission allowlist. Pre-populated with `Read`, `Glob`, `Grep`, safe git read commands, and context-mode MCP tools — so common read-only ops never prompt. Add project-specific patterns here; put machine-local ones in `.claude/settings.local.json` (gitignored). |
+| `.claude/hooks/` | Three reference guardrail hooks (none wired by default): `block_dangerous_git.py` (blocks force-push, `--no-verify`, etc.), `scan_secrets.py` (blocks known secret key shapes), `audit_log.py` (passive tool-call logger). See `.claude/hooks/README.md` for the wiring snippet. |
 | `.claude/skills/review/SKILL.md` | `/review` — code review with [BLOCKER] / [SUGGESTION] / [NITPICK] format. |
 | `.claude/skills/adr/SKILL.md` | `/adr` — draft an Architecture Decision Record with full rationale and alternatives. |
 | `.claude/skills/tradeoff/SKILL.md` | `/tradeoff` — structured tradeoff analysis: options × pros/cons/failure-mode + recommendation with named constraint. |
 | `context/MEMORY.md` | Index for Claude's persistent project memory. |
 | `prompts/` | 59 system prompt templates across ML, data engineering, LLM, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
-| `.gitignore` | Gitignores `scratch/` (personal workspace) and `.claude/settings.local.json`. |
+| `templates/skill/SKILL-TEMPLATE.md` | Annotated template for authoring new skills. Copy to `.claude/skills/<name>/SKILL.md` and fill in. |
+| `.gitignore` | Gitignores `scratch/` (personal workspace), `.claude/settings.local.json`, and `.claude/logs/` (hook audit logs). |
 
 ---
 
@@ -364,12 +366,13 @@ At the end of each session, you (or Claude) update `NEXT_SESSION.md` with HEAD, 
 
 **More LESSONS_LEARNED entries.** Every time something goes wrong or unusually right, add a one-liner with a **Why:** line. The file compounds — after 10 sessions it's the most valuable thing in the repo.
 
-**Hooks.** Claude Code hooks run shell commands before or after tool calls. Common patterns:
-- Block secrets from being committed (`pre-commit` hook scanning for API keys)
-- Run linter before file edits land
-- Log cost metrics per session
+**Hooks.** Three reference hooks ship with the template in `.claude/hooks/`. None are wired by default — paste the snippet from `.claude/hooks/README.md` into your `settings.json` to enable any of them:
 
-See the [Claude Code hooks documentation](https://docs.claude.com/en/docs/claude-code/hooks) for setup.
+- `block_dangerous_git.py` — PreToolUse/Bash: blocks force-push, `reset --hard`, `--no-verify`, and other destructive git operations
+- `scan_secrets.py` — PreToolUse/Write|Edit: blocks AWS/GitHub/Slack/OpenAI/Google/Stripe key shapes before they land on disk
+- `audit_log.py` — PostToolUse/*: passive; appends every tool call to `.claude/logs/audit.jsonl` (always exits 0)
+
+To write your own, copy `templates/skill/SKILL-TEMPLATE.md` as a model for structure, then see `.claude/hooks/README.md` for the protocol (stdin format, exit codes, smoke tests).
 
 ---
 

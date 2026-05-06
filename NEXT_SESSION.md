@@ -2,21 +2,21 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-06. **Current branch:** `master`. **Tree:** clean. **HEAD = 0f7978f**
+**Last working session:** 2026-05-06. **Current branch:** `master`. **Tree:** clean. **HEAD = c1038a1**
 
 ---
 
 ## State
 
 ```
+c1038a1  Add baseline permission allowlist to settings.json — PR #19
+0439bfc  Update NEXT_SESSION.md — HEAD 0f7978f, PR #18 merged
 0f7978f  Add reference hook examples (.claude/hooks/) — PR #18
 defa6f7  Update NEXT_SESSION.md — HEAD c26cb40, session end
 c26cb40  Update NEXT_SESSION.md — HEAD 4c92d57, staleness sweep complete
-4c92d57  Fix stale counts and paths in NEXT_SESSION.md files-of-note section
-3d3794e  Merge pull request #17 — Rename memory/ to context/
 ```
 
-Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of 0f7978f)
+Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of c1038a1)
 
 ---
 
@@ -27,7 +27,7 @@ Remote: https://github.com/gmanch94/claude-code-template (master, up to date as 
    - `scan_secrets.py` — PreToolUse/Write|Edit: blocks known secret key shapes
    - `audit_log.py` — PostToolUse/*: passive logger to `.claude/logs/audit.jsonl`
    - `README.md` — protocol, wiring snippet, smoke tests, how-to-add guide
-   - CLAUDE.md hooks placeholder replaced with inventory + opt-in note
+2. **Baseline permissions** (PR #19): `settings.json` pre-allows `Read`, `Glob`, `Grep`, and safe git read commands; added `$schema`; CLAUDE.md permissions note added
 
 ---
 
@@ -35,7 +35,7 @@ Remote: https://github.com/gmanch94/claude-code-template (master, up to date as 
 
 Harness engineering gaps (doing one at a time):
 - [x] Reference hooks — PR #18
-- [ ] Baseline permissions — pre-populate `settings.json` with common safe allowlist
+- [x] Baseline permissions — PR #19
 - [ ] SKILL.md authoring guide — local reference for how this repo's skills are structured
 - [ ] Scheduled routines — fill CLAUDE.md automation placeholder with example cron pattern
 

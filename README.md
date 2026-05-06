@@ -1,6 +1,6 @@
 # claude-code-template
 
-A Claude Code template covering the full AI/ML development lifecycle — from problem framing to production monitoring. 65+ skills, persistent memory, and session continuity out of the box.
+A Claude Code template covering the full AI/ML development lifecycle — from problem framing to production monitoring. 70+ skills, persistent memory, and session continuity out of the box.
 
 ---
 
@@ -31,7 +31,7 @@ This template fixes all four in under 5 minutes of setup.
 | `.claude/skills/adr/SKILL.md` | `/adr` — draft an Architecture Decision Record with full rationale and alternatives. |
 | `.claude/skills/tradeoff/SKILL.md` | `/tradeoff` — structured tradeoff analysis: options × pros/cons/failure-mode + recommendation with named constraint. |
 | `memory/MEMORY.md` | Index for Claude's persistent project memory. |
-| `prompts/` | 54 system prompt templates across ML, data engineering, LLM, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
+| `prompts/` | 59 system prompt templates across ML, data engineering, LLM, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
 | `.gitignore` | Gitignores `scratch/` (personal workspace) and `.claude/settings.local.json`. |
 
 ---
@@ -265,17 +265,19 @@ The base template is stack-agnostic. The [`stacks/`](stacks/) directory has drop
 | Stack | Commands added | What it includes |
 |---|---|---|
 | [`stacks/python/`](stacks/python/) | `/test-gen`, `/type-fix`, `/deps-audit` | pytest test generation, mypy/pyright error fixes, dependency CVE + outdated audit, ruff/mypy allowlist entries, Python CLAUDE.md block |
+| [`stacks/typescript/`](stacks/typescript/) | `/test-gen`, `/type-fix`, `/deps-audit` | Vitest/Jest test generation, tsc/eslint error fixes, npm/pnpm audit, tsc/eslint/vitest allowlist entries, TypeScript CLAUDE.md block |
+| [`stacks/go/`](stacks/go/) | `/test-gen`, `/type-fix`, `/deps-audit` | Table-driven test generation, go build/vet/staticcheck fixes, govulncheck audit, go allowlist entries, Go CLAUDE.md block |
 
 **To adopt a stack (3 steps):**
 ```bash
-# 1. Copy skills
-cp -r stacks/python/skills/* .claude/skills/
+# 1. Copy skills — replace <stack> with python, typescript, or go
+cp -r stacks/<stack>/skills/* .claude/skills/
 
-# 2. Merge settings — add entries from stacks/python/settings-snippet.json into .claude/settings.json
-# 3. Paste stacks/python/claude-md-addendum.md into your CLAUDE.md
+# 2. Merge settings — add entries from stacks/<stack>/settings-snippet.json into .claude/settings.json
+# 3. Paste stacks/<stack>/claude-md-addendum.md into your CLAUDE.md
 ```
 
-See [`stacks/README.md`](stacks/README.md) for how to add a new stack (TypeScript, Go, etc.).
+See [`stacks/README.md`](stacks/README.md) for how to add a new stack.
 
 ---
 

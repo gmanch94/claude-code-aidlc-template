@@ -2,18 +2,18 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-06. **Current branch:** `master`. **Tree:** clean. **HEAD = 6be74e6**
+**Last working session:** 2026-05-06. **Current branch:** `master`. **Tree:** clean. **HEAD = 026b459**
 
 ---
 
 ## State
 
 ```
+026b459  Merge pull request #13 — Add TypeScript and Go stacks
+61f8162  Add TypeScript and Go stacks: test-gen, type-fix, deps-audit + settings + addenda
+a3e532c  Update NEXT_SESSION.md — HEAD 6be74e6, PR #12 merged
 6be74e6  Merge pull request #12 — Add 5 deferred skills
 74e4d7d  Add 5 deferred skills: causal-inference, survival-analysis, computer-vision, online-learning, data-mesh
-b4467c4  Update NEXT_SESSION.md — HEAD b2dc0c4, PR #11 merged
-b2dc0c4  Merge pull request #11 — Update repo headline to highlight AIDLC
-b7471ab  Update repo headline to highlight AI/ML development lifecycle
 ```
 
 Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of 4e8635f)
@@ -22,19 +22,16 @@ Remote: https://github.com/gmanch94/claude-code-template (master, up to date as 
 
 ## What landed in the most recent session
 
-1. **README headline** (PR #11): Updated to lead with AIDLC angle — "full AI/ML development lifecycle, from problem framing to production monitoring"
+1. **README headline** (PR #11): Updated to lead with AIDLC angle
 2. **5 deferred skills** (PR #12): `/causal-inference`, `/survival-analysis`, `/computer-vision`, `/online-learning`, `/data-mesh` — each with SKILL.md + prompt template
-3. `/causal-inference` — DiD/PSM/IPW/IV/RDD; estimand-first gate; assumption validation; sensitivity analysis mandatory
-4. `/survival-analysis` — KM/Cox PH/RSF/AFT/Fine-Gray; PH assumption test; competing risks; C-stat + calibration
-5. `/computer-vision` — CNN/ViT/YOLO/SegFormer by task × dataset size; 3-phase transfer learning; mAP@0.5:0.95
-6. `/online-learning` — Hoeffding Tree/HAT/VW; ADWIN drift detection; prequential evaluation; batch-first justification gate
-7. `/data-mesh` — domain ownership; data product specs; policy-as-code governance; one-domain-at-a-time migration
+3. **TypeScript stack** (PR #13): `/test-gen` (Vitest/Jest), `/type-fix` (tsc/eslint), `/deps-audit` (npm/pnpm audit) + settings-snippet + CLAUDE.md addendum
+4. **Go stack** (PR #13): `/test-gen` (table-driven), `/type-fix` (go build/vet/staticcheck), `/deps-audit` (govulncheck) + settings-snippet + CLAUDE.md addendum
 
 ---
 
 ## Open items
 
-- [ ] **Stack add-ons** — `stacks/` currently has Python only; TypeScript/Go stacks could be added
+- No open backlog items.
 
 ---
 

@@ -247,6 +247,8 @@ Skip steps only with explicit agreement — not because the task feels small.
 | `stacks/typescript/` | `/test-gen`, `/type-fix`, `/deps-audit` | `cp -r stacks/typescript/skills/* .claude/skills/` + merge settings-snippet.json + paste claude-md-addendum.md |
 | `stacks/go/` | `/test-gen`, `/type-fix`, `/deps-audit` | `cp -r stacks/go/skills/* .claude/skills/` + merge settings-snippet.json + paste claude-md-addendum.md |
 
+**Permissions:** `.claude/settings.json` pre-allows safe read-only operations (`Read`, `Glob`, `Grep`, git read commands) so they never prompt. Destructive tools (`Write`, `Edit`, `Bash` broadly) are intentionally omitted — add them to `settings.local.json` (gitignored) for your own machine, or use the `update-config` skill.
+
 **Hooks:** See `.claude/hooks/README.md` for protocol, wiring snippet, and smoke tests. Three reference hooks ship with the template (none wired by default):
 - `block_dangerous_git.py` (PreToolUse/Bash) — blocks force-push, `reset --hard`, `--no-verify`, and other destructive git operations
 - `scan_secrets.py` (PreToolUse/Write|Edit) — blocks files containing AWS/GitHub/Slack/OpenAI/Google/Stripe key shapes

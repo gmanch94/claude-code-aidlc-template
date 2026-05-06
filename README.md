@@ -1,6 +1,6 @@
 # claude-code-template
 
-A GitHub template repo for Claude Code projects. Pre-wires the four things that determine whether Claude Code is genuinely useful on a project — or just occasionally helpful.
+A Claude Code template covering the full AI/ML development lifecycle — from problem framing to production monitoring. 65+ skills, persistent memory, and session continuity out of the box.
 
 ---
 

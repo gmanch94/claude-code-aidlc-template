@@ -35,6 +35,8 @@ This template fixes all four in under 5 minutes of setup.
 | `prompts/` | 59 system prompt templates across ML, data engineering, LLM, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
 | `templates/skill/SKILL-TEMPLATE.md` | Annotated template for authoring new skills. Copy to `.claude/skills/<name>/SKILL.md` and fill in. |
 | `.gitignore` | Gitignores `scratch/` (personal workspace), `.claude/settings.local.json`, and `.claude/logs/` (hook audit logs). |
+| `operating-philosophy.md` | Portable working philosophy — communication style, context-mode tool hierarchy, advisor protocol, primary-source verification, session management, git hygiene, Karpathy failure modes, design principles. Copy sections into any project's `CLAUDE.md`. |
+| `analysis-methodology.md` | Example API audit methodology — 6-phase research approach, advisor feedback rounds, 8 lessons learned, reusable checklist. Reference for similar research/documentation projects. |
 
 ---
 

@@ -247,6 +247,9 @@ Skip steps only with explicit agreement — not because the task feels small.
 | `stacks/typescript/` | `/test-gen`, `/type-fix`, `/deps-audit` | `cp -r stacks/typescript/skills/* .claude/skills/` + merge settings-snippet.json + paste claude-md-addendum.md |
 | `stacks/go/` | `/test-gen`, `/type-fix`, `/deps-audit` | `cp -r stacks/go/skills/* .claude/skills/` + merge settings-snippet.json + paste claude-md-addendum.md |
 
-**Hooks:** [List any hooks in `.claude/hooks/` and what they do.]
+**Hooks:** See `.claude/hooks/README.md` for protocol, wiring snippet, and smoke tests. Three reference hooks ship with the template (none wired by default):
+- `block_dangerous_git.py` (PreToolUse/Bash) — blocks force-push, `reset --hard`, `--no-verify`, and other destructive git operations
+- `scan_secrets.py` (PreToolUse/Write|Edit) — blocks files containing AWS/GitHub/Slack/OpenAI/Google/Stripe key shapes
+- `audit_log.py` (PostToolUse/*) — passive; appends every tool call to `.claude/logs/audit.jsonl`
 
 **Scheduled routines:** [List any automated agents or cron routines.]

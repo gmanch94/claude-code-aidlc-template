@@ -2,18 +2,18 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-06. **Current branch:** `master`. **Tree:** clean. **HEAD = b2dc0c4**
+**Last working session:** 2026-05-06. **Current branch:** `master`. **Tree:** clean. **HEAD = 6be74e6**
 
 ---
 
 ## State
 
 ```
+6be74e6  Merge pull request #12 — Add 5 deferred skills
+74e4d7d  Add 5 deferred skills: causal-inference, survival-analysis, computer-vision, online-learning, data-mesh
+b4467c4  Update NEXT_SESSION.md — HEAD b2dc0c4, PR #11 merged
 b2dc0c4  Merge pull request #11 — Update repo headline to highlight AIDLC
 b7471ab  Update repo headline to highlight AI/ML development lifecycle
-d4de3e6  Update NEXT_SESSION.md — HEAD 4e8635f, PRs #9 and #10 merged
-4e8635f  Merge pull request #10 — Add platform/strategy skills
-7430477  Add platform/strategy skills: /llm-routing, /streaming-pipeline, /build-vs-buy
 ```
 
 Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of 4e8635f)
@@ -23,19 +23,17 @@ Remote: https://github.com/gmanch94/claude-code-template (master, up to date as 
 ## What landed in the most recent session
 
 1. **README headline** (PR #11): Updated to lead with AIDLC angle — "full AI/ML development lifecycle, from problem framing to production monitoring"
+2. **5 deferred skills** (PR #12): `/causal-inference`, `/survival-analysis`, `/computer-vision`, `/online-learning`, `/data-mesh` — each with SKILL.md + prompt template
+3. `/causal-inference` — DiD/PSM/IPW/IV/RDD; estimand-first gate; assumption validation; sensitivity analysis mandatory
+4. `/survival-analysis` — KM/Cox PH/RSF/AFT/Fine-Gray; PH assumption test; competing risks; C-stat + calibration
+5. `/computer-vision` — CNN/ViT/YOLO/SegFormer by task × dataset size; 3-phase transfer learning; mAP@0.5:0.95
+6. `/online-learning` — Hoeffding Tree/HAT/VW; ADWIN drift detection; prequential evaluation; batch-first justification gate
+7. `/data-mesh` — domain ownership; data product specs; policy-as-code governance; one-domain-at-a-time migration
 
 ---
 
 ## Open items
 
-- [ ] **Backlog skills (deferred):**
-  - *ML algorithms:*
-    - `/causal-inference` — DiD, propensity score matching, instrumental variables
-    - `/survival-analysis` — Kaplan-Meier, Cox PH, survival forests
-    - `/computer-vision` — image preprocessing, augmentation, CNN/ViT, mAP/IoU
-    - `/online-learning` — streaming ML (River, Vowpal Wabbit)
-  - *Data platform:*
-    - `/data-mesh` — domain ownership, data products, federated governance
 - [ ] **Stack add-ons** — `stacks/` currently has Python only; TypeScript/Go stacks could be added
 
 ---

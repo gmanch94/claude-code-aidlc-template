@@ -135,6 +135,12 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/tradeoff` | **Tradeoff Analyst** — Options × pros/cons/failure-mode table + recommendation with named constraint |
 | `/retro` | **Retrospective Facilitator** — Engineering retrospective — shipped summary, went well/wrong, one process change, writes new entries to LESSONS_LEARNED.md |
 
+**Research and analysis:**
+
+| Command | What it does |
+|---|---|
+| `/api-audit` | **API Ecosystem Analyst** — structured 6-phase API portfolio audit (discovery → inventory → shortcomings → recommendations → executive summary → options analysis); enforces primary-source verification, cross-file consistency, and advisor review gates |
+
 **Production systems:**
 
 | Command | What it does |

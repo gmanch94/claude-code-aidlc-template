@@ -156,6 +156,9 @@ Skip steps only with explicit agreement — not because the task feels small.
 - `/tradeoff` — **Tradeoff Analyst** — structured tradeoff analysis for a decision
 - `/retro` — **Retrospective Facilitator** — engineering retrospective; reviews recent commits, surfaces lessons, writes to LESSONS_LEARNED.md
 
+*Research and analysis:*
+- `/api-audit` — **API Ecosystem Analyst** — structured API portfolio audit (6-phase: discovery → inventory → shortcomings → recommendations → executive summary → options analysis); enforces primary-source verification, cross-file consistency, and advisor review gates
+
 *Production systems:*
 - `/threat-model` — **AI Threat Modeling Analyst** — AI-specific threat modeling (8 threat categories + traditional security)
 - `/rollout` — **Rollout Planner** — phased rollout plan with eval gates and rollback triggers

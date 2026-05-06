@@ -80,6 +80,28 @@ When adding entries to `.claude/settings.json`, use the narrowest pattern that c
 
 ## Project-specific lessons
 
-[Add entries here as you work. Format: one-liner rule → **Why:** reason.]
+---
+
+### Update NEXT_SESSION.md immediately after every merged PR — no prompt needed
+
+After `gh pr merge`, update HEAD, git log snapshot, and "what landed" in NEXT_SESSION.md, then commit and push — without waiting for the user to ask.
+
+**Why:** User had to prompt for this repeatedly. It should be automatic. NEXT_SESSION.md is the session resume bookmark; a stale one wastes the next session's orientation time.
+
+---
+
+### Keep PowerShell commands short — no large inline blocks
+
+Avoid large hashtables, multiline blocks, or long here-strings in PowerShell commands. Use inline `-m "..."` for commit messages, not here-strings. Split into multiple short commands if needed.
+
+**Why:** PowerShell command strings hit a ~948-byte parse limit and get rejected. Here-strings in particular cause parse failures on commit messages.
+
+---
+
+### Fix staleness in all affected files in the same PR
+
+When adding skills, stacks, or prompts — update counts and tables in README.md and CLAUDE.md in the same commit. Don't leave them stale for a follow-up.
+
+**Why:** README said "65+ skills" after 5 more were added; stacks table omitted TypeScript/Go after they were added. Required separate cleanup PRs that should not have been needed.
 
 ---

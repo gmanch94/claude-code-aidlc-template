@@ -2,18 +2,18 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-05-06. **Current branch:** `master`. **Tree:** clean. **HEAD = 64eecbc**
+**Last working session:** 2026-05-06. **Current branch:** `master`. **Tree:** clean. **HEAD = 6496091**
 
 ---
 
 ## State
 
 ```
+6496091  Add wave-4 AIDLC guardrail hooks: ML leakage and prompt safety — PR #26
+b0e05b7  Update NEXT_SESSION.md — HEAD 64eecbc, PR #25 merged
 64eecbc  Add wave-3 guardrail hooks: cloud cost and Python programming gotchas — PR #25
 638b844  Update NEXT_SESSION.md — HEAD d9eda2f, PR #24 merged
 d9eda2f  Add wave-2 guardrail hooks: infra destroy, SQL safety, unsafe patterns — PR #24
-24c51c1  Update NEXT_SESSION.md — HEAD d48db7c, PR #23 merged
-d48db7c  Improve CLAUDE.md placeholder framing for cloners — PR #23
 ```
 
 Remote: https://github.com/gmanch94/claude-code-template (master, up to date as of d48db7c)
@@ -22,16 +22,16 @@ Remote: https://github.com/gmanch94/claude-code-template (master, up to date as 
 
 ## What landed in the most recent session
 
-1. **Wave-3 guardrail hooks** (PR #25): Two additional PreToolUse hooks in `.claude/hooks/`
-   - `check_cloud_cost.py` — PreToolUse/Write|Edit: warns on expensive EC2/EKS families (p4d, p3dn, x1e, u-*tb1), high-cost RDS classes, `deletion_protection = false`, `publicly_accessible = true`. Warn-only; `# cost-ok` opt-out.
-   - `check_programming_gotchas.py` — PreToolUse/Write|Edit: blocks Python mutable default args, bare `except:`, `== None` comparison. `.py` only; test paths downgrade to warning; `# nosec` opt-out.
-   - `README.md` — inventory, wiring snippet, and smoke tests updated for all 8 hooks
+1. **Wave-4 AIDLC guardrail hooks** (PR #26): Two AIDLC-specific PreToolUse hooks in `.claude/hooks/`
+   - `check_ml_leakage.py` — PreToolUse/Write|Edit (.py only): blocks `fit_transform(X_test/val)` and `.fit(X_test/val)`; warns on `train_test_split()` missing `random_state`. Bracket-matches multiline calls.
+   - `check_prompt_safety.py` — PreToolUse/Write|Edit: warns on f-string prompts with user vars, prompt concatenation, hardcoded absolute model paths. Warn-only.
+   - `README.md` — inventory, wiring snippet, and smoke tests updated for all 10 hooks
 
 ---
 
 ## Open items
 
-- No open backlog items. Guardrail hook set now at 8 hooks (PRs #18, #24, #25).
+- No open backlog items. Guardrail hook set now at 10 hooks (PRs #18, #24, #25, #26).
 
 ---
 
@@ -46,7 +46,7 @@ Remote: https://github.com/gmanch94/claude-code-template (master, up to date as 
 
 ## Files of note
 
-- `.claude/hooks/` — 8 reference hooks + README (protocol, wiring snippet, smoke tests)
+- `.claude/hooks/` — 10 reference hooks + README (protocol, wiring snippet, smoke tests)
 - `templates/skill/` — annotated SKILL-TEMPLATE.md + REFERENCE-TEMPLATE.md
 - `.claude/skills/` — 70+ skills; each is a directory with `SKILL.md` (+ optional `REFERENCE.md`)
 - `prompts/` — 59 prompt templates; `README.md` is the index

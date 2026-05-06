@@ -16,6 +16,8 @@ the settings snippet below into your `.claude/settings.json` to enable.
 | `check_unsafe_patterns.py` | PreToolUse | Write\|Edit | Flags OWASP A02/A03/A05/A08 patterns and XSS: `eval`/`exec`, `subprocess shell=True`, raw SQL f-strings, weak crypto (MD5/SHA-1/DES/ECB), `DEBUG=True`, `pickle.loads`, unsafe `yaml.load`, `innerHTML=`, `document.write`. Per-line `# nosec` opt-out. |
 | `check_cloud_cost.py` | PreToolUse | Write\|Edit | Warns on expensive EC2/EKS instance families (p4d, p3dn, x1e, u-*tb1), high-cost RDS classes, `deletion_protection = false`, and `publicly_accessible = true`. Warn-only. Per-line `# cost-ok` opt-out. |
 | `check_programming_gotchas.py` | PreToolUse | Write\|Edit | Blocks three high-confidence Python gotchas: mutable default arguments, bare `except:`, and `== None` identity comparison. `.py` files only. Test/fixture paths downgrade to warning. Per-line `# nosec` opt-out. |
+| `check_ml_leakage.py` | PreToolUse | Write\|Edit | Blocks ML data leakage: `fit_transform(X_test)`, `.fit(X_test)`. Warns on `train_test_split()` missing `random_state`. `.py` files only. Bracket-matches multiline calls. Per-line `# nosec` opt-out. |
+| `check_prompt_safety.py` | PreToolUse | Write\|Edit | Warns on prompt injection risk (f-string/concat with user vars), and hardcoded absolute model paths. Warn-only. Per-line `# nosec` opt-out. |
 | `audit_log.py` | PostToolUse | * | Passive: appends every tool call to `.claude/logs/audit.jsonl`. Never blocks. |
 
 ---
@@ -88,6 +90,14 @@ Paste into your `.claude/settings.json` (merge with any existing keys):
           {
             "type": "command",
             "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/check_programming_gotchas.py\""
+          },
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/check_ml_leakage.py\""
+          },
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/check_prompt_safety.py\""
           }
         ]
       }
@@ -190,6 +200,31 @@ echo '{"tool_name":"Write","tool_input":{"file_path":"app.py","content":"try:\n 
 echo '{"tool_name":"Write","tool_input":{"file_path":"app.js","content":"if (x == null) {}"}}' \
   | python .claude/hooks/check_programming_gotchas.py
 # expect: exit=0
+
+# fit_transform on test data -- should exit 2
+echo '{"tool_name":"Write","tool_input":{"file_path":"train.py","content":"X_scaled = scaler.fit_transform(X_test)"}}' \
+  | python .claude/hooks/check_ml_leakage.py
+# expect: exit=2, stderr=BLOCKED: ML LEAKAGE ...
+
+# train_test_split missing random_state -- should warn, exit 0
+echo '{"tool_name":"Write","tool_input":{"file_path":"train.py","content":"X_train, X_test = train_test_split(X, test_size=0.2)"}}' \
+  | python .claude/hooks/check_ml_leakage.py
+# expect: exit=0, stderr=WARNING: train_test_split ...
+
+# train_test_split with random_state -- should exit 0, no warning
+echo '{"tool_name":"Write","tool_input":{"file_path":"train.py","content":"X_train, X_test = train_test_split(X, test_size=0.2, random_state=42)"}}' \
+  | python .claude/hooks/check_ml_leakage.py
+# expect: exit=0, no stderr
+
+# prompt injection f-string -- should warn, exit 0
+echo '{"tool_name":"Write","tool_input":{"file_path":"app.py","content":"prompt = f\"Answer: {user_input}\""}}' \
+  | python .claude/hooks/check_prompt_safety.py
+# expect: exit=0, stderr=WARNING: PROMPT SAFETY ...
+
+# hardcoded model path -- should warn, exit 0
+echo '{"tool_name":"Write","tool_input":{"file_path":"infer.py","content":"model_path = \"/home/user/models/llama\""}}' \
+  | python .claude/hooks/check_prompt_safety.py
+# expect: exit=0, stderr=WARNING: MODEL HYGIENE ...
 ```
 
 ---

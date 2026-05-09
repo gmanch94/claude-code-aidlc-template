@@ -125,3 +125,13 @@ A multi-PR feature sprint without an explicit security checkpoint surfaces the s
 **How to apply:** Before kicking off a multi-PR sprint that touches DB schemas, RLS / authorization rules, server actions, or any user-write surface — run `/security-audit` on the EXISTING attack surface first. Triage: CRITICAL/HIGH must be fixed before sprint starts. MEDIUM/LOW can be in-sprint or backlog. After the sprint, re-audit to verify the convention held. Pre-launch security pass is gating, not optional.
 
 ---
+
+### PR descriptions are ephemeral; operator actions belong in a file
+
+When a PR introduces work that requires operator-action-after-merge — _rotate this secret, set this env var, configure this allowlist, run this migration, tighten this IAM scope_ — the actions must land as a checklist file in the repo, in the same PR. The PR description should reference the checklist, not be it.
+
+**Why:** PR descriptions are ephemeral. After merge they're buried in the GitHub PR archive that nobody opens, and a different operator deploying the same code never sees them. The only durable store for "you must do X to operate this safely" is a file in the repo.
+
+**How to apply:** Before declaring any PR ready, scan its description for these verbs — _rotate, set, configure, grant, wire, create, enable, verify, audit, distribute, disable, migrate, run, sign off_. Each is a candidate for a checklist row. If there are zero, the PR is self-contained. If there are any, write the file (cross-referenced from `SECURITY_MODEL.md` / `launch.md` / `day-2-operations.md`). **Test:** after the PR is merged and squash-deleted, can a fresh operator find this? If no, write a file.
+
+---

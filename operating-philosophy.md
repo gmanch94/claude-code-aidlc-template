@@ -125,6 +125,14 @@ For multi-PR sweeps that touch DB schemas, auth, or any user-write surface: run 
 
 Every project with a user-facing surface should have `docs/SECURITY_MODEL.md` (run `/security-model-init` to scaffold). Five sections: (1) auto-generated endpoints, (2) auth roles, (3) sensitive operations, (4) per-(operation × role × surface) enforcement table, (5) static CI checks. Empty cells in §4 = known gaps. Filling the doc forces upfront thinking; the audit agent verifies the doc matches reality.
 
+### Operator actions belong in a file, not a PR description
+
+Any PR that requires operator-action-after-merge — _rotate this secret, set this env var, configure this allowlist, run this migration, tighten this IAM scope, sign off on this checklist_ — must land those actions as a checklist FILE in the same PR, cross-referenced from the project's source-of-truth doc (`SECURITY_MODEL.md`, `launch.md`, `day-2-operations.md`, or equivalent). The PR description references the checklist, not the other way around.
+
+PR descriptions are ephemeral. After merge they're buried in the GitHub PR archive that nobody opens, and a different operator deploying the same code never sees them. The only durable store for "you must do X to operate this safely" is a file in the repo.
+
+**Heuristic:** before declaring a PR ready, scan its description for these verbs — _rotate, set, configure, grant, wire, create, enable, verify, audit, distribute, disable, migrate, run, sign off_. Each is a candidate for a checklist row. If there are zero, the PR is self-contained. If there are any, write the file. **Test:** after the PR is merged and squash-deleted, can a fresh operator find this? If no, write a file.
+
 ---
 
 ## Design philosophy

@@ -105,3 +105,23 @@ When adding skills, stacks, or prompts — update counts and tables in README.md
 **Why:** README said "65+ skills" after 5 more were added; stacks table omitted TypeScript/Go after they were added. Required separate cleanup PRs that should not have been needed.
 
 ---
+
+### Server-side checks are one path; auto-generated endpoints are another
+
+If your stack auto-generates REST/GraphQL endpoints (Supabase PostgREST, Firebase Firestore SDK, Hasura, AWS AppSync), the public anon key reaches the underlying DB directly with `curl`. Row-ownership rules (RLS / Firestore Rules / Hasura permissions) gate WHO can hit a row — they do NOT restrict WHICH columns they can write or what values they submit. **Every server-action invariant must independently exist at the data layer**: `RLS WITH CHECK` on the value, BEFORE-UPDATE trigger, column-level `REVOKE`, service-role-only writes (with user-level mutation policy dropped), or platform-equivalent.
+
+**Why:** A real audit on a 20-PR sprint surfaced 10 vulnerabilities of this exact shape. Each individual PR was "fine" because the server action checked the invariant — but a `curl PATCH /rest/v1/users` with `{"roles":["admin"]}` bypassed the action entirely and let any user self-promote to admin. Same shape for `bookings.state='paid'` (free booking), `listings.status='published'` (skip approval gate), `precise_lat/lng` returned to anon. The unifying error: treating "the action validates it" as sufficient. Pre-merge mental model: "could `curl` against the auto-surface bypass this?"
+
+**How to apply:** Before any PR touching API/server-action + DB write, ask the four questions in `operating-philosophy.md` § Security thinking. For new projects with user-facing surfaces, run `/security-model-init` to scaffold `docs/SECURITY_MODEL.md`; fill the (operation × role × surface) enforcement table. For audits, run `/security-audit`.
+
+---
+
+### Sprint without security pass = compounding risk; audit BEFORE the next sprint, not after
+
+A multi-PR feature sprint without an explicit security checkpoint surfaces the same shape of vulnerability across the sprint — every PR builds on the same wrong mental model. The audit at the end finds them in a batch, but remediation cost scales with sprint size: more migrations, more code paths to switch to service-role, more docs to update, more risk that the fix introduces a regression in something the original PR had right.
+
+**Why:** A 20-PR feature sweep without anyone asking "does this auto-generated endpoint enforce the same checks the server action does?" produced 10 audit findings. Two CRITICAL, four HIGH, all the same shape. Each individual PR was "fine" by the convention applied. But the convention itself was the bug. A pre-sprint pass — even 30 minutes — would have caught the convention-level error and saved every subsequent PR from inheriting it.
+
+**How to apply:** Before kicking off a multi-PR sprint that touches DB schemas, RLS / authorization rules, server actions, or any user-write surface — run `/security-audit` on the EXISTING attack surface first. Triage: CRITICAL/HIGH must be fixed before sprint starts. MEDIUM/LOW can be in-sprint or backlog. After the sprint, re-audit to verify the convention held. Pre-launch security pass is gating, not optional.
+
+---

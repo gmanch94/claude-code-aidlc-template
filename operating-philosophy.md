@@ -83,6 +83,37 @@ Guard against these four in every session:
 | **Overcomplexity** | Adding abstraction, generalization, or flexibility the task doesn't require | Scope to exactly what was asked |
 | **Orthogonal edits** | Touching files/sections outside the stated task | Stay in scope; no drive-by cleanup |
 | **Imperative over declarative** | Prescribing steps instead of describing the desired outcome | State what should be true, not how to get there |
+| **Single-path-of-control** | Treating the API endpoint as the only writer when the platform exposes auto-generated alternatives (PostgREST, Firestore SDK, Hasura GraphQL) | "I check it in the action" is decorative if curl bypasses it. Every invariant needs a data-layer mirror. |
+| **Convention-level compounding** | Same shape of bug shows up in multiple PRs in a sprint | Stop adding PRs. The convention itself is wrong. Fix the foundation, then resume. |
+
+---
+
+## Security thinking
+
+The API endpoint you wrote is one path to the data. Stack-specific auto-generated endpoints (Supabase PostgREST, Firebase Firestore SDK, Hasura GraphQL, AWS AppSync) are others. **Every invariant the API enforces must independently exist at the data layer**, on every path that reaches the data.
+
+### Think-first protocol (mandatory before any non-trivial change to API / DB / auth / file uploads / public reads)
+
+Write the design intent in user-visible text BEFORE coding. Answer four questions:
+
+1. **What invariants does this enforce?** State machine? Role gate? Value bounds? Ownership? "Column X must be Y before Z"? List them.
+2. **What is the attack surface?** List every path that reaches the data being mutated/read. Your API is one. The auto-generated endpoint (if any) is another. Realtime subscriptions, mobile SDK queries, public file URLs — list them all.
+3. **For each invariant × each surface — where is it enforced?** Acceptable: RLS `WITH CHECK` on values, Firestore rule, Hasura permission, BEFORE-UPDATE trigger, column-level `REVOKE`, service-role-only writes (with the user-level mutation policy dropped). **Unacceptable: "the API checks it"** (covers only one path).
+4. **What's the failure mode if X breaks?** Concrete sentence per invariant. If you can't name the failure, you don't yet understand the invariant.
+
+If the design clears all four, code. If anything is hand-wavy, stop and surface.
+
+### Pre-merge independent reviewer
+
+For PRs touching auth flow, RLS / authorization rules, DB triggers/functions, payment state, or any "safety property" comment: spawn an **independent code-reviewer subagent** before merge. Brief like a colleague who hasn't read the conversation; ask for severity-tagged findings + verdict. Skip only for trivial single-file changes.
+
+### Pre-sprint security pass
+
+For multi-PR sweeps that touch DB schemas, auth, or any user-write surface: run `/security-audit` on the EXISTING attack surface BEFORE the sprint starts. Triage: CRITICAL/HIGH must be fixed pre-sprint. The cost of catching the same shape of bug in 10 places after a 20-PR sprint is days of remediation; the pre-sprint pass is hours.
+
+### Per-project SECURITY_MODEL.md
+
+Every project with a user-facing surface should have `docs/SECURITY_MODEL.md` (run `/security-model-init` to scaffold). Five sections: (1) auto-generated endpoints, (2) auth roles, (3) sensitive operations, (4) per-(operation × role × surface) enforcement table, (5) static CI checks. Empty cells in §4 = known gaps. Filling the doc forces upfront thinking; the audit agent verifies the doc matches reality.
 
 ---
 

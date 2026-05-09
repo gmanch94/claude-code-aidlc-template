@@ -31,6 +31,9 @@ This template fixes all four in under 5 minutes of setup.
 | `.claude/skills/review/SKILL.md` | `/review` — code review with [BLOCKER] / [SUGGESTION] / [NITPICK] format. |
 | `.claude/skills/adr/SKILL.md` | `/adr` — draft an Architecture Decision Record with full rationale and alternatives. |
 | `.claude/skills/tradeoff/SKILL.md` | `/tradeoff` — structured tradeoff analysis: options × pros/cons/failure-mode + recommendation with named constraint. |
+| `.claude/skills/security-audit/SKILL.md` | `/security-audit` — deep security audit (CRITICAL→LOW findings with file+line). Stack-aware (Supabase / Firebase / Hasura / FastAPI / Express). |
+| `.claude/skills/security-model-init/SKILL.md` | `/security-model-init` — generate `docs/SECURITY_MODEL.md` scaffold for projects with user-facing surfaces. |
+| `templates/security-model/SECURITY_MODEL-TEMPLATE.md` | Annotated template for the per-(operation × role × surface) enforcement table; stack-specific scaffolding blocks for Supabase/Firebase/Hasura/FastAPI/Express. |
 | `context/MEMORY.md` | Index for Claude's persistent project memory. |
 | `prompts/` | 59 system prompt templates across ML, data engineering, LLM, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
 | `templates/skill/SKILL-TEMPLATE.md` | Annotated template for authoring new skills. Copy to `.claude/skills/<name>/SKILL.md` and fill in. |
@@ -133,6 +136,8 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/review` | **Code Reviewer** — [BLOCKER] / [SUGGESTION] / [NITPICK] grading across correctness, security, performance, clarity, test coverage |
 | `/adr` | **ADR Facilitator** — Draft an Architecture Decision Record with context, rationale, alternatives, consequences, and risks |
 | `/tradeoff` | **Tradeoff Analyst** — Options × pros/cons/failure-mode table + recommendation with named constraint |
+| `/security-audit` | **Security Researcher** — Deep audit from attacker's perspective; stack-aware (Supabase/Firebase/Hasura/FastAPI/Express); CRITICAL→LOW findings with file+line. Use BEFORE multi-PR sprints touching DB/auth, BEFORE production deploy |
+| `/security-model-init` | **Security Model Scaffolder** — generates `docs/SECURITY_MODEL.md` with stack-specific scaffolding. Run as commit #2 on any new project that has auth/DB/API surfaces |
 | `/retro` | **Retrospective Facilitator** — Engineering retrospective — shipped summary, went well/wrong, one process change, writes new entries to LESSONS_LEARNED.md |
 
 **Research and analysis:**

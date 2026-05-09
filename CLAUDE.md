@@ -100,6 +100,20 @@ Skip steps only with explicit agreement — not because the task feels small.
 
 ---
 
+## Security primer
+
+When this project grows a user-facing surface (auth, DB, API, file uploads, public reads):
+
+1. **Commit #2 of that growth:** run `/security-model-init` to scaffold `docs/SECURITY_MODEL.md`. Don't write the next code change until §4's enforcement table has no empty cells (or the empty cells are tracked in §6 with target close dates).
+2. **Before any multi-PR sprint touching DB/auth:** run `/security-audit`. Triage CRITICAL/HIGH must be fixed before sprint starts.
+3. **Before production deploy:** run `/security-audit` again. Pre-launch gating, not post-launch reactive.
+
+Universal mental model — **the API endpoint you wrote is one path to the data; auto-generated REST/GraphQL endpoints, mobile SDK queries, public file URLs are others.** Every invariant the API enforces must independently exist at the data layer (RLS / Firestore Rules / Hasura permissions / DB triggers / column-level REVOKE / service-role-only writes). "I check it in the action" is decorative if `curl` against the auto-surface bypasses it.
+
+Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge independent reviewer policy applies to every PR touching auth flow, RLS / authorization rules, DB triggers/functions, payment state, or any "safety property" comment.
+
+---
+
 ## Things to avoid
 
 - Don't commit directly to `master` — all changes via feature branch + PR
@@ -155,6 +169,8 @@ Skip steps only with explicit agreement — not because the task feels small.
 - `/adr` — **ADR Facilitator** — draft an Architecture Decision Record
 - `/tradeoff` — **Tradeoff Analyst** — structured tradeoff analysis for a decision
 - `/retro` — **Retrospective Facilitator** — engineering retrospective; reviews recent commits, surfaces lessons, writes to LESSONS_LEARNED.md
+- `/security-model-init` — **Security Model Scaffolder** — generates `docs/SECURITY_MODEL.md` with stack-specific scaffolding (Supabase/Firebase/Hasura/FastAPI/Express). Run as commit #2 on any new project that has auth/DB/API surfaces.
+- `/security-audit` — **Security Researcher** — deep audit of the codebase from an attacker's perspective. CRITICAL→LOW findings with file+line citations. Use BEFORE multi-PR sprints touching DB/auth, BEFORE production deploy, AFTER major feature sweeps.
 
 *Research and analysis:*
 - `/api-audit` — **API Ecosystem Analyst** — structured API portfolio audit (6-phase: discovery → inventory → shortcomings → recommendations → executive summary → options analysis); enforces primary-source verification, cross-file consistency, and advisor review gates

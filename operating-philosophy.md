@@ -38,6 +38,8 @@ Give advice serious weight. If advisor flags an issue, fix it before calling aga
 
 Minimum cadence on non-trivial tasks: one advisor call before approach crystallizes, one before declaring done.
 
+**Commit before calling advisor().** Make the deliverable durable first — write the file, commit the change, then call. `advisor()` forwards the entire conversation history and can take 30–60 seconds; an uncommitted change that exists only in a tool call result is lost if the session dies mid-call.
+
 ---
 
 ## Research & verification standards
@@ -46,6 +48,7 @@ Minimum cadence on non-trivial tasks: one advisor call before approach crystalli
 - **Distinguish precision levels**: "no specs in the current developer portal" ≠ "no specs exist anywhere." Nuance must be exact and consistent.
 - **Prototype ≠ production**: label sources accurately. A 2021 prototype repo is supporting evidence, not current documentation.
 - **Cross-file consistency**: if a claim appears in N files, all N must match. When fixing a claim, grep all files for the same claim and update every occurrence in the same pass.
+- **Label rules of thumb explicitly**: when citing field practice rather than primary documentation, say "rule of thumb" inline. Readers make architectural and budget decisions from these numbers; unlabeled heuristics get cited as hard constraints.
 
 ---
 
@@ -55,6 +58,7 @@ Minimum cadence on non-trivial tasks: one advisor call before approach crystalli
 - Confirm git state matches the bookmark (`git status` + `git log --oneline -5`)
 - Do not start work proactively — ask what the user wants after orientation
 - Update the session bookmark at end of session with: HEAD, branch, what landed, open items, things NOT to do without explicit instruction
+- Update NEXT_SESSION.md immediately after every merged PR — don't wait to be asked. A stale bookmark wastes the next session's first 10–15 minutes re-deriving context that was already established.
 
 ---
 
@@ -64,12 +68,17 @@ Minimum cadence on non-trivial tasks: one advisor call before approach crystalli
 - No commit to main/master directly — feature branch + PR unless the repo convention says otherwise
 - PowerShell commit messages: inline `-m "..."` only — no long here-strings (hits 948-byte parse limit on Windows)
 - No `--no-verify`, no `--force` unless user explicitly requests
+- **Root folder discipline**: only files that must be at root go there (pyproject.toml, README, .gitignore, CLAUDE.md, session files). Everything else goes in a subdirectory.
+- **Fix staleness in the same commit**: when adding or changing something, update all derived files (README counts, doc tables, CLAUDE.md references) in the same pass — not a follow-up.
+- **Allowlist patterns: narrowest that covers usage**: when adding entries to `.claude/settings.json`, use the narrowest pattern observed in transcripts. Never wildcard interpreters, shells, or package runners — those grant arbitrary code execution.
 
 ---
 
 ## Confusion Protocol
 
 When facing an ambiguous requirement, contradictory sources, or an undocumented design decision: stop and surface the conflict explicitly before proceeding. Ask one targeted question. Never guess on design decisions or silently resolve contradictions.
+
+If no response within ~2 minutes, use best judgment to make progress — state the assumption made, proceed, and flag it for correction. Don't block indefinitely on a question.
 
 ---
 
@@ -83,6 +92,7 @@ Guard against these four in every session:
 | **Overcomplexity** | Adding abstraction, generalization, or flexibility the task doesn't require | Scope to exactly what was asked |
 | **Orthogonal edits** | Touching files/sections outside the stated task | Stay in scope; no drive-by cleanup |
 | **Imperative over declarative** | Prescribing steps instead of describing the desired outcome | State what should be true, not how to get there |
+| **Unauthorized sweeps** | Treating "I noticed X" as authorization to fix X across the codebase | Observe → surface → ask; don't act on an observation without explicit instruction |
 | **Single-path-of-control** | Treating the API endpoint as the only writer when the platform exposes auto-generated alternatives (PostgREST, Firestore SDK, Hasura GraphQL) | "I check it in the action" is decorative if curl bypasses it. Every invariant needs a data-layer mirror. |
 | **Convention-level compounding** | Same shape of bug shows up in multiple PRs in a sprint | Stop adding PRs. The convention itself is wrong. Fix the foundation, then resume. |
 
@@ -125,3 +135,11 @@ Every project with a user-facing surface should have `docs/SECURITY_MODEL.md` (r
 - No feature flags or backwards-compatibility shims when you can just change the code
 - If unused, delete it — no renaming to `_unused_`, no `# removed` comments
 - Default to no comments in code; add one only when the WHY is non-obvious and would surprise a future reader
+- **Source-of-truth-first**: before editing any derived file (README, docs, generated output), edit the source of truth first. Derived files that drift from the source are worse than no documentation.
+
+---
+
+## Tool hygiene
+
+- **Read before Edit**: the Edit tool requires a prior Read in the same session. If Edit fails with "file has not been read yet," do a minimal Read first.
+- **Check cwd when paths don't resolve**: wrong working directory is the most common cause of "file not found" on a path that looks correct. Check `pwd` before searching deeper.

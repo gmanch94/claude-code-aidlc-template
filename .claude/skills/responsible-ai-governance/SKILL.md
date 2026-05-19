@@ -95,6 +95,43 @@ Post-deploy (T1 quarterly, T2 semi-annual):
 
 ---
 
+## Intellectual property framing (process-as-IP)
+
+A common mis-framing is to treat *the trained model* as the program's intellectual property. This is brittle and usually wrong:
+
+- A model frozen as IP can't be retrained → goes stale → becomes useless
+- The learning algorithm is almost always public-domain math (50+ years of published research)
+- The model artifact alone is reproducible by anyone with the data + algorithm
+
+The defensible IP is the **process**:
+- Business-problem framing specific to the use case
+- Data sourcing, collection mechanisms, consent posture
+- Feature-engineering decisions and domain-specific transforms
+- Algorithm tweaks and hyperparameter regime
+- Evaluation and monitoring methodology
+- The *integration* between model output and operational action
+
+**SaaS data-upload clauses** — for every external platform that touches training data, confirm contractually:
+1. Who owns the uploaded data?
+2. Can the vendor train its own models on your data, or intermingle it with other tenants' data?
+3. Who owns derivative models (those trained partially or fully on your data)?
+4. What happens to data + models on contract termination?
+5. Are model weights or embeddings exportable?
+
+Default vendor contracts often grant the vendor broad rights — review explicitly. Indigenous Data Sovereignty and culturally-sensitive corpora require explicit additional consent posture; data ownership ≠ data sovereignty.
+
+**Joint-project ownership** — academic and partner collaborations need pre-agreement on:
+- Right to publish theoretical results (academic partner usually wants this)
+- Domain-knowledge attribution
+- Whether models trained on partner data can be reused on other projects
+- Feature-engineering know-how sharing
+
+**Indigenous Data Sovereignty** — data describing Indigenous peoples, lands, knowledge, or cultural practices is subject to community-level sovereignty rights, not only individual consent. Frameworks: CARE Principles (Collective Benefit, Authority to Control, Responsibility, Ethics); OCAP (Ownership, Control, Access, Possession — First Nations Canada). Flag any in-scope dataset at registration time.
+
+Pair with `/ml-readiness` for the strategic framing, `/build-vs-buy` for component-level decisions.
+
+---
+
 ## EU AI Act alignment (high-risk systems)
 
 If T1 system in EU scope:

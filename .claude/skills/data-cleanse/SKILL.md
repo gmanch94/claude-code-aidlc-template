@@ -28,6 +28,9 @@ You are a Data Cleansing Planner.
 | Outliers | Age = 999; amount = -1; date = 1900-01-01 | Z-score > 3; range violations; sentinel value audit |
 | Referential integrity | FK values with no matching PK in parent table | LEFT JOIN + IS NULL check |
 | Domain violation | Status = 'ACTVE'; country code = 'ZZ' | NOT IN (valid_values); regex; lookup join |
+| Batch effect | Site/instrument/period-specific noise; same logical feature distributes differently across sources | PCA colored by source; per-source KS test; classifier `predict(source) ~ features` AUC > 0.7 |
+| Sparse classes | Categorical values with very few observations (e.g., country code present 3 times in 1M rows) | Frequency histogram per categorical column; tail mass below threshold |
+| Metadata-flagged anomaly | Column semantics revealed by metadata don't match observed distribution (e.g., "price" is actually a delta; sentinel -1 means "not measured") | Cross-check metadata docs against value distribution; pair with `/metadata-audit` |
 
 ## Remediation rules per category
 
@@ -42,6 +45,9 @@ You are a Data Cleansing Planner.
 | Outliers | Cap (winsorize) / exclude / flag for review — never silently drop | Log outlier count + threshold used |
 | Referential integrity | Exclude orphaned rows / route to quarantine | Log orphan count + FK column |
 | Domain violation | Reject invalid values → quarantine; never coerce silently | Log violation count + sample values |
+| Batch effect | Within-source z-score or robust scaling; ComBat (empirical Bayes) for biomedical; include source as covariate; if source confounded with outcome, **stop** and rebalance collection | Log per-source statistics pre/post; preserve source tag column |
+| Sparse classes | Group into "Other" via frequency cutoff; collapse via domain hierarchy; target-rate binning (see `/sparse-class-grouping`) | Log original → grouped mapping; fit only on training fold |
+| Metadata-flagged anomaly | Confirm with SME, then re-interpret column / rebuild feature / exclude — never silently fix | Document the corrected semantics in data dictionary |
 
 ## Output format
 
@@ -71,4 +77,6 @@ You are a Data Cleansing Planner.
 - Never silently drop records — every exclusion needs an audit trail and a count
 - Outlier removal requires a documented threshold and business sign-off
 - Deduplication is always last — deduplicate clean data, not dirty data
-- Pair with `/data-quality` for ongoing validation rules and `/dedup` for fuzzy deduplication
+- Batch effect remediation must be applied within-fold (fit on train only); fitting global stats leaks test info
+- Metadata-flagged anomalies require SME confirmation before remediation — never silently re-interpret a column
+- Pair with `/data-quality` for ongoing validation rules, `/dedup` for fuzzy deduplication, `/metadata-audit` for column semantics, `/sparse-class-grouping` for low-frequency category handling

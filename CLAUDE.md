@@ -134,8 +134,11 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 
 *Business discovery:*
 - `/stakeholder-interview` — **Business Discovery Facilitator** — structured six-group discovery interview; Discovery Summary Card output before any ML framing
+- `/ml-readiness` — **ML Strategy Advisor** — 5-stage maturity (Initial → Development → Competent → Proficient → Advanced) + AI Hierarchy of Needs (Collect → Move/Store → Explore → Aggregate/Label → Learn → Optimize → AI); build/buy/partner balance per stage; process-as-IP framing; 5-year roadmap
+- `/stakeholder-comms` — **ML Communications Advisor** — audience map (exec / user / mgmt / data team); Rider/Elephant/Path framework; reporting cadence templates (1-para / 1-page exec / detailed); failure-comms patterns; adoption-signal tracking
 - `/opportunity-sizing` — **AI Opportunity Analyst** — status quo cost + AI uplift + build cost + go/no-go recommendation
 - `/kpi-mapping` — **KPI-to-Metric Mapper** — 4-level chain from business objective to ML metric; translation failure modes + counter-metric
+- `/metric-gaming-audit` — **Metric Gaming Auditor** — Goodhart's law guard; proxy-quality scoring; per-actor gaming-path enumeration; secondary effects (unexpected benefits/drawbacks/perverse results); counter-metric + multi-metric balance; run BEFORE committing to any optimization target
 
 *Problem framing / EDA:*
 - `/problem-framing` — **ML Problem Framing Advisor** — ML vs. rules decision; solution type; success metric tied to KPI; non-ML baseline; problem statement card
@@ -210,6 +213,8 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 - `/data-cleanse` — **Data Cleansing Planner** — dirty data taxonomy, remediation strategy, audit trail, cleansing order
 - `/dedup` — **Entity Resolution Specialist** — entity resolution (exact/fuzzy decision, blocking, confidence scoring, golden record)
 - `/schema-harmonization` — **Schema Harmonization Architect** — multi-source schema merging (conflict types, canonical design, source priority)
+- `/data-alignment` — **Data Alignment Architect** — row-level multi-source consolidation (entity match, timestamp sync, scale/encoding harmonization, batch effect detection + mitigation); distinct from schema-harmonization (schema-level)
+- `/metadata-audit` — **Metadata Auditor** — 7-dimension column audit (provenance, collection, units, transformation, summarization, labeling, cadence); batch effect detection; gap register with severity
 - `/timeseries-resample` — **Time Series Resampling Advisor** — upsample/downsample by metric type, gap handling, temporal alignment
 - `/class-balancing` — **Class Imbalance Strategist** — ML class imbalance (strategy by ratio, SMOTE/weights, eval setup, threshold tuning)
 - `/annotation-design` — **Annotation Schema Designer** — label taxonomy, decision tree, edge case catalog, calibration process
@@ -225,6 +230,7 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 - `/algo-select` — **Algorithm Selection Advisor** — algorithm selection by task type + dataset size + constraints; baseline + failure mode per rec
 - `/hyperparameter-tuning` — **Hyperparameter Tuning Strategist** — random vs. Bayesian vs. async strategy; search space by algorithm; Optuna code
 - `/model-comparison` — **Model Comparison Analyst** — statistical comparison (paired t-test / McNemar / Friedman); practical significance; production verdict
+- `/transfer-learning` — **Transfer Learning Advisor** — source model/task selection; adaptation strategy (feature extract / partial / full / adapter / LoRA); negative-transfer check; catastrophic-forgetting mitigation
 
 *Feature engineering:*
 - `/feature-engineering` — **Feature Engineering Advisor** — encoding by cardinality, numeric transforms, date extraction, aggregation features, sklearn Pipeline
@@ -252,6 +258,7 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 - `/model-decommissioning` — **Model Decommissioning Planner** — retirement criteria; dependency audit; consumer notification; archive policy; retention schedule
 
 *Responsible AI:*
+- `/bias-audit` — **Training Data Bias Auditor** — 6 bias classes (sample selection / demographic / geographic / temporal / labeler / survivorship); training-data representativeness vs operational env; run BEFORE training (vs `/fairness-audit` AFTER)
 - `/fairness-audit` — **AI Fairness Auditor** — demographic parity; disparate impact ratio (80% rule); equal opportunity; protected-attribute slices; mitigation strategies
 - `/explainability` — **Model Explainability Analyst** — SHAP / LIME / PDP / counterfactuals; global + local; method selection by model type; audience-appropriate output
 

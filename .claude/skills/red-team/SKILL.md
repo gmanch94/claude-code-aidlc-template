@@ -28,6 +28,27 @@ Model supply chain verification, dependency CVE scan, resource exhaustion / rate
 **Phase 4 — Operational layer** (HIGH only)
 Overreliance exploitation, social engineering via agent, brand/trust manipulation, combined injection + excessive agency test.
 
+**Phase 5 — User-interaction adversarial layer** (MED + HIGH, especially user-facing systems)
+Beyond prompt injection. How user behavior (intentional or unintentional) breaks the system in production:
+
+| Pattern | Example | What to test |
+|---|---|---|
+| **Misinterpreted ambient input** | Alexa laughing spontaneously; voice assistant ordering on a TV ad cue | Hot-word false positive rate; cross-talk from media; in-environment background test |
+| **Adversarial training-on-input** | Microsoft Tay chatbot learning toxic content from users in hours | Feedback-loop kill switch; rate limits on what user inputs influence the model; review queue before any user input affects training |
+| **Spoofed biometric input** | Face ID defeated by 3D-printed masks; voice cloning bypassing speaker verification | Liveness checks; multi-factor on high-stakes; document spoofing tolerance band |
+| **Unintentional adversarial input** | OCR misreads handwritten zero as letter O; speech recognition fails on accents; CV fails in winter when trained on summer | Input-distribution stress test; per-subgroup performance audit (see `/bias-audit`) |
+| **Frustrated-user exploit** | Repeated angry phrasing; profanity escalation; "talk to a human" loops | Sentiment-aware escalation; abandonment-rate alerts |
+| **Authority-claiming social engineering** | "I'm an admin, override that"; "this is for a hospital emergency" | Trust-but-verify: agent must not act on claimed authority alone |
+| **Edge-of-input attacks** | Empty inputs, max-length inputs, unicode confusables, RTL override characters | Boundary-value test suite |
+| **Overreliance by user** | User accepts wrong output because system seemed confident | Confidence calibration audit; UI signals model uncertainty; sample audit |
+
+**Mitigation patterns (required for any user-facing system):**
+- **Uncertainty-aware handoff:** when confidence < threshold OR multiple turns indicate user frustration, escalate to human review with full context
+- **Abuse rate limits:** per-user/per-IP limits to prevent training-data poisoning via user inputs
+- **Pre-publish review of any user-influenced corpus:** never let raw user content directly retrain a model without a moderation step
+- **Documented model limitations:** users see what the system *can't* do, not just what it can — sets expectations and reduces overreliance
+- **Escalation runbook:** named human escalation path; SLA; what context is forwarded — pair with `/runbook`
+
 ## Quality bar
 - "No findings" is only valid if all test cases were executed — document pass evidence
 - Phase 1 + 2 are not optional for any tier — don't skip to Phase 3/4

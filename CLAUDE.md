@@ -192,7 +192,7 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 - `/agent-design` — **Agentic System Designer** — agentic system design (loop, tool manifest, guardrails, fallbacks)
 - `/multi-agent-design` — **Multi-Agent System Designer** — orchestration pattern + framework (LangGraph/CrewAI/AutoGen); agent roster; state schema; failure handling; max_iterations gate
 - `/guardrails-design` — **Guardrails System Designer** — input/output safety layers; threat inventory; detection per threat (Llama Guard/Presidio/NLI); latency budget; FPR targets; fail-open vs. fail-closed
-- `/red-team` — **AI Red Team Lead** — 4-phase AI red team battery (base model → app → infra → operational)
+- `/red-team` — **AI Red Team Lead** — 5-phase AI red team battery (base model → app → infra → operational → user-interaction adversarial)
 - `/model-card` — **Model Documentation Author** — model documentation standard (9 sections, governance checklist)
 - `/supply-chain-review` — **AI Supply Chain Auditor** — AI model supply chain audit + AI-BOM generation
 - `/cost-optimize` — **Token Cost Optimizer** — token spend analysis (model tier selection, caching strategy, batch decisions)
@@ -210,7 +210,7 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 - `/data-contract` — **Data Contract Author** — producer/consumer agreement (schema ownership, SLAs, breaking change policy)
 - `/dbt-review` — **dbt Model Reviewer** — dbt model review (ref/source, incremental correctness, test coverage)
 - `/sql-review` — **SQL Query Reviewer** — SQL correctness + performance review (join bugs, partition pruning, anti-patterns)
-- `/data-cleanse` — **Data Cleansing Planner** — dirty data taxonomy, remediation strategy, audit trail, cleansing order
+- `/data-cleanse` — **Data Cleansing Planner** — dirty data taxonomy (incl. batch effect, sparse classes, metadata-flagged anomalies), remediation strategy, audit trail, cleansing order
 - `/dedup` — **Entity Resolution Specialist** — entity resolution (exact/fuzzy decision, blocking, confidence scoring, golden record)
 - `/schema-harmonization` — **Schema Harmonization Architect** — multi-source schema merging (conflict types, canonical design, source priority)
 - `/data-alignment` — **Data Alignment Architect** — row-level multi-source consolidation (entity match, timestamp sync, scale/encoding harmonization, batch effect detection + mitigation); distinct from schema-harmonization (schema-level)
@@ -222,7 +222,7 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 - `/active-learning` — **Active Learning Strategist** — query strategy by labeled set size, uncertainty/diversity sampling, stopping criteria
 - `/split-design` — **Data Split Designer** — random/temporal/group split decision, ratios by size, stratification, minimum eval sizes
 - `/cross-validation` — **Cross-Validation Strategist** — k-fold variant selection, time series CV, nested CV for hyperparameter tuning
-- `/leakage-audit` — **Data Leakage Auditor** — temporal/target/group/preprocessing leakage detection with code fixes
+- `/leakage-audit` — **Data Leakage Auditor** — temporal/target/group/preprocessing/operational-availability leakage detection with code fixes; production-readiness checks
 
 *ML algorithm selection / tuning:*
 - `/experiment-design` — **ML Experiment Designer** — hypothesis formulation, one-variable control, pre-stated decision criteria, ordered run queue
@@ -254,7 +254,7 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 
 *Model deployment:*
 - `/model-deployment` — **Model Deployment Engineer** — artifact checklist; shadow→canary→limited→full GA rollout; automated + manual rollback triggers; deployment.yaml
-- `/inference-service-design` — **Inference Service Designer** — REST/gRPC/batch pattern; latency budget; scaling spec; circuit breaker + safe fallback; observability signals
+- `/inference-service-design` — **Inference Service Designer** — REST/gRPC/batch + edge/IoT/on-device pattern; latency budget; scaling spec; circuit breaker + safe fallback; OTA rollout for edge; observability signals
 - `/model-decommissioning` — **Model Decommissioning Planner** — retirement criteria; dependency audit; consumer notification; archive policy; retention schedule
 
 *Responsible AI:*
@@ -268,7 +268,7 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 - `/retraining-strategy` — **Model Retraining Strategist** — drift/calendar/performance triggers; data window design; full vs. incremental; promotion gates
 - `/data-versioning` — **Dataset Versioning Specialist** — DVC / time-travel / snapshot approach; dataset registration schema; lineage chain; reproducibility
 - `/mlops-cicd` — **MLOps Pipeline Engineer** — ML CI/CD pipeline stages; model quality gates; artifact registration schema; rollback trigger spec; GitHub Actions YAML
-- `/responsible-ai-governance` — **AI Governance Advisor** — risk tier classification (T1–T4); 5-pillar governance framework; MRM checklist; EU AI Act flags; review board charter
+- `/responsible-ai-governance` — **AI Governance Advisor** — risk tier classification (T1–T4); 5-pillar governance framework; MRM checklist; EU AI Act flags; IP framing (process-as-IP, SaaS clauses, Indigenous Data Sovereignty / CARE / OCAP); review board charter
 - `/model-compression` — **Model Compression Specialist** — PTQ / QAT / pruning / distillation / GPTQ selection; code patterns; eval plan on target hardware
 - `/feature-monitoring` — **Feature Health Monitor** — freshness SLAs; null rate baselines; schema drift detection; PSI per feature; dashboard spec; anomaly playbook
 

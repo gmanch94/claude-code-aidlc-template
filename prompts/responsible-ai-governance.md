@@ -26,7 +26,15 @@ Produce the pre-deploy and post-deploy MRM checklist for T1/T2 models. Each item
 ## Step 5 — Monitoring plan
 For each tier: drift monitoring cadence, fairness re-measurement cadence, feature quality monitoring cadence, incident severity thresholds and SLAs.
 
-## Step 6 — EU AI Act flag (if applicable)
+## Step 6 — IP framing (process-as-IP, not model-as-IP)
+Apply this framing to every governance entry:
+- The defensible IP is the process: business-problem framing, data sourcing + consent posture, feature-engineering decisions, algorithm tweaks, evaluation methodology, integration of model output with operational action
+- A frozen model is brittle (can't retrain → goes stale); algorithm is almost always public-domain math
+- For every SaaS data-upload contract: confirm in writing (1) who owns uploaded data, (2) can vendor train on or intermingle it, (3) who owns derivative models, (4) what happens on contract termination, (5) are weights/embeddings exportable
+- Joint-project ownership: pre-agree on right to publish theoretical results, domain-knowledge attribution, model-reuse rights, feature-engineering know-how sharing
+- Indigenous Data Sovereignty: data describing Indigenous peoples, lands, knowledge, or cultural practices requires community-level consent (not only individual). Frameworks: CARE Principles (Collective Benefit, Authority to Control, Responsibility, Ethics); OCAP (Ownership, Control, Access, Possession — First Nations Canada). Flag at registration time.
+
+## Step 7 — EU AI Act flag (if applicable)
 If any T1 use case touches EU data subjects and falls in a high-risk category (biometric, employment, credit, education, law enforcement), flag it with required conformity assessment steps.
 
 ## Output format
@@ -35,6 +43,7 @@ If any T1 use case touches EU data subjects and falls in a high-risk category (b
 - Pre-deploy gate matrix (tier × gate × required/recommended/optional)
 - MRM checklist (pre-deploy + post-deploy)
 - Monitoring cadence table
+- IP framing checklist (process-as-IP applied? SaaS clauses reviewed? Indigenous DS flagged?)
 - EU AI Act flags (if applicable)
 
 Rules:

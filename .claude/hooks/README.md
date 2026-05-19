@@ -16,7 +16,10 @@ the settings snippet below into your `.claude/settings.json` to enable.
 | `check_unsafe_patterns.py` | PreToolUse | Write\|Edit | Flags OWASP A02/A03/A05/A08 patterns and XSS: `eval`/`exec`, `subprocess shell=True`, raw SQL f-strings, weak crypto (MD5/SHA-1/DES/ECB), `DEBUG=True`, `pickle.loads`, unsafe `yaml.load`, `innerHTML=`, `document.write`. Per-line `# nosec` opt-out. |
 | `check_cloud_cost.py` | PreToolUse | Write\|Edit | Warns on expensive EC2/EKS instance families (p4d, p3dn, x1e, u-*tb1), high-cost RDS classes, `deletion_protection = false`, and `publicly_accessible = true`. Warn-only. Per-line `# cost-ok` opt-out. |
 | `check_programming_gotchas.py` | PreToolUse | Write\|Edit | Blocks three high-confidence Python gotchas: mutable default arguments, bare `except:`, and `== None` identity comparison. `.py` files only. Test/fixture paths downgrade to warning. Per-line `# nosec` opt-out. |
-| `check_ml_leakage.py` | PreToolUse | Write\|Edit | Blocks ML data leakage: `fit_transform(X_test)`, `.fit(X_test)`. Warns on `train_test_split()` missing `random_state`. `.py` files only. Bracket-matches multiline calls. Per-line `# nosec` opt-out. |
+| `check_ml_leakage.py` | PreToolUse | Write\|Edit | Blocks ML data leakage: `fit_transform(X_test)`, `.fit(X_test)`. Warns on `train_test_split()` missing `random_state`, preprocessing-order leakage (`fit_transform` before `train_test_split` in same file), and operational-availability feature names (`*_outcome`, `*_after_decision`, `*_post_diagnosis`). `.py` files only. Per-line `# nosec` / `# leakage-ok` opt-out. |
+| `block_test_set_balancing.py` | PreToolUse | Write\|Edit | Blocks class-balancing on test/val data: `SMOTE().fit_resample(X_test)`, `RandomOverSampler().fit_resample(X_val)`, `*_sampler.fit_resample(X_test)`, `sklearn.utils.resample(X_test)`. `.py` files only. Per-line `# nosec` / `# balance-ok` opt-out. |
+| `check_metric_guardrail.py` | PreToolUse | Write\|Edit | Warns when eval/experiment YAML/TOML/JSON config sets a primary metric (`primary_metric`, `optimization_metric`, etc.) without any sibling guardrail / counter-metric. Goodhart's-law check. Path-filtered to `eval/`, `experiment/`, `metric/`, `config/` etc. Per-line `# metric-ok` / `# goodhart-ok` opt-out. |
+| `check_pii_in_logs.py` | PreToolUse | Write\|Edit | Warns when `print` / `logging.*` / `logger.*` calls reference PII-shaped variables (email, ssn, dob, phone, address, credit_card, mrn, patient_name, full_name, etc.). Skips lines containing `redact`, `mask`, `hash`, `obfuscate`, `pseudo`, `anon`. `.py` files only. Per-line `# pii-ok` opt-out. |
 | `check_prompt_safety.py` | PreToolUse | Write\|Edit | Warns on prompt injection risk (f-string/concat with user vars), and hardcoded absolute model paths. Warn-only. Per-line `# nosec` opt-out. |
 | `audit_log.py` | PostToolUse | * | Passive: appends every tool call to `.claude/logs/audit.jsonl`. Never blocks. |
 
@@ -94,6 +97,18 @@ Paste into your `.claude/settings.json` (merge with any existing keys):
           {
             "type": "command",
             "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/check_ml_leakage.py\""
+          },
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/block_test_set_balancing.py\""
+          },
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/check_metric_guardrail.py\""
+          },
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/check_pii_in_logs.py\""
           },
           {
             "type": "command",
@@ -225,6 +240,41 @@ echo '{"tool_name":"Write","tool_input":{"file_path":"app.py","content":"prompt 
 echo '{"tool_name":"Write","tool_input":{"file_path":"infer.py","content":"model_path = \"/home/user/models/llama\""}}' \
   | python .claude/hooks/check_prompt_safety.py
 # expect: exit=0, stderr=WARNING: MODEL HYGIENE ...
+
+# SMOTE on test set -- should exit 2
+echo '{"tool_name":"Write","tool_input":{"file_path":"train.py","content":"X_res, y_res = SMOTE().fit_resample(X_test, y_test)"}}' \
+  | python .claude/hooks/block_test_set_balancing.py
+# expect: exit=2, stderr=BLOCKED: TEST-SET CONTAMINATION ...
+
+# balance-ok opt-out -- should exit 0
+echo '{"tool_name":"Write","tool_input":{"file_path":"train.py","content":"X_res, y_res = SMOTE().fit_resample(X_test, y_test)  # balance-ok"}}' \
+  | python .claude/hooks/block_test_set_balancing.py
+# expect: exit=0
+
+# operational-availability feature names -- should warn, exit 0
+echo '{"tool_name":"Write","tool_input":{"file_path":"train.py","content":"features = [\"age\", \"outcome_30d\", \"after_decision_status\"]"}}' \
+  | python .claude/hooks/check_ml_leakage.py
+# expect: exit=0, stderr=WARNING: feature name(s) suggest post-event values ...
+
+# eval config with primary metric, no guardrail -- should warn, exit 0
+echo '{"tool_name":"Write","tool_input":{"file_path":"configs/eval.yaml","content":"primary_metric: ctr\nbaseline: 0.04"}}' \
+  | python .claude/hooks/check_metric_guardrail.py
+# expect: exit=0, stderr=WARNING (Goodhart's law) ...
+
+# eval config with both primary + guardrail -- should exit 0
+echo '{"tool_name":"Write","tool_input":{"file_path":"configs/eval.yaml","content":"primary_metric: ctr\nguardrail_metric: bounce_rate"}}' \
+  | python .claude/hooks/check_metric_guardrail.py
+# expect: exit=0, no stderr
+
+# print with PII variable -- should warn, exit 0
+echo '{"tool_name":"Write","tool_input":{"file_path":"app.py","content":"print(f\"sending to {user.email}\")"}}' \
+  | python .claude/hooks/check_pii_in_logs.py
+# expect: exit=0, stderr=WARNING (PII in logs) ...
+
+# print with hashed PII -- should exit 0
+echo '{"tool_name":"Write","tool_input":{"file_path":"app.py","content":"print(f\"sending to {hash(user.email)}\")"}}' \
+  | python .claude/hooks/check_pii_in_logs.py
+# expect: exit=0, no stderr
 ```
 
 ---

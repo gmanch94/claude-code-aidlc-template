@@ -1,6 +1,6 @@
 # claude-code-template
 
-A Claude Code template covering the full AI/ML development lifecycle — from problem framing to production monitoring. 70+ skills, persistent memory, and session continuity out of the box.
+A Claude Code template covering the full AI/ML development lifecycle — from problem framing to production monitoring. 100+ skills, persistent memory, and session continuity out of the box.
 
 ---
 
@@ -35,7 +35,7 @@ This template fixes all four in under 5 minutes of setup.
 | `.claude/skills/security-model-init/SKILL.md` | `/security-model-init` — generate `docs/SECURITY_MODEL.md` scaffold for projects with user-facing surfaces. |
 | `templates/security-model/SECURITY_MODEL-TEMPLATE.md` | Annotated template for the per-(operation × role × surface) enforcement table; stack-specific scaffolding blocks for Supabase/Firebase/Hasura/FastAPI/Express. |
 | `context/MEMORY.md` | Index for Claude's persistent project memory. |
-| `prompts/` | 59 system prompt templates across ML, data engineering, LLM, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
+| `prompts/` | 66 system prompt templates across ML, data engineering, LLM, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
 | `templates/skill/SKILL-TEMPLATE.md` | Annotated template for authoring new skills. Copy to `.claude/skills/<name>/SKILL.md` and fill in. |
 | `.gitignore` | Gitignores `scratch/` (personal workspace), `.claude/settings.local.json`, and `.claude/logs/` (hook audit logs). |
 | `operating-philosophy.md` | Portable working philosophy — communication style, context-mode tool hierarchy, advisor protocol, primary-source verification, session management, git hygiene, Karpathy failure modes, design principles. Copy sections into any project's `CLAUDE.md`. |
@@ -89,6 +89,9 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/stakeholder-interview` | **Business Discovery Facilitator** — structured six-group discovery interview with non-technical stakeholders; outputs a Discovery Summary Card before any ML framing |
 | `/opportunity-sizing` | **AI Opportunity Analyst** — status quo cost, AI uplift estimate, build cost, and go/no-go recommendation; validates the initiative is worth building |
 | `/kpi-mapping` | **KPI-to-Metric Mapper** — 4-level chain from business objective to ML metric with translation failure modes, Goodhart traps, and counter-metric |
+| `/ml-readiness` | **ML Strategy Advisor** — 5-stage maturity assessment (Initial → Development → Competent → Proficient → Advanced) + AI Hierarchy of Needs + build/buy/partner balance per stage + 5-year roadmap + process-as-IP framing |
+| `/stakeholder-comms` | **ML Communications Advisor** — audience map (exec/user/mgmt/data team) + Rider/Elephant/Path messaging framework + reporting cadence templates + failure-comms patterns + adoption-signal tracking |
+| `/metric-gaming-audit` | **Metric Gaming Auditor** — Goodhart's-law guard before committing to any optimization target; proxy-quality scoring, per-actor gaming-path enumeration, secondary effects (unexpected benefits/drawbacks/perverse results), counter-metric design |
 
 **Problem framing / EDA:**
 
@@ -166,7 +169,7 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/agent-design` | **Agentic System Designer** — Agentic system design — loop architecture, tool manifest, guardrails checklist, HITL design, fallback paths, observability |
 | `/multi-agent-design` | **Multi-Agent System Designer** — orchestration pattern (sequential/parallel/hierarchical/debate), framework selection (LangGraph/CrewAI/AutoGen), agent roster, state schema, failure handling, max_iterations gate |
 | `/guardrails-design` | **Guardrails System Designer** — input/output safety layers, threat inventory, detection method per threat (Llama Guard/Presidio/NLI), latency budget, FPR targets, fail-open vs. fail-closed policy |
-| `/red-team` | **AI Red Team Lead** — 4-phase AI red team battery — base model, application layer, infrastructure, operational (phases scaled to risk tier) |
+| `/red-team` | **AI Red Team Lead** — 5-phase AI red team battery — base model, application, infrastructure, operational, user-interaction adversarial (misinterpreted ambient input, spoofed biometrics, frustrated-user exploit, overreliance); phases scaled to risk tier |
 | `/model-card` | **Model Documentation Author** — Model documentation — 9 sections: overview, intended use, training data, evals, limitations, risks, governance, versioning, ownership |
 | `/supply-chain-review` | **AI Supply Chain Auditor** — AI supply chain audit — 6 layers (foundation model, training data, embedding, frameworks, plugins, AI-BOM) with production gate checklist |
 | `/cost-optimize` | **Token Cost Optimizer** — Token spend analysis — model tier decision tree (Opus/Sonnet/Haiku), prompt caching strategy, batch vs. real-time, token budget sizing |
@@ -187,9 +190,11 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/data-contract` | **Data Contract Author** — Producer/consumer data contract — schema ownership, SLAs, versioning, breaking change policy, enforcement |
 | `/dbt-review` | **dbt Model Reviewer** — dbt model review — naming, ref/source usage, incremental correctness, test coverage, documentation |
 | `/sql-review` | **SQL Query Reviewer** — SQL query review — join correctness, fanout bugs, partition pruning, performance anti-patterns, readability |
-| `/data-cleanse` | **Data Cleansing Planner** — Data cleansing workflow — dirty data taxonomy, detection rules, remediation strategy, audit trail, cleansing order |
+| `/data-cleanse` | **Data Cleansing Planner** — Data cleansing workflow — dirty data taxonomy (incl. batch effect, sparse classes, metadata-flagged anomalies), detection rules, remediation strategy, audit trail, cleansing order |
 | `/dedup` | **Entity Resolution Specialist** — Deduplication & entity resolution — exact vs. fuzzy decision, blocking strategy, algorithm selection, confidence scoring, golden record, merge rules |
 | `/schema-harmonization` | **Schema Harmonization Architect** — Multi-source schema merging — conflict taxonomy, canonical schema design, type/semantic/enum resolution, source priority policy |
+| `/data-alignment` | **Data Alignment Architect** — Row-level multi-source consolidation — entity matching, timestamp synchronization (as-of joins, window aggregation), scale/encoding harmonization, batch effect detection + mitigation; complements `/schema-harmonization` (schema-level) |
+| `/metadata-audit` | **Metadata Auditor** — 7-dimension column audit (provenance, collection method, units, transformation history, summarization rule, labeling process, update cadence); batch effect detection; gap register with severity |
 | `/timeseries-resample` | **Time Series Resampling Advisor** — Time series resampling — upsample (interpolation by metric type) vs. downsample (aggregation), gap handling, temporal alignment |
 | `/class-balancing` | **Class Imbalance Strategist** — ML class imbalance handling — strategy by imbalance ratio, SMOTE/oversample/weights, eval setup, threshold tuning |
 | `/annotation-design` | **Annotation Schema Designer** — Annotation schema design — label taxonomy, decision tree, edge case catalog, calibration process |
@@ -197,7 +202,7 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/active-learning` | **Active Learning Strategist** — Active learning strategy — query strategy by labeled set size, uncertainty/diversity sampling, stopping criteria |
 | `/split-design` | **Data Split Designer** — Train/val/test split — random/temporal/group decision, ratios by dataset size, stratification, minimum eval sizes |
 | `/cross-validation` | **Cross-Validation Strategist** — CV strategy — k-fold variant selection, time series CV, group k-fold, nested CV for hyperparameter tuning |
-| `/leakage-audit` | **Data Leakage Auditor** — Data leakage detection — temporal, target, group, and preprocessing-order leakage with code fixes |
+| `/leakage-audit` | **Data Leakage Auditor** — Data leakage detection — temporal, target, group, preprocessing-order, and operational-availability leakage (production-readiness check) with code fixes |
 
 **ML algorithm selection / tuning:**
 
@@ -208,6 +213,7 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/training-infrastructure` | **Training Infrastructure Designer** — compute selection (CPU/GPU/TPU/cloud), distributed training strategy (DDP/FSDP/model-parallel), orchestration, checkpointing, cost estimate |
 | `/hyperparameter-tuning` | **Hyperparameter Tuning Strategist** — Tuning strategy — random vs. Bayesian vs. async; search space by algorithm; complete Optuna/sklearn code |
 | `/model-comparison` | **Model Comparison Analyst** — Statistical model comparison — test selection, effect size, practical significance threshold, production verdict |
+| `/transfer-learning` | **Transfer Learning Advisor** — Source model/task selection, adaptation strategy (feature-extract / partial / full / adapter / LoRA), negative-transfer check, catastrophic-forgetting mitigation, evaluation plan including from-scratch baseline |
 
 **Feature engineering:**
 
@@ -246,13 +252,14 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | Command | What it does |
 |---|---|
 | `/model-deployment` | **Model Deployment Engineer** — Artifact packaging checklist, phased rollout (shadow→canary→limited→full GA), automated + manual rollback triggers, deployment.yaml |
-| `/inference-service-design` | **Inference Service Designer** — Serving pattern decision (REST/gRPC/batch), latency budget breakdown, scaling spec, circuit breaker + safe fallback, observability signals |
+| `/inference-service-design` | **Inference Service Designer** — Serving pattern decision (REST/gRPC/batch + edge/IoT/on-device), latency budget breakdown, scaling spec, circuit breaker + safe fallback, OTA rollout for edge, observability signals |
 | `/model-decommissioning` | **Model Decommissioning Planner** — Retire a model — retirement criteria, dependency audit, consumer notification, archive policy, retention schedule |
 
 **Responsible AI:**
 
 | Command | What it does |
 |---|---|
+| `/bias-audit` | **Training Data Bias Auditor** — Training-data representativeness vs operational environment; 6 bias classes (sample selection, demographic, geographic, temporal, labeler, survivorship); run BEFORE training. Complements `/fairness-audit` which checks model outputs AFTER training |
 | `/fairness-audit` | **AI Fairness Auditor** — Demographic parity, disparate impact ratio (80% rule), equal opportunity, protected-attribute slice analysis, mitigation strategies |
 | `/explainability` | **Model Explainability Analyst** — SHAP / LIME / PDP / counterfactuals — global + local explanations, method selection by model type, audience-appropriate output |
 
@@ -265,7 +272,7 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/retraining-strategy` | **Model Retraining Strategist** — Trigger types (drift/calendar/performance), data window design, full vs. incremental, validation gates before promotion |
 | `/data-versioning` | **Dataset Versioning Specialist** — Dataset versioning approach (DVC/time-travel/snapshot), registration schema, lineage chain, reproducibility checklist |
 | `/mlops-cicd` | **MLOps Pipeline Engineer** — ML CI/CD pipeline stages, model quality gates (performance/fairness/latency), artifact registration schema, rollback triggers, GitHub Actions YAML |
-| `/responsible-ai-governance` | **AI Governance Advisor** — Risk tier classification (T1–T4), 5-pillar governance framework, MRM checklist, pre-deploy gate matrix, EU AI Act flags |
+| `/responsible-ai-governance` | **AI Governance Advisor** — Risk tier classification (T1–T4), 5-pillar governance framework, MRM checklist, pre-deploy gate matrix, EU AI Act flags, IP framing (process-as-IP, SaaS data-upload clauses, Indigenous Data Sovereignty / CARE / OCAP) |
 | `/model-compression` | **Model Compression Specialist** — Compression technique selection (PTQ/QAT/pruning/distillation/GPTQ), ready-to-run code, eval plan on target hardware |
 | `/feature-monitoring` | **Feature Health Monitor** — Production feature health — freshness SLAs, null rate baselines, schema drift, PSI per feature, dashboard spec, anomaly playbook |
 

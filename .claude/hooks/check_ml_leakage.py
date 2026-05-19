@@ -20,6 +20,16 @@ Warns:
     Fix: add random_state=<int> for reproducible splits.
     Handles multiline calls correctly via bracket-matching (not line-by-line).
 
+  Preprocessing-order leakage (fit_transform before split)
+    scaler.fit_transform(X)
+    X_train, X_test = train_test_split(X_scaled, ...)   # leak: scaler saw test rows
+    Fix: split FIRST, then fit on X_train only.
+
+  Operational-availability feature names
+    Feature names like *_outcome, *_result, *_after_decision, *_post_diagnosis
+    suggest the value is recorded after the prediction event -- likely target leakage.
+    Fix: confirm each flagged feature exists in the upstream system at inference time.
+
 Variable name heuristics (test/val data detection):
   Matches names ending in _test or _val (X_test, features_val),
   starting with test_ or val_ (test_data, val_features),
@@ -156,6 +166,45 @@ def main() -> int:
         print(
             "WARNING: train_test_split() called without random_state. "
             "Add random_state=<int> for reproducible splits across runs.",
+            file=sys.stderr,
+        )
+
+    # Preprocessing-order leakage: fit_transform appears before train_test_split.
+    if "train_test_split" in content:
+        ft_pos = re.search(r"\.fit_transform\s*\(", content)
+        tts_pos = re.search(r"\btrain_test_split\s*\(", content)
+        if ft_pos and tts_pos and ft_pos.start() < tts_pos.start():
+            # Extract the fit_transform line (handle final-line / no-trailing-newline case).
+            nl = content.find("\n", ft_pos.start())
+            ft_line = content[ft_pos.start() :] if nl == -1 else content[ft_pos.start() : nl]
+            # Skip if the fit_transform argument is a training-only variable.
+            if not re.search(r"\.fit_transform\s*\(\s*\w*_train\b", ft_line):
+                print(
+                    "WARNING: fit_transform() appears before train_test_split() in this file. "
+                    "If the fitted transformer saw the full dataset, it leaks test "
+                    "distribution into preprocessing. Split FIRST, then fit on X_train only.",
+                    file=sys.stderr,
+                )
+
+    # Operational-availability leakage: feature names suggesting post-event values.
+    leaky_name_pattern = re.compile(
+        r"['\"](\w*(?:_outcome|_result|_after_(?:decision|event|diagnosis|treatment|"
+        r"discharge|approval|prediction)|_post(?:outcome|diagnosis|treatment|event)|"
+        r"_label_leaks?|_was_(?:fraud|approved|denied|admitted)))['\"]",
+        re.IGNORECASE,
+    )
+    flagged = set()
+    for line in lines:
+        if "# nosec" in line or "# leakage-ok" in line:
+            continue
+        for m in leaky_name_pattern.finditer(line):
+            flagged.add(m.group(1))
+    if flagged:
+        names = ", ".join(sorted(flagged)[:5])
+        print(
+            f"WARNING: feature name(s) suggest post-event values (operational-availability leakage): "
+            f"{names}. Confirm each exists in the upstream system AT inference time, "
+            f"not recorded after the prediction event. Suppress per-line with '# leakage-ok'.",
             file=sys.stderr,
         )
 

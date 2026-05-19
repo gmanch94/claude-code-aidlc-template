@@ -19,6 +19,9 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`stakeholder-interview.md`](stakeholder-interview.md) | Six-group discovery interview with non-technical stakeholders; Discovery Summary Card | `ORGANIZATION_NAME`, `STAKEHOLDER_ROLE`, `BUSINESS_DOMAIN` |
 | [`opportunity-sizing.md`](opportunity-sizing.md) | Status quo cost, AI uplift estimate, build cost, go/no-go recommendation | `BUSINESS_PROBLEM`, `CURRENT_PROCESS`, `ANNUAL_VOLUME` |
 | [`kpi-mapping.md`](kpi-mapping.md) | Business objective → KPI → proxy → ML metric chain with failure modes and counter-metric | `BUSINESS_OBJECTIVE`, `CURRENT_KPI_SYSTEM`, `ERROR_TOLERANCE` |
+| [`ml-readiness.md`](ml-readiness.md) | 5-stage maturity assessment + AI Hierarchy of Needs + build/buy/partner + 5-year roadmap + process-as-IP | `ORG_CONTEXT`, `ML_FOOTPRINT`, `STRATEGIC_HORIZON` |
+| [`stakeholder-comms.md`](stakeholder-comms.md) | Audience map + Rider/Elephant/Path messaging + reporting cadence + failure-comms templates | `PROJECT_CONTEXT`, `STAKEHOLDERS`, `CURRENT_STATE` |
+| [`metric-gaming-audit.md`](metric-gaming-audit.md) | Goodhart-resistance audit — proxy scoring, per-actor gaming paths, secondary effects, counter-metrics | `OPTIMIZATION_CONTEXT`, `CANDIDATE_METRICS`, `OPERATING_ENV` |
 
 **Problem framing / EDA:**
 
@@ -82,6 +85,8 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`data-dict-gen.md`](data-dict-gen.md) | Auto-generate data dictionary from table schema | `OUTPUT_FORMAT`, `AUDIENCE` |
 | [`quality-rules-gen.md`](quality-rules-gen.md) | Generate validation rules → dbt tests or SQL checks | `STACK`, `OUTPUT_FORMAT` |
 | [`contract-draft.md`](contract-draft.md) | Draft producer/consumer data contract | `OUTPUT_FORMAT`, `SENSITIVITY_NOTE` |
+| [`metadata-audit.md`](metadata-audit.md) | 7-dimension column audit (provenance, collection, units, transform, summarization, labels, cadence) + batch effect | `DATASET_CONTEXT`, `METADATA_SOURCES`, `DOWNSTREAM_USE` |
+| [`data-alignment.md`](data-alignment.md) | Row-level multi-source consolidation — entity match, timestamp sync, scale harmonization, batch effect | `SOURCES_CONTEXT`, `TARGET_CONTEXT`, `CONSTRAINTS` |
 
 **Data cleansing / normalization:**
 
@@ -118,6 +123,7 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`training-infrastructure.md`](training-infrastructure.md) | Compute selection, distributed training strategy, orchestration, cost estimate | `MODEL_TYPE`, `PARAMETER_COUNT`, `DATASET_SIZE`, `COST_BUDGET` |
 | [`hyperparameter-tuning.md`](hyperparameter-tuning.md) | Tuning strategy (random / Bayesian) + search space | `ALGORITHM_CONTEXT`, `COMPUTE_BUDGET`, `OPTIMIZATION_METRIC` |
 | [`model-comparison.md`](model-comparison.md) | Statistical model comparison + production verdict | `MODELS_TO_COMPARE`, `EVALUATION_METRIC`, `DATASET_CONTEXT` |
+| [`transfer-learning.md`](transfer-learning.md) | Source-model selection, adaptation strategy (feature-extract / partial / full / adapter / LoRA), negative-transfer check, catastrophic-forgetting mitigation | `TARGET_TASK_CONTEXT`, `SOURCE_CANDIDATES`, `CONSTRAINTS` |
 
 **Feature engineering:**
 
@@ -163,7 +169,8 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 
 | File | Use case | Key placeholders |
 |---|---|---|
-| [`fairness-audit.md`](fairness-audit.md) | Bias audit — demographic parity, disparate impact, equal opportunity, mitigation | `MODEL_CONTEXT`, `PROTECTED_ATTRIBUTES`, `REGULATORY_CONTEXT` |
+| [`bias-audit.md`](bias-audit.md) | Training-data bias audit (6 classes: sample-selection, demographic, geographic, temporal, labeler, survivorship); run BEFORE training | `OPERATIONAL_ENV`, `TRAINING_DATA_CONTEXT`, `LABELING_CONTEXT` |
+| [`fairness-audit.md`](fairness-audit.md) | Model-output fairness audit — demographic parity, disparate impact, equal opportunity, mitigation | `MODEL_CONTEXT`, `PROTECTED_ATTRIBUTES`, `REGULATORY_CONTEXT` |
 | [`explainability.md`](explainability.md) | SHAP / LIME / counterfactuals — global + local explanations by audience | `MODEL_CONTEXT`, `EXPLANATION_GOALS`, `AUDIENCE` |
 
 **MLOps / Lifecycle:**

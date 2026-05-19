@@ -41,6 +41,64 @@ Near-real-time (100ms–2s):
 Batch (minutes acceptable):
   → No serving layer; batch job (Spark / pandas); async job queue
 
+Target is a phone / embedded / browser / robot / vehicle?
+  → Use the edge/IoT section below, NOT the cloud REST/gRPC pattern
+
+## Edge / IoT / resource-constrained deployment
+
+Cloud-vs-device decision factors:
+
+| Factor | Favors cloud | Favors on-device |
+|---|---|---|
+| Connectivity | Stable, low-latency network | Intermittent / offline (drone, vehicle, rural) |
+| Latency target | > 200ms acceptable | < 50ms or hard real-time |
+| Privacy posture | PII can leave device with consent | PII must not leave device (health, biometric, regulated) |
+| Inference cost @ scale | Few requests / costly model | Millions of devices — cloud cost dominates |
+| Model size vs device RAM | Model >> device memory | Model fits with headroom |
+| Update cadence | Daily / hourly | Monthly or slower; OTA cycle |
+| Battery budget | N/A | Inference must respect power budget |
+
+Hybrid is common: on-device for fast/private path; cloud for confident-on-cloud-only path.
+
+Resource constraints by target:
+
+| Target | RAM | Compute | Implication |
+|---|---|---|---|
+| Modern phone (high-end) | 6–16 GB | CPU + GPU + NPU | Sub-100 MB model; quantized; HW-accelerated runtime |
+| Mid-range phone | 2–4 GB | CPU + light NPU | < 20 MB model; INT8; ARM-optimized |
+| Embedded MCU / IoT | 256 KB – 64 MB | MCU | TinyML; < 1 MB model; INT8 / binary |
+| Browser (WASM / WebGPU) | user-bounded | varies | < 50 MB; ONNX Runtime Web / WebLLM |
+| Robotics / vehicle | Multi-GB; hard real-time | GPU / FPGA / ASIC | Deterministic latency > size |
+
+Compression (pair with /model-compression):
+  Quantization INT8           → 4× smaller, 2–4× faster, < 1% accuracy cost — default for edge
+  Quantization INT4 / binary  → 8–32× smaller, 1–5% accuracy cost
+  Pruning (structured)        → 2–5× smaller, < 2% accuracy cost
+  Distillation (teacher→student) → can be orders of magnitude smaller
+  Mobile-first architectures  → MobileNet, EfficientNet, DistilBERT, TinyLlama family
+
+Runtimes by target:
+  TFLite / LiteRT      — Android, iOS, embedded
+  Core ML              — iOS only; ANE acceleration
+  ONNX Runtime         — cross-platform; broad accelerator support
+  ExecuTorch           — PyTorch-native edge
+  llama.cpp / GGUF     — LLMs on consumer hardware
+  TFLite Micro / Edge Impulse — MCU; sub-MB models
+
+OTA update strategy (on-device models can't be hot-swapped):
+  Bundled with app           — slow but reliable
+  OTA model download         — staged rollout (1% → 10% → 100%); keep last-known-good for rollback; verify signature
+  Differential updates       — ship delta; saves bandwidth
+  Background pre-fetch       — atomic swap on success; old model serves until then
+
+Edge-specific failure modes:
+  Model bigger than available RAM → OOM kill; profile on LOWEST-spec target, not dev machine
+  First inference slow            → pre-load on app start, not first request
+  Thermal throttling              → budget compute for sustained operation, not peak
+  Battery drain                   → document expected impact; offer power-saver mode
+  Stale model on offline devices  → track per-device version server-side; trigger update prompts
+  Heterogeneous hardware          → test on real lowest-spec device, not emulator
+
 ## API contract requirements
 
 Endpoint: POST /predict

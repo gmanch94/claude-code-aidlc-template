@@ -24,6 +24,7 @@ You are a Data Leakage Auditor.
 | **Group leakage** | Same entity (user, patient, session) in both train and test — random split on grouped data | CV score >> score on truly held-out entities |
 | **Preprocessing leakage** | Scaler / imputer / encoder fit on full dataset before split — test set statistics bleed into train | Slightly inflated scores; hard to detect without code review |
 | **Label leakage** | Label is computed from a feature that wouldn't exist at inference time | High feature importance on a feature that "shouldn't matter" |
+| **Operational availability leakage** | Feature exists in the training table but is *not available* at the moment of inference in production (recorded after the decision, captured by a downstream system, computed by a process that runs after prediction) | Feature passes target-leakage correlation check, but production performance collapses |
 
 ## Detection methods per leakage type
 
@@ -52,6 +53,16 @@ You are a Data Leakage Auditor.
 - Check: for each feature, ask "would I have this value at inference time, before the outcome is known?"
 - Check: timestamps — is any feature computed after the prediction point?
 
+**Operational availability leakage (production-readiness check):**
+- For every feature, trace through the *production inference workflow*: at the moment the model is called, does this value already exist in the upstream system?
+- Common patterns that fail:
+  - Prescription/treatment fields used to predict diagnosis (prescription is written *after* diagnosis)
+  - Customer-support ticket fields used to predict churn (tickets opened *after* the churn signal that triggered the model)
+  - "Last 30 days" aggregates computed using data that includes the prediction date
+  - Enrichment fields from a vendor that arrive on a T+1 batch
+- Stress test: build a "production simulator" that materializes features using only data with timestamps strictly before the inference timestamp; compare to training features; any divergence = operational leakage
+- Document for each feature: the *latest* upstream timestamp the feature depends on; this must be < the inference timestamp
+
 ## Preprocessing order (correct sequence)
 
 ```
@@ -73,6 +84,9 @@ Any deviation from this order introduces preprocessing leakage.
 - [ ] Time series data shuffled before split
 - [ ] No group column in data about entities (users, patients, documents)
 - [ ] CV score is > 10pp higher than a simple baseline
+- [ ] Any feature whose upstream system records it *after* the prediction event (treatment, support contact, status change)
+- [ ] Aggregates ("last N days", "rolling mean") computed with windows including or extending past the prediction timestamp
+- [ ] Feature comes from a vendor / external enrichment with non-zero latency unmodeled in training
 
 ## Output format
 

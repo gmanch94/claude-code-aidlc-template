@@ -56,6 +56,14 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`recommender-design.md`](recommender-design.md) | Recommendation system design — algorithm, two-stage pipeline, cold-start, offline/online eval | `ORGANIZATION_NAME`, `DOMAIN`, `INTERACTION_TYPE`, `USER_COUNT`, `ITEM_COUNT` |
 | [`nlp-pipeline.md`](nlp-pipeline.md) | NLP pipeline — preprocessing, embedding selection, task metrics, annotation guidance | `ORGANIZATION_NAME`, `NLP_TASK`, `CORPUS_SIZE`, `DOMAIN`, `LABEL_AVAILABILITY` |
 | [`anomaly-detection.md`](anomaly-detection.md) | Anomaly detection — method by data type + label availability, threshold strategy, FPR evaluation, treatment | `ORGANIZATION_NAME`, `DATASET_CONTEXT`, `DATA_TYPE`, `LABEL_AVAILABILITY`, `DETECTION_GOAL` |
+| [`predictive-maintenance.md`](predictive-maintenance.md) | PdM framing (anomaly/RUL/classification by failure count), lead-time gate, cost-weighted threshold, alert→work-order policy | `ORGANIZATION_NAME`, `ASSET_FAILURE_MODES`, `FAILURE_HISTORY`, `LEAD_TIME`, `COSTS` |
+
+**Industrial / IoT (OT data):**
+
+| File | Use case | Key placeholders |
+|---|---|---|
+| [`uns-contextualization.md`](uns-contextualization.md) | Unified Namespace hierarchy (ISA-95), asset/digital-twin models, raw-tag → business-concept map, signal governance | `ORGANIZATION_NAME`, `SITE_SCOPE`, `ASSET_CLASSES`, `TAG_INVENTORY`, `BACKBONE` |
+| [`industrial-iot-ingestion.md`](industrial-iot-ingestion.md) | OT protocol selection (OPC-UA/MQTT+Sparkplug B/Modbus), edge store-and-forward, OT→IT one-way boundary, volume estimate | `ORGANIZATION_NAME`, `SITE_LINE`, `SOURCES`, `NETWORK`, `BACKBONE` |
 
 **General / AI:**
 
@@ -80,6 +88,7 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 |---|---|---|
 | [`nl-to-sql.md`](nl-to-sql.md) | NL → SQL with schema context + safety guardrails | `DIALECT`, `SCHEMA_CONTEXT`, `PARTITION_COLUMN` |
 | [`streaming-pipeline.md`](streaming-pipeline.md) | Streaming pipeline — stream vs. batch decision, technology selection, windowing, state management, ML feature integration | `ORGANIZATION_NAME`, `PIPELINE_NAME`, `LATENCY_REQUIREMENT`, `THROUGHPUT`, `DELIVERY_SEMANTIC` |
+| [`lakehouse-architecture.md`](lakehouse-architecture.md) | Medallion zones (bronze/silver/gold), table format (Iceberg/Delta/Hudi), partitioning, compaction, query engines, lineage | `ORGANIZATION_NAME`, `SCOPE`, `STORAGE`, `WORKLOADS`, `DATA_PROFILE`, `STACK` |
 | [`dbt-model-gen.md`](dbt-model-gen.md) | Generate dbt model SQL + schema.yml from spec | `WAREHOUSE`, `UPSTREAM_REFS` |
 | [`pipeline-debugger.md`](pipeline-debugger.md) | Systematic pipeline failure / anomaly diagnosis | `PIPELINE_DESCRIPTION`, `STACK_DESCRIPTION` |
 | [`data-dict-gen.md`](data-dict-gen.md) | Auto-generate data dictionary from table schema | `OUTPUT_FORMAT`, `AUDIENCE` |
@@ -162,6 +171,7 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | File | Use case | Key placeholders |
 |---|---|---|
 | [`model-deployment.md`](model-deployment.md) | Artifact packaging, phased rollout (shadow→canary→GA), rollback triggers, deployment.yaml | `MODEL_CONTEXT`, `TARGET_ENVIRONMENT`, `ROLLOUT_CONSTRAINTS` |
+| [`edge-ml-deployment.md`](edge-ml-deployment.md) | Edge-vs-cloud gate, per-stage latency budget, signed atomic OTA + offline rollback, fail-safe fallback, OT advises-not-actuates | `ORGANIZATION_NAME`, `MODEL_USE_CASE`, `LATENCY_BUDGET`, `TARGET_HARDWARE`, `SAFETY_CLASS` |
 | [`inference-service-design.md`](inference-service-design.md) | REST/gRPC/batch pattern, latency budget, scaling, circuit breaker, fallback | `MODEL_CONTEXT`, `TRAFFIC_REQUIREMENTS`, `INFRASTRUCTURE_CONSTRAINTS` |
 | [`model-decommissioning.md`](model-decommissioning.md) | Retire a model — retirement criteria, dependency audit, notification, archive policy | `MODEL_CONTEXT`, `SUCCESSOR_CONTEXT`, `CONSTRAINTS` |
 

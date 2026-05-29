@@ -165,6 +165,11 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 - `/survival-analysis` — **Survival Analysis Advisor** — method by censoring type (KM/Cox PH/RSF/AFT/Fine-Gray); PH assumption validation; survival curves + log-rank; C-statistic + calibration
 - `/computer-vision` — **Computer Vision Advisor** — architecture by task × dataset size (CNN/ViT/YOLO/SegFormer); preprocessing + augmentation; mAP@0.5:0.95; 3-phase transfer learning
 - `/online-learning` — **Online Learning Advisor** — streaming ML (Hoeffding Tree/HAT/VW); concept drift detection (ADWIN/EDDM); prequential evaluation; batch retrain recommended when viable
+- `/predictive-maintenance` — **Predictive Maintenance Advisor** — frames anomaly vs RUL vs failure-classification by failure-event count; lead-time gate (horizon = parts + scheduling + repair); cost-weighted threshold; leakage-audited features; alert→work-order policy
+
+*Industrial / IoT (OT data):*
+- `/uns-contextualization` — **Unified Namespace Architect** — ISA-95 namespace hierarchy; asset/digital-twin models (class once, instance per unit); raw-tag → business-concept map stored as versioned data; non-destructive (`_raw` preserved); per-signal owner/unit/freshness SLA
+- `/industrial-iot-ingestion` — **Industrial IoT Ingestion Architect** — OT protocol selection (OPC-UA/MQTT+Sparkplug B/Modbus); edge gateway store-and-forward (no-loss on outage); source/edge event-time stamping; OT→IT one-way boundary (no control path); deadband volume control
 
 *General:*
 - `/office-hours` — **Assumptions Facilitator** — assumptions gate; six forcing questions + design doc before any implementation
@@ -205,6 +210,7 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 - `/pipeline-design` — **Data Pipeline Architect** — batch vs. streaming decision, orchestration, idempotency, backfill, SLA
 - `/data-mesh` — **Data Mesh Architect** — domain ownership boundaries; data product specs (SLA/schema/access/quality contract); federated governance (policy-as-code); platform stack; one-domain migration
 - `/streaming-pipeline` — **Streaming Pipeline Architect** — stream vs. batch vs. hybrid; Kafka/Flink/Spark Streaming selection; windowing; state management; ML feature pipeline integration; consumer lag monitoring
+- `/lakehouse-architecture` — **Lakehouse Architect** — medallion bronze/silver/gold zones; open table format (Iceberg/Delta/Hudi); partitioning by dominant query filter; compaction + snapshot expiry for OT/IoT scale; query-engine choice; lineage + time-travel reproducibility
 - `/schema-design` — **Data Schema Designer** — dimensional modeling, SCD types, partitioning, schema evolution policy
 - `/data-quality` — **Data Quality Engineer** — validation rules, anomaly detection, quarantine + replay strategy
 - `/data-contract` — **Data Contract Author** — producer/consumer agreement (schema ownership, SLAs, breaking change policy)
@@ -255,6 +261,7 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 *Model deployment:*
 - `/model-deployment` — **Model Deployment Engineer** — artifact checklist; shadow→canary→limited→full GA rollout; automated + manual rollback triggers; deployment.yaml
 - `/inference-service-design` — **Inference Service Designer** — REST/gRPC/batch + edge/IoT/on-device pattern; latency budget; scaling spec; circuit breaker + safe fallback; OTA rollout for edge; observability signals
+- `/edge-ml-deployment` — **Edge ML Deployment Engineer** — edge-vs-cloud gate; per-stage latency budget; on-device-validated compressed model; signed atomic OTA + offline rollback; fail-safe fallback; OT advises-not-actuates boundary; offline-tolerant observability
 - `/model-decommissioning` — **Model Decommissioning Planner** — retirement criteria; dependency audit; consumer notification; archive policy; retention schedule
 
 *Responsible AI:*

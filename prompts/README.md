@@ -57,6 +57,10 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`nlp-pipeline.md`](nlp-pipeline.md) | NLP pipeline — preprocessing, embedding selection, task metrics, annotation guidance | `ORGANIZATION_NAME`, `NLP_TASK`, `CORPUS_SIZE`, `DOMAIN`, `LABEL_AVAILABILITY` |
 | [`anomaly-detection.md`](anomaly-detection.md) | Anomaly detection — method by data type + label availability, threshold strategy, FPR evaluation, treatment | `ORGANIZATION_NAME`, `DATASET_CONTEXT`, `DATA_TYPE`, `LABEL_AVAILABILITY`, `DETECTION_GOAL` |
 | [`predictive-maintenance.md`](predictive-maintenance.md) | PdM framing (anomaly/RUL/classification by failure count), lead-time gate, cost-weighted threshold, alert→work-order policy | `ORGANIZATION_NAME`, `ASSET_FAILURE_MODES`, `FAILURE_HISTORY`, `LEAD_TIME`, `COSTS` |
+| [`causal-inference.md`](causal-inference.md) | Causal method by study design, assumption validation, effect estimate + CI | `ORGANIZATION_NAME`, `STUDY_DESIGN`, `TREATMENT_VARIABLE`, `OUTCOME_VARIABLE`, `ATE_OR_ATT_OR_LATE` |
+| [`computer-vision.md`](computer-vision.md) | CV architecture by task × dataset size, preprocessing + augmentation, mAP eval | `ORGANIZATION_NAME`, `CV_TASK`, `DATASET_SIZE`, `NUM_CLASSES`, `DEPLOYMENT_CONSTRAINTS` |
+| [`survival-analysis.md`](survival-analysis.md) | Method by censoring type (KM/Cox/RSF/AFT), PH validation, C-statistic + calibration | `ORGANIZATION_NAME`, `EVENT_DEFINITION`, `CENSORING_TYPE`, `COVARIATE_DESCRIPTION`, `COMPETING_RISKS` |
+| [`online-learning.md`](online-learning.md) | Streaming ML, concept-drift detection, prequential eval, batch-retrain gate | `ORGANIZATION_NAME`, `LEARNING_TASK`, `STREAM_DESCRIPTION`, `DRIFT_PROFILE`, `UPDATE_FREQUENCY` |
 
 **Industrial / IoT (OT data):**
 
@@ -73,6 +77,7 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`agentic-assistant.md`](agentic-assistant.md) | Tool-use agent with guardrails | `AGENT_NAME`, `TOOL_LIST`, `OUT_OF_SCOPE_LIST` |
 | [`llm-routing.md`](llm-routing.md) | LLM routing — routing strategy, model tier map, fallback chain, quality-floor gate, cost/quality projection | `ORGANIZATION_NAME`, `APPLICATION_DESCRIPTION`, `TASK_TYPES`, `QUALITY_FLOOR`, `COST_CONSTRAINT` |
 | [`build-vs-buy.md`](build-vs-buy.md) | Build vs buy — 5-dimension scoring, AI tooling decision matrix, 3-year TCO, vendor alternatives, exit strategy | `ORGANIZATION_NAME`, `COMPONENTS`, `TEAM_SIZE`, `BUDGET_HORIZON`, `CONSTRAINTS` |
+| [`agent-design.md`](agent-design.md) | Agentic system — loop, tool manifest, excessive-agency bounds, HITL gates, memory, fallbacks | `ORGANIZATION_NAME`, `GOAL`, `TOOLS`, `SIDE_EFFECTS`, `AUTONOMY` |
 | [`multi-agent-design.md`](multi-agent-design.md) | Multi-agent orchestration — pattern selection, framework (LangGraph/CrewAI/AutoGen), agent roster, state schema, failure handling | `ORGANIZATION_NAME`, `SYSTEM_GOAL`, `TOOL_LIST`, `LATENCY_REQUIREMENT`, `FRAMEWORK_PREFERENCE` |
 | [`guardrails-design.md`](guardrails-design.md) | LLM input/output safety layers — threat inventory, detection methods, latency budget, FPR targets | `ORGANIZATION_NAME`, `APPLICATION_DESCRIPTION`, `RISK_PROFILE`, `LLM_MODEL`, `LATENCY_BUDGET` |
 | [`chat-assistant.md`](chat-assistant.md) | General-purpose chat with persona + scope | `ASSISTANT_NAME`, `SCOPE_DESCRIPTION`, `OUT_OF_SCOPE` |
@@ -81,6 +86,29 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`code-reviewer.md`](code-reviewer.md) | Code review with BLOCKER/SUGGESTION/NITPICK grading | `LANGUAGE_OR_STACK`, `ADDITIONAL_CONSTRAINT` |
 | [`summarizer.md`](summarizer.md) | Audience-targeted summarization | `TARGET_AUDIENCE`, `TARGET_LENGTH`, `OUTPUT_FORMAT` |
 | [`structured-output.md`](structured-output.md) | NL → strict JSON schema conversion | `JSON_SCHEMA` |
+| [`rag-design.md`](rag-design.md) | Full RAG pipeline — chunking, embedding, retrieval, reranking, grounded generation, observability | `ORGANIZATION_NAME`, `CORPUS`, `USE_CASE`, `SCALE`, `QUALITY_BAR` |
+| [`eval-design.md`](eval-design.md) | LLM eval framework — metrics by task, test-set sizing, pass/fail thresholds, drift triggers | `ORGANIZATION_NAME`, `FEATURE`, `TASK_TYPE`, `QUALITY_BAR`, `FAILURE_COST` |
+| [`cost-optimize.md`](cost-optimize.md) | LLM token spend — tier selection, prompt caching, batching, budget (distinct from DBU) | `ORGANIZATION_NAME`, `CALL_TYPES`, `MODEL_VOLUME`, `LATENCY`, `QUALITY_FLOOR` |
+| [`threat-model.md`](threat-model.md) | AI threat model — injection/jailbreak/poisoning/excessive-agency + traditional, severities | `ORGANIZATION_NAME`, `SYSTEM`, `TRUST_BOUNDARIES`, `MODEL_TOOLS`, `ASSETS` |
+| [`red-team.md`](red-team.md) | 5-phase adversarial battery (base/app/infra/operational/user-interaction), findings format | `ORGANIZATION_NAME`, `SYSTEM`, `SURFACES`, `MODEL_TOOLS`, `THREAT_MODEL` |
+| [`pii-scan.md`](pii-scan.md) | PII exposure audit across lifecycle (collection→logs→prompts→outputs→third-party), remediations | `ORGANIZATION_NAME`, `SYSTEM`, `PII_CATEGORIES`, `THIRD_PARTIES`, `REGIME` |
+| [`supply-chain-review.md`](supply-chain-review.md) | AI supply-chain audit + AI-BOM — provenance, license, poisoning, CVE risk per component | `ORGANIZATION_NAME`, `SYSTEM`, `MODELS`, `DATASETS`, `DEPENDENCIES` |
+| [`observability.md`](observability.md) | AI observability — signal layers (infra/model/quality/drift/business), alerts, drift indicators | `ORGANIZATION_NAME`, `SYSTEM`, `SLOS`, `QUALITY_SIGNALS`, `CHANNELS` |
+| [`runbook.md`](runbook.md) | AI incident runbook — detection/triage/mitigation/rollback per scenario, kill switch | `ORGANIZATION_NAME`, `SYSTEM`, `SCENARIOS`, `MITIGATIONS`, `ESCALATION` |
+| [`rollout.md`](rollout.md) | Phased rollout (shadow→canary→limited→GA), eval gates, rollback triggers | `ORGANIZATION_NAME`, `CHANGE`, `RISK`, `TRAFFIC`, `ROLLBACK` |
+| [`retro.md`](retro.md) | Engineering retrospective — reviews commits, surfaces lessons, writes LESSONS_LEARNED | `TEAM_OR_PROJECT_NAME`, `COMMIT_RANGE`, `GIT_LOG`, `INCIDENT_NOTES`, `DEVELOPER_NOTES` |
+
+**Auth / Identity (OAuth / OIDC):**
+
+| File | Use case | Key placeholders |
+|---|---|---|
+| [`oauth-flow-design.md`](oauth-flow-design.md) | Grant selection (auth-code+PKCE/client-credentials/device), redirect-URI allowlist, state+PKCE | `ORGANIZATION_NAME`, `CLIENT_TYPE`, `IDP`, `RESOURCE`, `REDIRECT_URIS` |
+| [`oidc-integration.md`](oidc-integration.md) | ID-token vs access-token, discovery/JWKS, nonce, claims→user (`sub`), federation, logout | `ORGANIZATION_NAME`, `IDP`, `APP`, `CLAIMS`, `PROVISIONING` |
+| [`jwt-validation.md`](jwt-validation.md) | Verifier-pins-alg, JWKS-by-kid, iss/aud/exp/nbf checks, bounded skew, strict-mode lib | `ORGANIZATION_NAME`, `TOKEN_TYPE`, `ISSUER`, `AUDIENCE`, `KEY_SOURCE` |
+| [`token-lifecycle.md`](token-lifecycle.md) | No-localStorage/BFF storage, short TTL, refresh rotation + reuse detection, revocation, cookies | `ORGANIZATION_NAME`, `CLIENT_TYPE`, `TOKENS`, `REVOCATION`, `SESSION_MODEL` |
+| [`session-management.md`](session-management.md) | Server vs stateless, HttpOnly/Secure/SameSite/__Host- cookies, CSRF token, fixation/timeouts, SLO | `ORGANIZATION_NAME`, `APP`, `SESSION_MODEL`, `AUTH_SURFACE`, `IDP` |
+| [`m2m-auth.md`](m2m-auth.md) | Workload-identity/mTLS over secrets, client-credentials + private_key_jwt, one-audience minimal-scope, vault rotation | `ORGANIZATION_NAME`, `CALLER_TARGET`, `RUNTIME`, `AUDIENCE`, `SECRET_STORE` |
+| [`scopes-consent-design.md`](scopes-consent-design.md) | resource:action read/write taxonomy, scope+ownership enforcement, legible consent, incremental auth, over-scoping audit | `ORGANIZATION_NAME`, `API`, `CLIENTS`, `SENSITIVE_OPS`, `PARTY` |
 
 **Data engineering:**
 
@@ -96,6 +124,27 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`contract-draft.md`](contract-draft.md) | Draft producer/consumer data contract | `OUTPUT_FORMAT`, `SENSITIVITY_NOTE` |
 | [`metadata-audit.md`](metadata-audit.md) | 7-dimension column audit (provenance, collection, units, transform, summarization, labels, cadence) + batch effect | `DATASET_CONTEXT`, `METADATA_SOURCES`, `DOWNSTREAM_USE` |
 | [`data-alignment.md`](data-alignment.md) | Row-level multi-source consolidation — entity match, timestamp sync, scale harmonization, batch effect | `SOURCES_CONTEXT`, `TARGET_CONTEXT`, `CONSTRAINTS` |
+| [`pipeline-design.md`](pipeline-design.md) | Batch vs streaming, orchestration, idempotency, backfill, SLA | `ORGANIZATION_NAME`, `SOURCES_SINKS`, `LATENCY`, `VOLUME`, `FAILURE_TOLERANCE` |
+| [`data-mesh.md`](data-mesh.md) | Domain ownership, data-product specs, federated governance, interoperability | `ORGANIZATION_NAME`, `ORG_DESCRIPTION`, `NUM_PRODUCER_TEAMS`, `CURRENT_PLATFORM`, `COMPLIANCE_REQUIREMENTS` |
+| [`data-quality.md`](data-quality.md) | Validation rules, anomaly thresholds, quarantine + replay, SLAs (data-layer gate) | `ORGANIZATION_NAME`, `DATASET`, `CONSUMERS`, `FAILURE_MODES`, `VOLUME_FRESHNESS` |
+| [`data-contract.md`](data-contract.md) | Producer/consumer contract — schema ownership, SLAs, versioning, breaking-change policy | `ORGANIZATION_NAME`, `FEED`, `PRODUCER`, `CONSUMERS`, `CHANGE_FREQUENCY` |
+| [`schema-design.md`](schema-design.md) | Dimensional model, grain, SCD, partitioning, evolution policy | `ORGANIZATION_NAME`, `ENTITIES`, `QUERY_PATTERNS`, `HISTORY_NEEDS`, `SCALE` |
+| [`dbt-review.md`](dbt-review.md) | dbt review — ref/source, incremental correctness, test coverage, layering | `ORGANIZATION_NAME`, `MODELS`, `CONVENTIONS`, `MATERIALIZATION` |
+| [`sql-review.md`](sql-review.md) | SQL correctness (join fan-out, NULL, grain) + performance (pruning, sargability) | `ORGANIZATION_NAME`, `QUERY`, `DIALECT`, `SCHEMA`, `SCALE` |
+
+**Databricks integration:**
+
+| File | Use case | Key placeholders |
+|---|---|---|
+| [`unity-catalog-governance.md`](unity-catalog-governance.md) | UC namespace, group-based grants, dynamic masking/row filters, lineage, system-table audit | `ORGANIZATION_NAME`, `SCOPE`, `GROUPS`, `SENSITIVE_DATA`, `STORAGE` |
+| [`databricks-asset-bundles.md`](databricks-asset-bundles.md) | Resources as code (databricks.yml), per-target envs, service-principal run-as, build-once promote-many, validate gate | `ORGANIZATION_NAME`, `RESOURCES`, `TARGETS`, `SERVICE_PRINCIPALS`, `CI_SYSTEM` |
+| [`delta-live-tables.md`](delta-live-tables.md) | Declarative medallion DLT — streaming vs materialized, expectations, APPLY CHANGES CDC, triggered vs continuous | `ORGANIZATION_NAME`, `SOURCES`, `TARGET_TABLES`, `LATENCY`, `UC_TARGET` |
+| [`databricks-jobs-orchestration.md`](databricks-jobs-orchestration.md) | Workflows DAG, job-cluster/serverless, retries+timeouts+alerts, idempotent repair runs | `ORGANIZATION_NAME`, `TASKS`, `TRIGGER`, `COMPUTE`, `SLA` |
+| [`spark-performance-tuning.md`](spark-performance-tuning.md) | Spark-UI-first diagnosis (skew/shuffle/spill/small files/join), AQE+broadcast+clustering fixes, compute last | `ORGANIZATION_NAME`, `JOB`, `SYMPTOM`, `EVIDENCE`, `DATA_SCALE` |
+| [`dbu-cost-optimization.md`](dbu-cost-optimization.md) | system.billing attribution, jobs vs all-purpose, serverless/Photon/spot, auto-termination, cluster-policy guardrails | `ORGANIZATION_NAME`, `ATTRIBUTION`, `WORKLOADS`, `SLAS`, `COMPUTE_SETUP` |
+| [`databricks-model-serving.md`](databricks-model-serving.md) | UC model → endpoint, serve-by-alias rollout, scale-to-zero vs warm, traffic-split canary, inference tables | `ORGANIZATION_NAME`, `UC_MODEL`, `ALIAS`, `ENDPOINT_TYPE`, `TRAFFIC`, `LATENCY_SLA` |
+| [`mosaic-ai-vector-search.md`](mosaic-ai-vector-search.md) | Databricks-native RAG retrieval — Delta Sync index, pinned embeddings, hybrid search + UC ACLs, recall@k eval | `ORGANIZATION_NAME`, `SOURCE`, `EMBEDDING`, `FILTERS`, `QUALITY_TARGET` |
+| [`auto-loader-ingestion.md`](auto-loader-ingestion.md) | Incremental cloudFiles → Delta bronze, detection mode by volume, `_rescued_data`, dedicated-checkpoint exactly-once | `ORGANIZATION_NAME`, `LANDING_ZONE`, `FORMAT_VOLUME`, `SCHEMA_STABILITY`, `LATENCY` |
 
 **Data cleansing / normalization:**
 
@@ -106,6 +155,8 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`schema-harmonizer.md`](schema-harmonizer.md) | Multi-source canonical mapping + transformation SQL | `SOURCE_SCHEMAS`, `TARGET_WAREHOUSE`, `PRIORITY_SOURCE` |
 | [`timeseries-resample.md`](timeseries-resample.md) | Upsample/downsample by metric type + gap handling | `STACK`, `SERIES_CONTEXT`, `SOURCE_FREQUENCY`, `TARGET_FREQUENCY` |
 | [`class-balancing.md`](class-balancing.md) | Class imbalance strategy + eval setup + threshold tuning | `DATASET_CONTEXT`, `MODEL_TYPE`, `BUSINESS_OBJECTIVE` |
+| [`schema-harmonization.md`](schema-harmonization.md) | Schema-level merge — conflict types, canonical design, source priority (vs row-level data-alignment) | `ORGANIZATION_NAME`, `SOURCES`, `TARGET_USE`, `CONFLICTS` |
+| [`dedup.md`](dedup.md) | Entity resolution — exact/fuzzy, blocking, scoring, golden record, merge rules | `ORGANIZATION_NAME`, `RECORDS`, `ATTRIBUTES`, `PURPOSE`, `SCALE` |
 
 **Data labeling:**
 
@@ -114,6 +165,9 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`annotation-guidelines.md`](annotation-guidelines.md) | Generate annotation instructions + decision tree + edge case catalog | `TASK_DESCRIPTION`, `LABEL_TAXONOMY`, `ANNOTATOR_AUDIENCE` |
 | [`label-qa.md`](label-qa.md) | Review labeled dataset — disagreements, drift, guideline gaps | `TASK_DESCRIPTION`, `LABEL_TAXONOMY`, `IAA_TARGET` |
 | [`active-learning-selector.md`](active-learning-selector.md) | Select next annotation batch for maximum model improvement | `LABELED_COUNT`, `MODEL_BASELINE`, `BATCH_SIZE` |
+| [`annotation-design.md`](annotation-design.md) | Label taxonomy, guidelines, edge-case decision tree, task decomposition | `ORGANIZATION_NAME`, `TASK`, `LABELS`, `ANNOTATORS`, `AMBIGUITIES` |
+| [`label-quality.md`](label-quality.md) | IAA metrics (κ/α/ICC/F1), adjudication workflow, thresholds, audit cadence | `ORGANIZATION_NAME`, `TASK`, `ANNOTATORS`, `AGREEMENT` |
+| [`active-learning.md`](active-learning.md) | Query strategy by labeled-set size, uncertainty+diversity, batch selection, stopping rule | `ORGANIZATION_NAME`, `LABELED`, `POOL`, `MODEL_TASK`, `BUDGET` |
 
 **Data splitting:**
 
@@ -122,6 +176,7 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`split-design.md`](split-design.md) | Train/val/test split strategy + leakage verification | `DATASET_CONTEXT`, `TASK_TYPE`, `CONSTRAINTS` |
 | [`cv-design.md`](cv-design.md) | CV variant selection + nested CV configuration | `DATASET_CONTEXT`, `TASK_TYPE`, `COMPUTE_BUDGET` |
 | [`leakage-audit.md`](leakage-audit.md) | Audit pipeline for data leakage + code fixes | `PIPELINE_CONTEXT`, `FEATURE_LIST`, `PERFORMANCE_CONCERN` |
+| [`cross-validation.md`](cross-validation.md) | CV variant by structure (time/group/imbalance), leakage guards, nested CV, reporting | `ORGANIZATION_NAME`, `SIZE`, `STRUCTURE`, `TASK_METRIC`, `TUNING` |
 
 **ML algorithm selection / tuning:**
 
@@ -195,6 +250,9 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`responsible-ai-governance.md`](responsible-ai-governance.md) | AI governance framework — risk tiers, MRM checklist, review gates, EU AI Act | `USE_CASE_INVENTORY`, `REGULATORY_CONTEXT`, `ORG_CONTEXT` |
 | [`model-compression.md`](model-compression.md) | Compression technique selection + code + eval plan on target hardware | `MODEL_CONTEXT`, `LATENCY_TARGET`, `TARGET_HARDWARE` |
 | [`feature-monitoring.md`](feature-monitoring.md) | Feature health monitoring — freshness, null rate, schema drift, PSI, alerts | `FEATURE_LIST`, `SERVING_STACK`, `IMPORTANCE_RANKING` |
+| [`fine-tune.md`](fine-tune.md) | Fine-tune vs prompt/RAG decision, dataset requirements, method, eval plan, cost-benefit | `ORGANIZATION_NAME`, `TASK`, `GAP`, `DATA`, `CONSTRAINTS` |
+| [`model-card.md`](model-card.md) | 9-section model card + governance checklist (intended use, limits, fairness) | `ORGANIZATION_NAME`, `MODEL`, `INTENDED_USE`, `TRAINING_DATA`, `EVAL_RESULTS` |
+| [`feedback-loop.md`](feedback-loop.md) | Production feedback — signal collection, annotation routing, improvement flow | `ORGANIZATION_NAME`, `SYSTEM`, `SIGNALS`, `LEVERS`, `VOLUME` |
 
 ---
 

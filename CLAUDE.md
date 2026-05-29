@@ -83,6 +83,7 @@ Skip steps only with explicit agreement — not because the task feels small.
 - [PR / commit conventions — branch naming, squash vs. merge, etc.]
 - [Any file that must never be edited directly (generated files, lockfiles, etc.)]
 - [Stack-specific: language version, formatter, linter commands]
+- **Skill authoring (standing):** whenever a new skill is added under `.claude/skills/`, ALWAYS also (1) add a corresponding prompt template in `prompts/<name>.md` and (2) wire the skill into the CLAUDE.md Automation index (and the `prompts/README.md` index). A skill is not "done" until both exist. **Exempt from the prompt-template requirement:** workflow / facilitator / agent-spawning skills that *are* the prompt or spawn a subagent rather than parameterize an LLM system prompt — `adr`, `office-hours`, `retro`, `review`, `tradeoff`, `prompt-review`, `api-audit`, `security-audit`, `security-model-init`. These still get a CLAUDE.md index entry but no `prompts/<name>.md`. A stale-check should not re-flag them.
 
 **Confusion Protocol** — when facing an architectural decision or ambiguous requirement, stop and surface the assumption explicitly before proceeding. Never guess on design decisions. Ask one targeted question instead of producing output that may be wrong.
 
@@ -190,6 +191,15 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 - `/pii-scan` — **PII Exposure Auditor** — PII exposure audit across the AI data lifecycle
 - `/observability` — **Observability Stack Designer** — AI observability stack design (signal layers, metrics, alerts, drift indicators)
 
+*Auth / Identity (OAuth / OIDC):*
+- `/oauth-flow-design` — **OAuth 2.x Flow Architect** — grant selection by client (auth-code+PKCE / client-credentials / device); redirect-URI exact-match allowlist; state + PKCE; implicit/password rejected
+- `/oidc-integration` — **OIDC Integration Architect** — ID-token vs access-token; discovery + JWKS; nonce; claims→user via `sub`(+`iss`) not email; IdP federation; RP-initiated + back-channel logout
+- `/jwt-validation` — **JWT Validation Engineer** — verifier-pins-alg (reject `none`, RS↔HS confusion); JWKS-by-`kid`; `iss`/`aud`/`exp`/`nbf` checks; bounded skew; strict-mode lib (most auth CVEs live here)
+- `/token-lifecycle` — **Token Lifecycle Engineer** — no-localStorage/BFF storage; short access TTL; refresh rotation + reuse detection → family revoke; introspection/deny-list; secure-cookie attrs
+- `/session-management` — **Session Management Engineer** — server-side vs stateless; HttpOnly+Secure+SameSite+__Host- cookies; CSRF token beyond SameSite; id-regen on login; idle+absolute timeout; logout + SLO
+- `/m2m-auth` — **M2M Auth Engineer** — workload-identity/mTLS over static secrets; client-credentials + `private_key_jwt`; one-audience minimal-scope tokens; per-service credential; vault + rotation
+- `/scopes-consent-design` — **Scopes & Consent Designer** — `resource:action` read/write-split taxonomy (no `full_access`); scope + per-resource ownership/RBAC; legible consent; incremental auth; over-scoping audit
+
 *AI / LLM projects:*
 - `/eval-design` — **LLM Evaluation Designer** — LLM evaluation framework (metric taxonomy, test set sizing, drift triggers)
 - `/prompt-review` — **Prompt Quality Reviewer** — 9-dimension prompt health score
@@ -229,6 +239,17 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 - `/split-design` — **Data Split Designer** — random/temporal/group split decision, ratios by size, stratification, minimum eval sizes
 - `/cross-validation` — **Cross-Validation Strategist** — k-fold variant selection, time series CV, nested CV for hyperparameter tuning
 - `/leakage-audit` — **Data Leakage Auditor** — temporal/target/group/preprocessing/operational-availability leakage detection with code fixes; production-readiness checks
+
+*Databricks integration:*
+- `/unity-catalog-governance` — **Unity Catalog Governance Architect** — catalog/schema/table namespace; group-based least-privilege grants; dynamic masking + row filters in UC (not BI); lineage for pre-change impact; system-table audit; per-catalog storage credentials
+- `/databricks-asset-bundles` — **DABs Engineer** — jobs/pipelines/models/dashboards as code in databricks.yml; per-target (dev/staging/prod) overrides; service-principal run-as; build-once promote-many; validate gate in CI
+- `/delta-live-tables` — **DLT Designer** — declarative medallion pipelines; streaming table vs materialized view per layer; expectations (warn/drop/fail) as code; APPLY CHANGES for CDC/SCD; triggered vs continuous
+- `/databricks-jobs-orchestration` — **Workflows Orchestrator** — multi-task DAG; job-cluster/serverless (never all-purpose for prod); bounded retries + timeouts + on-failure alert; idempotent tasks for repair runs
+- `/spark-performance-tuning` — **Spark Performance Engineer** — Spark-UI-evidence-first diagnosis (skew/shuffle/spill/small files/join); AQE + broadcast + clustering fixes; query+layout before compute
+- `/dbu-cost-optimization` — **Databricks Cost Engineer** — system.billing attribution first; jobs vs all-purpose; serverless/Photon/spot; forced auto-termination; cluster-policy guardrails (distinct from `/cost-optimize` LLM tokens)
+- `/databricks-model-serving` — **Model Serving Engineer** — UC-registered model → endpoint; serve-by-alias rollout/rollback; scale-to-zero vs warm; traffic-split canary; inference tables → drift monitoring
+- `/mosaic-ai-vector-search` — **Vector Search Engineer** — Databricks-native RAG retrieval; Delta Sync index (CDF on); pinned embedding model (change = reindex); hybrid search + UC ACLs; recall@k/MRR eval (chunking → `/rag-design`)
+- `/auto-loader-ingestion` — **Auto Loader Ingestion Engineer** — incremental cloudFiles → Delta bronze; directory-listing vs file-notification by volume; `_rescued_data` kept; dedicated checkpoint exactly-once; schema evolution
 
 *ML algorithm selection / tuning:*
 - `/experiment-design` — **ML Experiment Designer** — hypothesis formulation, one-variable control, pre-stated decision criteria, ordered run queue

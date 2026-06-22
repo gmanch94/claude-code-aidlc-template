@@ -218,6 +218,19 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 - `/llm-routing` — **LLM Router** — routing strategy (static/cascade/complexity-classifier/semantic); model tier map; fallback chain; quality-floor gate; cost/quality projection
 - `/build-vs-buy` — **Build vs Buy Advisor** — 5-dimension scoring; AI tooling decision matrix; 3-year TCO; vendor alternatives; exit strategy per component
 
+*Cloud ML platforms:*
+- `/vertex-ai-design` — **Vertex AI Platform Architect** — GCP Vertex footprint: service split (Workbench/Pipelines/Training/Endpoints/Feature Store/Model Garden/Monitoring); compute selection; MLOps wiring; deployment pattern (online/batch/streaming); cost guardrails; observability; lock-in posture. Adjacent to `/sagemaker-design` (AWS) + `/databricks-asset-bundles` (Databricks)
+- `/sagemaker-design` — **SageMaker Platform Architect** — AWS SageMaker footprint: service split (Studio/Training/Endpoints/Pipelines/Feature Store/Monitor/Clarify/JumpStart); deployment pattern (real-time/async/serverless/batch/MME/MCE); compute; MLOps; cost guardrails; observability; lock-in posture
+
+*Infrastructure as code:*
+- `/terraform-review` — **Terraform Reviewer** — IaC review across 9 dimensions: state backend + locking; module structure; variable/output discipline; provider versioning; secrets handling; blast-radius gates (`prevent_destroy`/`ignore_changes`); drift detection; plan-vs-apply CI pattern; destructive-op safety. [BLOCKER]/[SUGGESTION]/[NITPICK] grouped findings. Use BEFORE `terraform apply` in any shared-state env
+
+*Compliance:*
+- `/compliance-mapping` — **Compliance Mapping Analyst** — SOC 2 / HIPAA / GDPR / EU AI Act controls → enforcement matrix (code path + evidence source + owner + CLEAN/PARTIAL/GAP status); gap register with target close dates; cross-framework overlap detection. Use BEFORE SOC 2 readiness, HIPAA engagement, GDPR DPIA, high-risk EU AI Act ship
+
+*Analytics / BI:*
+- `/dashboard-design` — **BI Dashboard Designer** — audience-first scoping (exec/analyst/operator/external — ONE per dashboard); one-question-per-dashboard rule; chart selection rubric by question shape; refresh cadence + honest SLA; governance (owner/certification/deprecation); performance budget + accessibility. Tool-agnostic (Looker/Tableau/Superset/Metabase/Power BI). Distinct from `/observability` and `/feature-monitoring`
+
 *Data engineering:*
 - `/pipeline-design` — **Data Pipeline Architect** — batch vs. streaming decision, orchestration, idempotency, backfill, SLA
 - `/data-mesh` — **Data Mesh Architect** — domain ownership boundaries; data product specs (SLA/schema/access/quality contract); federated governance (policy-as-code); platform stack; one-domain migration

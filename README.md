@@ -35,7 +35,7 @@ This template fixes all four in under 5 minutes of setup.
 | `.claude/skills/security-model-init/SKILL.md` | `/security-model-init` — generate `docs/SECURITY_MODEL.md` scaffold for projects with user-facing surfaces. |
 | `templates/security-model/SECURITY_MODEL-TEMPLATE.md` | Annotated template for the per-(operation × role × surface) enforcement table; stack-specific scaffolding blocks for Supabase/Firebase/Hasura/FastAPI/Express. |
 | `context/MEMORY.md` | Index for Claude's persistent project memory. |
-| `prompts/` | **138** system prompt templates across ML, data engineering, LLM, auth, Databricks, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
+| `prompts/` | **143** system prompt templates across ML, data engineering, LLM, auth, Databricks, cloud ML, IaC, compliance, BI, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
 | `templates/skill/SKILL-TEMPLATE.md` | Annotated template for authoring new skills. Copy to `.claude/skills/<name>/SKILL.md` and fill in. |
 | `.gitignore` | Gitignores `scratch/` (personal workspace), `.claude/settings.local.json`, and `.claude/logs/` (hook audit logs). |
 | `operating-philosophy.md` | Portable working philosophy — communication style, context-mode tool hierarchy, advisor protocol, primary-source verification, session management, git hygiene, Karpathy failure modes, design principles. Copy sections into any project's `CLAUDE.md`. |
@@ -199,6 +199,31 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/fine-tune` | **Fine-Tuning Advisor** — Fine-tune vs. prompt-engineer decision tree — dataset requirements, pre/post eval plan, cost-benefit analysis, training data format |
 | `/llm-routing` | **LLM Router** — routing strategy (static/cascade/complexity-classifier/semantic), model tier map, fallback chain, quality-floor gate, cost/quality projection |
 | `/build-vs-buy` | **Build vs Buy Advisor** — 5-dimension scoring (cost/control/speed/risk/capability), AI tooling decision matrix, 3-year TCO, vendor alternatives, exit strategy |
+
+**Cloud ML platforms:**
+
+| Command | What it does |
+|---|---|
+| `/vertex-ai-design` | **Vertex AI Platform Architect** — GCP Vertex footprint: service split (Workbench / Pipelines / Training / Endpoints / Feature Store / Model Garden / Monitoring); compute selection; MLOps wiring; deployment pattern (online / batch / streaming); cost guardrails; observability; lock-in posture. Adjacent to `/sagemaker-design` (AWS) + `/databricks-asset-bundles` (Databricks) |
+| `/sagemaker-design` | **SageMaker Platform Architect** — AWS SageMaker footprint: service split (Studio / Training / Endpoints / Pipelines / Feature Store / Monitor / Clarify / JumpStart); deployment pattern (real-time / async / serverless / batch / MME / MCE); compute; MLOps; cost guardrails; observability; lock-in posture |
+
+**Infrastructure as code:**
+
+| Command | What it does |
+|---|---|
+| `/terraform-review` | **Terraform Reviewer** — IaC review across 9 dimensions: state backend + locking; module structure; variable / output discipline; provider versioning; secrets handling; blast-radius gates (`prevent_destroy` / `ignore_changes`); drift detection; plan-vs-apply CI pattern; destructive-op safety. [BLOCKER] / [SUGGESTION] / [NITPICK] grouped findings. Use BEFORE `terraform apply` in any shared-state env |
+
+**Compliance:**
+
+| Command | What it does |
+|---|---|
+| `/compliance-mapping` | **Compliance Mapping Analyst** — SOC 2 / HIPAA / GDPR / EU AI Act controls → enforcement matrix (code path + evidence source + owner + CLEAN / PARTIAL / GAP status); gap register with target close dates; cross-framework overlap detection. Use BEFORE SOC 2 readiness, HIPAA engagement, GDPR DPIA, high-risk EU AI Act ship |
+
+**Analytics / BI:**
+
+| Command | What it does |
+|---|---|
+| `/dashboard-design` | **BI Dashboard Designer** — audience-first scoping (exec / analyst / operator / external — ONE per dashboard); one-question-per-dashboard rule; chart selection rubric by question shape; refresh cadence + honest SLA; governance (owner / certification / deprecation); performance budget + accessibility. Tool-agnostic (Looker / Tableau / Superset / Metabase / Power BI). Distinct from `/observability` and `/feature-monitoring` |
 
 **Data engineering:**
 

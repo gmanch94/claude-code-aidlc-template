@@ -1,0 +1,164 @@
+name: doc-ci
+
+# Doc-CI gate. Mirrors the /doc-ci-check skill's deterministic checks so the
+# same staleness that ships locally fails in CI. Keep this file and the skill
+# in sync — when one changes, change the other.
+#
+# Catches:
+#   1. Count drift  (declared N vs actual N in README/CLAUDE.md/NEXT_SESSION/prompts-README/hooks-README)
+#   2. Broken relative links in root *.md files
+#   3. Skill ↔ prompt ↔ CLAUDE.md ↔ README ↔ prompts/README parity (excluding exempt list)
+#   4. NEXT_SESSION.md HEAD vs git HEAD
+#
+# Does NOT catch (warn-only in the skill, skipped here): ungraded external facts.
+
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - "README.md"
+      - "CLAUDE.md"
+      - "NEXT_SESSION.md"
+      - "LESSONS_LEARNED.md"
+      - "prompts/**"
+      - ".claude/skills/**"
+      - ".claude/hooks/**"
+      - "stacks/**"
+      - "templates/**"
+      - "decisions/**"
+      - ".github/workflows/doc-ci.yml"
+  pull_request:
+    branches: [master, main]
+    paths:
+      - "README.md"
+      - "CLAUDE.md"
+      - "NEXT_SESSION.md"
+      - "LESSONS_LEARNED.md"
+      - "prompts/**"
+      - ".claude/skills/**"
+      - ".claude/hooks/**"
+      - "stacks/**"
+      - "templates/**"
+      - "decisions/**"
+      - ".github/workflows/doc-ci.yml"
+
+concurrency:
+  group: doc-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  doc-ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 1. Count drift
+        shell: bash
+        run: |
+          set -u
+          fail=0
+
+          skills=$(ls .claude/skills/ | wc -l)
+          prompts=$(ls prompts/*.md 2>/dev/null | grep -v 'README.md' | wc -l)
+          hooks=$(ls .claude/hooks/*.py 2>/dev/null | wc -l)
+
+          echo "Counts: skills=$skills, prompts=$prompts, hooks=$hooks"
+
+          for f in README.md CLAUDE.md NEXT_SESSION.md prompts/README.md .claude/hooks/README.md stacks/README.md; do
+            [ -f "$f" ] || continue
+            # Count drift detector — match "N <adj>? <noun>" where noun ∈ {skill|prompt|hook}
+            while IFS=: read -r line content; do
+              num=$(echo "$content" | grep -oE '\*?\*?[0-9]+\+? ?(reference |system |[a-z]+ )?(skill|prompt|hook)s?' | grep -oE '^[0-9]+' | head -1)
+              [ -z "$num" ] && continue
+              noun=$(echo "$content" | grep -oE '(skill|prompt|hook)s?' | head -1 | sed 's/s$//')
+              case "$noun" in
+                skill)  actual=$skills ;;
+                prompt) actual=$prompts ;;
+                hook)   actual=$hooks ;;
+                *)      continue ;;
+              esac
+              # Allow "100+" rounded claims if actual >= declared
+              suffix=$(echo "$content" | grep -oE "$num\+" || true)
+              if [ -n "$suffix" ]; then
+                if [ "$actual" -ge "$num" ]; then continue; fi
+              fi
+              if [ "$num" != "$actual" ]; then
+                echo "::error file=$f,line=$line::Count drift — declared $num $noun(s), actual $actual"
+                fail=1
+              fi
+            done < <(grep -nE '\*?\*?[0-9]+\+? ?(reference |system |[a-z]+ )?(skill|prompt|hook)s?' "$f" 2>/dev/null || true)
+          done
+
+          exit $fail
+
+      - name: 2. Broken relative links (root *.md)
+        shell: bash
+        run: |
+          set -u
+          fail=0
+          for f in README.md CLAUDE.md NEXT_SESSION.md LESSONS_LEARNED.md operating-philosophy.md analysis-methodology.md; do
+            [ -f "$f" ] || continue
+            grep -oE '\]\(([^)]+)\)' "$f" | sed 's/](//;s/)$//' | while read -r link; do
+              # skip absolute URLs and pure anchors
+              echo "$link" | grep -qE '^https?://' && continue
+              echo "$link" | grep -qE '^#' && continue
+              path=$(echo "$link" | cut -d'#' -f1)
+              [ -z "$path" ] && continue
+              if [ ! -e "$path" ]; then
+                echo "::error file=$f::Broken link: $link"
+                exit 1
+              fi
+            done || fail=1
+          done
+          exit $fail
+
+      - name: 3. Skill ↔ prompt ↔ index parity
+        shell: bash
+        run: |
+          set -u
+          EXEMPT="adr api-audit doc-ci-check office-hours prompt-review retro review security-audit security-model-init tradeoff"
+          fail=0
+
+          for s in $(ls .claude/skills/); do
+            is_exempt=0
+            for e in $EXEMPT; do [ "$s" = "$e" ] && is_exempt=1; done
+
+            if [ ! -f ".claude/skills/$s/SKILL.md" ]; then
+              echo "::error::Skill $s missing SKILL.md"
+              fail=1
+            fi
+
+            if [ $is_exempt -eq 0 ] && [ ! -f "prompts/$s.md" ]; then
+              echo "::error::Skill $s missing prompts/$s.md (not in exempt list)"
+              fail=1
+            fi
+
+            if ! grep -q "/$s\b" CLAUDE.md 2>/dev/null && ! grep -q "\`$s\`" CLAUDE.md 2>/dev/null; then
+              echo "::error file=CLAUDE.md::Skill $s not indexed in CLAUDE.md"
+              fail=1
+            fi
+
+            if ! grep -q "/$s\b" README.md 2>/dev/null; then
+              echo "::error file=README.md::Skill $s not in slash-command table"
+              fail=1
+            fi
+
+            if [ $is_exempt -eq 0 ] && ! grep -q "$s" prompts/README.md 2>/dev/null; then
+              echo "::error file=prompts/README.md::Skill $s not in prompts index"
+              fail=1
+            fi
+          done
+
+          exit $fail
+
+      - name: 4. NEXT_SESSION.md HEAD freshness
+        shell: bash
+        run: |
+          set -u
+          declared=$(grep -oE 'HEAD = [a-f0-9]{7,40}' NEXT_SESSION.md | head -1 | awk '{print $3}')
+          [ -z "$declared" ] && { echo "NEXT_SESSION.md: no HEAD declaration found — skipping"; exit 0; }
+          actual=$(git rev-parse --short=${#declared} HEAD)
+          if [ "$declared" != "$actual" ]; then
+            echo "::warning file=NEXT_SESSION.md::HEAD drift — declared $declared, actual $actual (acceptable on master pushes; bookmark refreshes on session end)"
+          fi

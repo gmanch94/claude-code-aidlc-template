@@ -22,6 +22,8 @@ the settings snippet below into your `.claude/settings.json` to enable.
 | `check_pii_in_logs.py` | PreToolUse | Write\|Edit | Warns when `print` / `logging.*` / `logger.*` calls reference PII-shaped variables (email, ssn, dob, phone, address, credit_card, mrn, patient_name, full_name, etc.). Skips lines containing `redact`, `mask`, `hash`, `obfuscate`, `pseudo`, `anon`. `.py` files only. Per-line `# pii-ok` opt-out. |
 | `check_prompt_safety.py` | PreToolUse | Write\|Edit | Warns on prompt injection risk (f-string/concat with user vars), and hardcoded absolute model paths. Warn-only. Per-line `# nosec` opt-out. |
 | `audit_log.py` | PostToolUse | * | Passive: appends every tool call to `.claude/logs/audit.jsonl`. Never blocks. |
+| `shadow_git_checkpoint.py` | PreToolUse | Write\|Edit\|Bash\|NotebookEdit | Snapshots the working tree to a SHADOW Git repo at `.claude/checkpoints/` BEFORE every mutating tool call. Enables one-click rollback per tool call without polluting project Git history. Mirrors Cline's shadow-Git pattern (docs.cline.bot/features/checkpoints). Pair with the `/rollback-checkpoint` skill. Never blocks; best-effort. Opt-out: touch `.claude/checkpoints/.disabled`. |
+| `staleness_check.py` | SessionStart | — | Flags `NEXT_SESSION.md` HEAD bookmark stale by >7 days behind git HEAD; flags `Last working session: YYYY-MM-DD` stamps >30d old; flags `(as of YYYY-MM-DD)` / `verified YYYY-MM-DD` stamps >30d old in repo-root markdown. Warn-only; never blocks. Pair with `/doc-ci-check` (same drift caught in CI). |
 
 ---
 
@@ -55,9 +57,9 @@ Claude Code now exposes **12+ lifecycle events** for hook wiring (the reference 
 **Suggested hooks this repo doesn't yet ship** (gap analysis):
 - `UserPromptSubmit` guardrail — refuse prompts that ask for credential extraction / silent destructive-op patterns.
 - `Stop` guardrail — refuse to end a turn with uncommitted destructive changes.
-- `SessionStart` staleness check — flag stale `NEXT_SESSION.md` (see `staleness_check.py`).
-- `PreToolUse` shadow-Git checkpoint — snapshot working tree before mutating tool calls (see `shadow_git_checkpoint.py`).
 - `SessionEnd` audit-log finalize — rotate `.claude/logs/audit.jsonl`, append turn summary.
+
+(Two of the previously-suggested gaps now ship as reference hooks: `staleness_check.py` and `shadow_git_checkpoint.py`. None are wired by default — see settings snippets below.)
 
 ---
 
@@ -167,6 +169,42 @@ Paste into your `.claude/settings.json` (merge with any existing keys):
   }
 }
 ```
+
+### Optional add-ons (shadow-Git + staleness)
+
+To enable the shadow-Git checkpoint hook (best-effort, never blocks) and the session-start staleness check, merge these into the same `hooks` block:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|Bash|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/shadow_git_checkpoint.py\""
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/staleness_check.py\""
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Pair `shadow_git_checkpoint.py` with the `/rollback-checkpoint` skill for the rollback UX. Opt out per-repo by touching `.claude/checkpoints/.disabled`.
+
+Pair `staleness_check.py` with `/doc-ci-check` — the hook surfaces drift at session-start; the CI check fails the PR if drift ships.
 
 **Windows note:** `${CLAUDE_PROJECT_DIR}` is resolved by the Claude
 Code harness, not by the shell. The double-quotes inside the string

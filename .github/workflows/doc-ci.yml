@@ -65,29 +65,56 @@ jobs:
 
           echo "Counts: skills=$skills, prompts=$prompts, hooks=$hooks"
 
-          for f in README.md CLAUDE.md NEXT_SESSION.md prompts/README.md .claude/hooks/README.md stacks/README.md; do
+          # Scope: ONLY aggregate-inventory claims, NOT narrative deltas.
+          # An inventory claim looks like:  `prompts/` | **143** system prompt templates ...
+          # A delta claim looks like:       feat: add 7 new skills + 5 enhancements
+          #
+          # Heuristic: match only when the count appears WITH inventory framing —
+          #   - inside a markdown table cell (line starts with `|`), OR
+          #   - immediately follows a literal path/bullet for the inventory (`.claude/skills/` / `prompts/` / `.claude/hooks/`)
+          # AND the line does NOT contain a delta verb (add / new / wave / wire / cover / land / ship / PR #).
+          #
+          # This trades a small chance of missed drift in unusual phrasing for
+          # zero false positives on commit-log / "what landed" narrative.
+          # Leading boundary: word-boundary, NOT inside "tier-2" / "phase-3" / "v1.4" etc.
+          # Use ` ` or `*` before the number so "tier-2" (preceded by `-`) doesn't match.
+          NUM_RE='( |\*\*)[0-9]+\+?(\*\*)?'
+          MOD_RE='( (system|reference|guardrail|core|domain|generic))*'
+          NOUN_RE=' +(skill|prompt|hook)s?\b'
+          FULL_RE="${NUM_RE}${MOD_RE}${NOUN_RE}"
+          DELTA_VERBS='\b(add|added|adding|new|wave|wire|wired|cover|covered|covering|land|landed|ship|shipped|merge|merged|PR #|launched|introduce)\b'
+          INVENTORY_CONTEXT='^(\| |- `\.?[a-zA-Z]|- \*\*|prompts/|.claude)'
+
+          # NEXT_SESSION.md is a resume bookmark, not an inventory doc — its counts
+          # intentionally lag master between PR merge + bookmark update.
+          # README.md / CLAUDE.md / prompts/README.md / hooks-README / stacks-README
+          # are the inventory docs subject to drift checks.
+          for f in README.md CLAUDE.md prompts/README.md .claude/hooks/README.md stacks/README.md; do
             [ -f "$f" ] || continue
-            # Count drift detector — match "N <adj>? <noun>" where noun ∈ {skill|prompt|hook}
             while IFS=: read -r line content; do
-              num=$(echo "$content" | grep -oE '\*?\*?[0-9]+\+? ?(reference |system |[a-z]+ )?(skill|prompt|hook)s?' | grep -oE '^[0-9]+' | head -1)
+              # Skip if line contains a delta verb (narrative, not inventory)
+              if echo "$content" | grep -qiE "$DELTA_VERBS"; then continue; fi
+              # Require inventory context (table row or labelled bullet)
+              if ! echo "$content" | grep -qE "$INVENTORY_CONTEXT"; then continue; fi
+
+              num=$(echo "$content" | grep -oE "$FULL_RE" | head -1 | grep -oE '[0-9]+' | head -1)
               [ -z "$num" ] && continue
-              noun=$(echo "$content" | grep -oE '(skill|prompt|hook)s?' | head -1 | sed 's/s$//')
+              noun=$(echo "$content" | grep -oE "$FULL_RE" | head -1 | grep -oE '(skill|prompt|hook)' | head -1)
               case "$noun" in
                 skill)  actual=$skills ;;
                 prompt) actual=$prompts ;;
                 hook)   actual=$hooks ;;
                 *)      continue ;;
               esac
-              # Allow "100+" rounded claims if actual >= declared
-              suffix=$(echo "$content" | grep -oE "$num\+" || true)
-              if [ -n "$suffix" ]; then
+              # Allow "100+" / "**100+**" rounded claims if actual >= declared
+              if echo "$content" | grep -qE "${num}\+"; then
                 if [ "$actual" -ge "$num" ]; then continue; fi
               fi
               if [ "$num" != "$actual" ]; then
                 echo "::error file=$f,line=$line::Count drift — declared $num $noun(s), actual $actual"
                 fail=1
               fi
-            done < <(grep -nE '\*?\*?[0-9]+\+? ?(reference |system |[a-z]+ )?(skill|prompt|hook)s?' "$f" 2>/dev/null || true)
+            done < <(grep -nE "$FULL_RE" "$f" 2>/dev/null || true)
           done
 
           exit $fail
@@ -97,20 +124,26 @@ jobs:
         run: |
           set -u
           fail=0
+          # Read into a tempfile rather than piping into a `while` subshell —
+          # pipe-subshells lose the per-file `fail=1` mutation and `exit 1`
+          # only terminates the subshell, not the step. Tempfile keeps it
+          # explicit and the step exits with the aggregated result.
+          tmp=$(mktemp)
           for f in README.md CLAUDE.md NEXT_SESSION.md LESSONS_LEARNED.md operating-philosophy.md analysis-methodology.md; do
             [ -f "$f" ] || continue
-            grep -oE '\]\(([^)]+)\)' "$f" | sed 's/](//;s/)$//' | while read -r link; do
-              # skip absolute URLs and pure anchors
+            grep -oE '\]\(([^)]+)\)' "$f" | sed 's/](//;s/)$//' > "$tmp"
+            while IFS= read -r link; do
               echo "$link" | grep -qE '^https?://' && continue
               echo "$link" | grep -qE '^#' && continue
               path=$(echo "$link" | cut -d'#' -f1)
               [ -z "$path" ] && continue
               if [ ! -e "$path" ]; then
                 echo "::error file=$f::Broken link: $link"
-                exit 1
+                fail=1
               fi
-            done || fail=1
+            done < "$tmp"
           done
+          rm -f "$tmp"
           exit $fail
 
       - name: 3. Skill ↔ prompt ↔ index parity
@@ -134,17 +167,19 @@ jobs:
               fail=1
             fi
 
-            if ! grep -q "/$s\b" CLAUDE.md 2>/dev/null && ! grep -q "\`$s\`" CLAUDE.md 2>/dev/null; then
+            # Tight grep: match `/<skill>` (slash-prefixed) or `\`<skill>\`` (backtick-wrapped) ONLY.
+            # `grep -q "$s"` (loose) would mis-match e.g. `eda` against `edamame` or `read-only`.
+            if ! grep -qE "(/${s}\b|\`${s}\`|\[\`${s}\.md\`\])" CLAUDE.md 2>/dev/null; then
               echo "::error file=CLAUDE.md::Skill $s not indexed in CLAUDE.md"
               fail=1
             fi
 
-            if ! grep -q "/$s\b" README.md 2>/dev/null; then
+            if ! grep -qE "/${s}\b" README.md 2>/dev/null; then
               echo "::error file=README.md::Skill $s not in slash-command table"
               fail=1
             fi
 
-            if [ $is_exempt -eq 0 ] && ! grep -q "$s" prompts/README.md 2>/dev/null; then
+            if [ $is_exempt -eq 0 ] && ! grep -qE "(\[\`${s}\.md\`\]|\`${s}\.md\`|/${s}\b)" prompts/README.md 2>/dev/null; then
               echo "::error file=prompts/README.md::Skill $s not in prompts index"
               fail=1
             fi

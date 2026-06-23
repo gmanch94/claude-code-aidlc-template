@@ -135,3 +135,17 @@ When a PR introduces work that requires operator-action-after-merge — _rotate 
 **How to apply:** Before declaring any PR ready, scan its description for these verbs — _rotate, set, configure, grant, wire, create, enable, verify, audit, distribute, disable, migrate, run, sign off_. Each is a candidate for a checklist row. If there are zero, the PR is self-contained. If there are any, write the file (cross-referenced from `SECURITY_MODEL.md` / `launch.md` / `day-2-operations.md`). **Test:** after the PR is merged and squash-deleted, can a fresh operator find this? If no, write a file.
 
 ---
+
+### GH Actions default shell is `bash -e -o pipefail` — grep returning "no match" fails the step
+
+`grep` returns exit code 1 when it finds zero matches. Under `bash -e`, that exits the shell — which on GH Actions means the WHOLE step fails, even if the no-match was expected (e.g. scanning an empty file). `pipefail` extends this to pipelines: any grep in `a | grep | b` returning 1 fails the pipeline, fails the command substitution `$()`, fails the step.
+
+**Why:** Authored a `doc-ci.yml` link-check step that ran `grep -oE '\]\(([^)]+)\)' "$f"` on every root `*.md`. One of them (`analysis-methodology.md`) had no markdown links → grep exit 1 → step failed with the unhelpful "Process completed with exit code 1." Took two reactive commits to diagnose (re-checking ML/regex correctness first; the actual bug was the shell defaults).
+
+**How to apply:**
+- Any GH Actions step that uses `grep` (or `find`, `diff`, any command that can legitimately return non-zero on "nothing to report") needs `set +e` at the top, with exit-code management via a `$fail` aggregator.
+- Prefer shell built-ins over `echo | grep -qE '^https?://'` style guards: `case "$link" in http*|https*|"#"*) continue ;; esac` and parameter expansion (`"${link%%#*}"`) are exit-0-on-mismatch by design.
+- For pipelines that may have a stage return non-zero validly, append `|| true` (`grep ... | sed ... > "$tmp" || true`), then check the tempfile size (`[ ! -s "$tmp" ] && continue`).
+- Test: scan a deliberately-empty input through the workflow before merging — if it fails, the step is fragile.
+
+---

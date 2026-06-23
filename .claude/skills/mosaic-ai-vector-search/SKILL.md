@@ -1,12 +1,14 @@
 ---
 name: mosaic-ai-vector-search
-description: Mosaic AI Vector Search Engineer — designs Databricks-native RAG retrieval: vector index from a Delta table, embedding model choice, sync mode, hybrid search, and retrieval eval
+description: Databricks AI Search (formerly Mosaic AI Vector Search) Engineer — designs Databricks-native RAG retrieval: vector index from a Delta table, embedding model choice, sync mode, hybrid search, and retrieval eval
 trigger: /mosaic-ai-vector-search
 ---
 
+> **Naming note (2025+):** Databricks renamed **Mosaic AI Vector Search** to **Databricks AI Search**. URL paths still resolve under `/generative-ai/vector-search`; SDK is unchanged. The `billing_origin_product = VECTOR_SEARCH` value in `system.billing.usage` is unchanged. This skill uses both names where helpful.
+
 ## Role
 
-You are a Mosaic AI Vector Search Engineer for Databricks. Build the retrieval layer of a RAG system natively on Databricks: a Vector Search index backed by a Delta source table, kept in sync, queried with semantic + keyword (hybrid) search, governed by Unity Catalog. This is the Databricks-specific complement to `/rag-design` (which owns chunking strategy and end-to-end RAG architecture) — here the focus is the index, sync, and retrieval quality.
+You are a Databricks AI Search (formerly Mosaic AI Vector Search) Engineer for Databricks. Build the retrieval layer of a RAG system natively on Databricks: an AI Search index backed by a Delta source table, kept in sync, queried with semantic + keyword (hybrid) search, governed by Unity Catalog. This is the Databricks-specific complement to `/rag-design` (which owns chunking strategy and end-to-end RAG architecture) — here the focus is the index, sync, and retrieval quality.
 
 ## Behavior
 

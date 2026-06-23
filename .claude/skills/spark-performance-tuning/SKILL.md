@@ -54,7 +54,8 @@ Avoid exploding joins (many-to-many on a low-cardinality key).
 
 **Step 6 — Compute (last, not first)**
 
-- Photon for SQL/DataFrame-heavy workloads.
+- Photon for SQL/DataFrame and stateless-streaming workloads (no support for stateful streaming — `mapGroupsWithState` / aggregations over event-time windows fall back to non-Photon).
+- Photon is **default-on** for serverless compute, SQL warehouses, and serverless Lakeflow SDP; default-on-with-toggle for classic all-purpose / jobs clusters and classic SDP — confirm it's actually enabled before reporting "Photon enabled" as a tuning step.
 - Right-size + autoscale; bigger cluster only after query/layout fixes are exhausted.
 
 ## Output

@@ -256,15 +256,15 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 - `/leakage-audit` — **Data Leakage Auditor** — temporal/target/group/preprocessing/operational-availability leakage detection with code fixes; production-readiness checks
 
 *Databricks integration:*
-- `/unity-catalog-governance` — **Unity Catalog Governance Architect** — catalog/schema/table namespace; group-based least-privilege grants; dynamic masking + row filters in UC (not BI); lineage for pre-change impact; system-table audit; per-catalog storage credentials
-- `/databricks-asset-bundles` — **DABs Engineer** — jobs/pipelines/models/dashboards as code in databricks.yml; per-target (dev/staging/prod) overrides; service-principal run-as; build-once promote-many; validate gate in CI
+- `/unity-catalog-governance` — **Unity Catalog Governance Architect** — catalog/schema/table namespace; group-based least-privilege grants; **ABAC + governed tags (preferred)** over row filters / column masks / dynamic views in UC (never BI); lineage for pre-change impact; system-table audit; per-catalog storage credentials
+- `/databricks-asset-bundles` — **Declarative Automation Bundles Engineer (formerly DABs)** — jobs/pipelines/models/dashboards as code in databricks.yml; per-target (dev/staging/prod) overrides; service-principal run-as; build-once promote-many; validate gate in CI
 - `/delta-live-tables` — **DLT Designer** — declarative medallion pipelines; streaming table vs materialized view per layer; expectations (warn/drop/fail) as code; APPLY CHANGES for CDC/SCD; triggered vs continuous
-- `/databricks-jobs-orchestration` — **Workflows Orchestrator** — multi-task DAG; job-cluster/serverless (never all-purpose for prod); bounded retries + timeouts + on-failure alert; idempotent tasks for repair runs
-- `/spark-performance-tuning` — **Spark Performance Engineer** — Spark-UI-evidence-first diagnosis (skew/shuffle/spill/small files/join); AQE + broadcast + clustering fixes; query+layout before compute
-- `/dbu-cost-optimization` — **Databricks Cost Engineer** — system.billing attribution first; jobs vs all-purpose; serverless/Photon/spot; forced auto-termination; cluster-policy guardrails (distinct from `/cost-optimize` LLM tokens)
+- `/databricks-jobs-orchestration` — **Lakeflow Jobs Orchestrator (formerly Workflows)** — multi-task DAG; job-cluster/serverless (never all-purpose for prod); bounded retries + timeouts + on-failure alert; idempotent tasks for repair runs
+- `/spark-performance-tuning` — **Spark Performance Engineer** — Spark-UI-evidence-first diagnosis (skew/shuffle/spill/small files/join); AQE + broadcast + clustering fixes; Photon (stateless streaming only) compute-last; query+layout before compute
+- `/dbu-cost-optimization` — **Databricks Cost Engineer** — system.billing attribution first (via `billing_origin_product` enum); jobs vs all-purpose; serverless/Photon/spot; forced auto-termination; cluster-policy guardrails (distinct from `/cost-optimize` LLM tokens)
 - `/databricks-model-serving` — **Model Serving Engineer** — UC-registered model → endpoint; serve-by-alias rollout/rollback; scale-to-zero vs warm; traffic-split canary; inference tables → drift monitoring
-- `/mosaic-ai-vector-search` — **Vector Search Engineer** — Databricks-native RAG retrieval; Delta Sync index (CDF on); pinned embedding model (change = reindex); hybrid search + UC ACLs; recall@k/MRR eval (chunking → `/rag-design`)
-- `/auto-loader-ingestion` — **Auto Loader Ingestion Engineer** — incremental cloudFiles → Delta bronze; directory-listing vs file-notification by volume; `_rescued_data` kept; dedicated checkpoint exactly-once; schema evolution
+- `/mosaic-ai-vector-search` — **Databricks AI Search Engineer (formerly Mosaic AI Vector Search)** — Databricks-native RAG retrieval; Delta Sync index (CDF on); pinned embedding model (change = reindex); hybrid search + UC ACLs; recall@k/MRR eval (chunking → `/rag-design`)
+- `/auto-loader-ingestion` — **Auto Loader Ingestion Engineer** — incremental cloudFiles → Delta bronze; **file events (managed `useManagedFileEvents`) preferred** over legacy `useNotifications`; directory listing only for small backfills; `_rescued_data` kept; dedicated checkpoint exactly-once; schema evolution
 
 *ML algorithm selection / tuning:*
 - `/experiment-design` — **ML Experiment Designer** — hypothesis formulation, one-variable control, pre-stated decision criteria, ordered run queue

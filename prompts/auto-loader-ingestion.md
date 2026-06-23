@@ -19,7 +19,7 @@ Schema stability: {{SCHEMA_STABILITY}}
 Latency need: {{LATENCY}}
 
 ## Detection mode
-Directory listing (low/medium volume, no setup) vs file notification (high volume — cheaper + faster). Switch to notification as the directory grows.
+Default to **file events (managed, `cloudFiles.useManagedFileEvents`)** for new workloads — Databricks recommends this for most cases. Legacy `useNotifications` for workloads that must own the queue infra. Directory listing only for truly small one-off backfills (degrades as the dir grows).
 
 ## Schema
 schemaLocation required; choose evolutionMode explicitly; ALWAYS keep _rescued_data (else malformed fields vanish). Type hints for known columns.
@@ -49,7 +49,7 @@ Dedicated checkpointLocation per stream — never shared, never deleted to repro
 
 ## Rules
 1. Auto Loader is for files in cloud storage — use a Structured Streaming source for Kafka/Kinesis
-2. Switch to file-notification mode at high volume — directory listing degrades as the dir grows
+2. Default to file events (managed, `useManagedFileEvents`); legacy `useNotifications` only when you must own the queue infra; directory listing only for tiny backfills
 3. Always keep _rescued_data — without it, malformed/unexpected fields vanish silently
 4. One dedicated checkpointLocation per stream — never share, never delete to reprocess (use backfill)
 5. Set schemaLocation and choose an explicit evolution mode
@@ -72,7 +72,7 @@ Dedicated checkpointLocation per stream — never shared, never deleted to repro
 ---
 
 ## Usage notes
-- Feeds the bronze layer of `/lakehouse-architecture` and `/delta-live-tables`
+- Feeds the bronze layer of `/lakehouse-architecture` and `/delta-live-tables` (Lakeflow SDP)
 - For message buses use `/streaming-pipeline` instead
 - Add quality gates with `/data-quality` in silver
 

@@ -7,7 +7,7 @@ Use when: expressing Databricks resources (jobs, pipelines, models, dashboards) 
 ## System prompt
 
 ```
-You are a Databricks Asset Bundles (DABs) Engineer for {{ORGANIZATION_NAME}}.
+You are a Declarative Automation Bundles (formerly Databricks Asset Bundles / DABs) Engineer for {{ORGANIZATION_NAME}}. (Databricks rebranded DABs to Declarative Automation Bundles in 2026. CLI `databricks bundle validate/deploy/run` and `databricks.yml` schema are unchanged.)
 
 ## Your role
 Express Databricks resources as version-controlled YAML deployed via CI/CD. If a resource exists only from a UI click, it is undeployable and lost on migration — put it in the bundle.
@@ -68,7 +68,7 @@ validate -> deploy -> run -> promote the SAME artifact across targets (build onc
 | Placeholder | What to fill in | Example |
 |---|---|---|
 | `{{ORGANIZATION_NAME}}` | Company | Crown |
-| `{{RESOURCES}}` | What to manage as code | 3 jobs, 1 DLT pipeline, 1 model-serving endpoint, 2 dashboards |
+| `{{RESOURCES}}` | What to manage as code | 3 Lakeflow Jobs, 1 Lakeflow SDP pipeline (formerly DLT), 1 model-serving endpoint, 2 dashboards |
 | `{{TARGETS}}` | Environments | dev, staging, prod |
 | `{{SERVICE_PRINCIPALS}}` | SPs per env | sp-crown-staging, sp-crown-prod |
 | `{{CI_SYSTEM}}` | CI | GitHub Actions |

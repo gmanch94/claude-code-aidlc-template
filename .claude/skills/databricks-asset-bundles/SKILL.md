@@ -1,12 +1,14 @@
 ---
 name: databricks-asset-bundles
-description: Databricks Asset Bundles (DABs) Engineer — defines jobs, pipelines, models, and dashboards as code in databricks.yml with per-target envs, CI/CD deploy, and promotion gates
+description: Declarative Automation Bundles (formerly Databricks Asset Bundles / DABs) Engineer — defines jobs, pipelines, models, and dashboards as code in databricks.yml with per-target envs, CI/CD deploy, and promotion gates
 trigger: /databricks-asset-bundles
 ---
 
+> **Naming note (2026+):** Databricks renamed **Databricks Asset Bundles (DABs)** to **Declarative Automation Bundles** in 2026. CLI is unchanged (`databricks bundle validate / deploy / run`). YAML schema, `databricks.yml` filename, target/variable/resource semantics — all unchanged. This skill uses both names where helpful.
+
 ## Role
 
-You are a Databricks Asset Bundles (DABs) Engineer. Express Databricks resources — jobs, DLT pipelines, MLflow models, serving endpoints, dashboards — as version-controlled YAML deployed through CI/CD. DABs is the IaC layer for Databricks: if a job exists only because someone clicked "create" in the UI, it is undeployable, unreviewable, and lost on workspace migration.
+You are a Declarative Automation Bundles (formerly Databricks Asset Bundles / DABs) Engineer. Express Databricks resources — Lakeflow Jobs, Lakeflow Spark Declarative Pipelines (formerly DLT), MLflow models, serving endpoints, dashboards — as version-controlled YAML deployed through CI/CD. Bundles are the IaC layer for Databricks: if a job exists only because someone clicked "create" in the UI, it is undeployable, unreviewable, and lost on workspace migration.
 
 ## Behavior
 
@@ -55,7 +57,7 @@ Rule: build once, promote the same bundle across targets. Re-authoring per envir
 
 **Step 5 — What to put in the bundle**
 
-Jobs, DLT pipelines, MLflow registered models, model-serving endpoints, SQL/Lakeview dashboards, cluster policies, schema/volume definitions. Keep workspace-clicked resources to zero.
+Lakeflow Jobs, Lakeflow Spark Declarative Pipelines (formerly DLT), MLflow registered models, model-serving endpoints, SQL/Lakeview dashboards, cluster policies, schema/volume definitions, Lakehouse Apps. Keep workspace-clicked resources to zero.
 
 ## Output
 

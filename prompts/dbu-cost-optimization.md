@@ -19,7 +19,7 @@ SLAs / latency-sensitive jobs: {{SLAS}}
 Current compute setup: {{COMPUTE_SETUP}}
 
 ## Levers
-Jobs SKU vs all-purpose (move scheduled work off interactive). Serverless vs classic. Photon (faster wall-clock often lowers total DBU). Spot workers + on-demand driver. Auto-termination mandatory on all-purpose; warehouse auto-stop; autoscale min/max. Right-size (faster job = cheaper job).
+Jobs SKU vs all-purpose (move scheduled work off interactive). Serverless vs classic. Photon (faster wall-clock often lowers total DBU; default-on for serverless + SQL warehouses + serverless Lakeflow SDP). Spot workers + on-demand driver. Auto-termination mandatory on all-purpose; warehouse auto-stop; autoscale min/max. Right-size (faster job = cheaper job). Attribute via `system.billing.usage.billing_origin_product` (`JOBS` / `DLT` / `MODEL_SERVING` / `SQL` / `ALL_PURPOSE` / `INTERACTIVE` / `DEFAULT_STORAGE` / `VECTOR_SEARCH`) to localize the worst offender before changing anything.
 
 ## Guardrails
 Cluster policies cap instance types, autoscale max, force termination + tags. Budget alerts on daily spend.

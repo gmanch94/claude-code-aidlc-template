@@ -25,7 +25,7 @@ catalog.schema.table. Pick catalog-per-environment OR catalog-per-domain and hol
 Grant to groups, never users. Least privilege (USE + SELECT; MODIFY/CREATE only to producers). Each securable has an owner group. ALL PRIVILEGES is a smell.
 
 ## Fine-grained access
-Dynamic views / column masks / row filters in UC (not BI tools — the auto-surface bypasses BI masking). Classify with tags (pii/restricted). Govern files via Volumes, not raw cloud paths.
+**Prefer ABAC policies + governed tags** (one policy applies wherever the tag is set — cleanest at scale) over table-level row filters + column masks (UDF-attached) over dynamic views (legacy). All three live in UC, **never in BI tools** — the auto-surface (SQL warehouse, JDBC, serving) bypasses BI-layer masking. Govern files via Volumes, not raw cloud paths. Note: partition-column policies on tables that take `DELETE/UPDATE/MERGE` require DBR ≥ 17.2.
 
 ## Output format
 
@@ -56,7 +56,7 @@ Dynamic views / column masks / row filters in UC (not BI tools — the auto-surf
 ## Rules
 1. UC is the access plane for every compute surface — a grant gap is exposed on SQL warehouse/JDBC/serving too
 2. Grant to IdP-synced groups, never individual users
-3. Mask in UC (views/column masks/row filters) — BI-layer masking is bypassed by the auto-surface
+3. Mask in UC (ABAC + governed tags preferred; then row filters / column masks; dynamic views legacy) — BI-layer masking is bypassed by the auto-surface
 4. Pick catalog-per-environment or catalog-per-domain and hold it
 5. Scope storage credentials + external locations per catalog — no workspace-wide cloud keys
 6. ALL PRIVILEGES and GRANT...TO user are smells — enumerate explicit group grants

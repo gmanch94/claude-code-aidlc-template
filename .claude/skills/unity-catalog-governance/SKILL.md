@@ -32,18 +32,20 @@ Rule: pick catalog-per-environment OR catalog-per-domain and hold it. Mixing bot
 
 **Step 3 — Fine-grained access**
 
-| Mechanism | Use |
-|---|---|
-| Dynamic view / column mask | Hide/transform PII per group (`is_account_group_member`) |
-| Row filter | Restrict rows by tenant/region/role |
-| Volume | Govern non-tabular files under UC, not raw cloud paths |
-| Tags + ABAC | Classify (`pii`, `restricted`) and grant/audit by tag |
+UC offers three mechanisms; prefer in this order of declarativeness:
 
-Rule: enforce masking in UC views/policies, not in BI tools. The auto-surface (SQL warehouse, JDBC, serving) bypasses BI-layer masking.
+| Mechanism | Use | Notes |
+|---|---|---|
+| **ABAC policies + governed tags** (recommended) | Classify columns/tables with tags (`pii`, `restricted`, `tenant_scoped`), write one ABAC policy that applies wherever the tag is set | One policy covers many tables; tag-driven so new columns inherit; cleanest at scale |
+| Table-level row filters + column masks (UDF-attached) | Per-table custom logic UDFs attached to a securable | Higher boilerplate; required for partition-column policies (needs DBR ≥ 17.2 for `DELETE/UPDATE/MERGE` on partitioned tables); good when ABAC is too coarse |
+| Dynamic views | View-layer transforms with `is_account_group_member` | Legacy approach; works but doesn't scale across many similar tables |
+| Volume | Govern non-tabular files under UC, not raw cloud paths | Independent of the masking layer |
+
+Rule: enforce masking in UC (ABAC > row filter / column mask > dynamic view), **never in BI tools**. The auto-surface (SQL warehouse, JDBC, serving endpoint, Spark cluster) bypasses BI-layer masking entirely.
 
 **Step 4 — Lineage & discovery**
 
-- UC captures table + column lineage automatically across notebooks/jobs/DLT — use it for impact analysis before schema change.
+- UC captures table + column lineage automatically across notebooks / Lakeflow Jobs / Lakeflow SDP (formerly DLT) — use it for impact analysis before schema change.
 - Document data products in the catalog (comments, tags); lineage answers "where did this number come from."
 
 **Step 5 — Audit & isolation**

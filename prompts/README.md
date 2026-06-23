@@ -162,15 +162,15 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 
 | File | Use case | Key placeholders |
 |---|---|---|
-| [`unity-catalog-governance.md`](unity-catalog-governance.md) | UC namespace, group-based grants, dynamic masking/row filters, lineage, system-table audit | `ORGANIZATION_NAME`, `SCOPE`, `GROUPS`, `SENSITIVE_DATA`, `STORAGE` |
-| [`databricks-asset-bundles.md`](databricks-asset-bundles.md) | Resources as code (databricks.yml), per-target envs, service-principal run-as, build-once promote-many, validate gate | `ORGANIZATION_NAME`, `RESOURCES`, `TARGETS`, `SERVICE_PRINCIPALS`, `CI_SYSTEM` |
-| [`delta-live-tables.md`](delta-live-tables.md) | Declarative medallion DLT — streaming vs materialized, expectations, APPLY CHANGES CDC, triggered vs continuous | `ORGANIZATION_NAME`, `SOURCES`, `TARGET_TABLES`, `LATENCY`, `UC_TARGET` |
-| [`databricks-jobs-orchestration.md`](databricks-jobs-orchestration.md) | Workflows DAG, job-cluster/serverless, retries+timeouts+alerts, idempotent repair runs | `ORGANIZATION_NAME`, `TASKS`, `TRIGGER`, `COMPUTE`, `SLA` |
-| [`spark-performance-tuning.md`](spark-performance-tuning.md) | Spark-UI-first diagnosis (skew/shuffle/spill/small files/join), AQE+broadcast+clustering fixes, compute last | `ORGANIZATION_NAME`, `JOB`, `SYMPTOM`, `EVIDENCE`, `DATA_SCALE` |
-| [`dbu-cost-optimization.md`](dbu-cost-optimization.md) | system.billing attribution, jobs vs all-purpose, serverless/Photon/spot, auto-termination, cluster-policy guardrails | `ORGANIZATION_NAME`, `ATTRIBUTION`, `WORKLOADS`, `SLAS`, `COMPUTE_SETUP` |
+| [`unity-catalog-governance.md`](unity-catalog-governance.md) | UC namespace, group-based grants, ABAC + governed tags (preferred) over row filters / column masks / dynamic views, lineage, system-table audit | `ORGANIZATION_NAME`, `SCOPE`, `GROUPS`, `SENSITIVE_DATA`, `STORAGE` |
+| [`databricks-asset-bundles.md`](databricks-asset-bundles.md) | Declarative Automation Bundles (formerly DABs) — resources as code (databricks.yml), per-target envs, service-principal run-as, build-once promote-many, validate gate | `ORGANIZATION_NAME`, `RESOURCES`, `TARGETS`, `SERVICE_PRINCIPALS`, `CI_SYSTEM` |
+| [`delta-live-tables.md`](delta-live-tables.md) | Lakeflow Spark Declarative Pipelines (SDP — formerly DLT) — streaming vs materialized, expectations, APPLY CHANGES CDC, triggered vs continuous | `ORGANIZATION_NAME`, `SOURCES`, `TARGET_TABLES`, `LATENCY`, `UC_TARGET` |
+| [`databricks-jobs-orchestration.md`](databricks-jobs-orchestration.md) | Lakeflow Jobs (formerly Workflows) DAG, job-cluster/serverless, retries+timeouts+alerts, idempotent repair runs | `ORGANIZATION_NAME`, `TASKS`, `TRIGGER`, `COMPUTE`, `SLA` |
+| [`spark-performance-tuning.md`](spark-performance-tuning.md) | Spark-UI-first diagnosis (skew/shuffle/spill/small files/join), AQE+broadcast+clustering fixes, Photon (stateless streaming only) compute last | `ORGANIZATION_NAME`, `JOB`, `SYMPTOM`, `EVIDENCE`, `DATA_SCALE` |
+| [`dbu-cost-optimization.md`](dbu-cost-optimization.md) | system.billing attribution (via `billing_origin_product` enum), jobs vs all-purpose, serverless/Photon/spot, auto-termination, cluster-policy guardrails | `ORGANIZATION_NAME`, `ATTRIBUTION`, `WORKLOADS`, `SLAS`, `COMPUTE_SETUP` |
 | [`databricks-model-serving.md`](databricks-model-serving.md) | UC model → endpoint, serve-by-alias rollout, scale-to-zero vs warm, traffic-split canary, inference tables | `ORGANIZATION_NAME`, `UC_MODEL`, `ALIAS`, `ENDPOINT_TYPE`, `TRAFFIC`, `LATENCY_SLA` |
-| [`mosaic-ai-vector-search.md`](mosaic-ai-vector-search.md) | Databricks-native RAG retrieval — Delta Sync index, pinned embeddings, hybrid search + UC ACLs, recall@k eval | `ORGANIZATION_NAME`, `SOURCE`, `EMBEDDING`, `FILTERS`, `QUALITY_TARGET` |
-| [`auto-loader-ingestion.md`](auto-loader-ingestion.md) | Incremental cloudFiles → Delta bronze, detection mode by volume, `_rescued_data`, dedicated-checkpoint exactly-once | `ORGANIZATION_NAME`, `LANDING_ZONE`, `FORMAT_VOLUME`, `SCHEMA_STABILITY`, `LATENCY` |
+| [`mosaic-ai-vector-search.md`](mosaic-ai-vector-search.md) | Databricks AI Search (formerly Mosaic AI Vector Search) — Delta Sync index, pinned embeddings, hybrid search + UC ACLs, recall@k eval | `ORGANIZATION_NAME`, `SOURCE`, `EMBEDDING`, `FILTERS`, `QUALITY_TARGET` |
+| [`auto-loader-ingestion.md`](auto-loader-ingestion.md) | Incremental cloudFiles → Delta bronze, file events (managed `useManagedFileEvents`) preferred, `_rescued_data`, dedicated-checkpoint exactly-once | `ORGANIZATION_NAME`, `LANDING_ZONE`, `FORMAT_VOLUME`, `SCHEMA_STABILITY`, `LATENCY` |
 
 **Data cleansing / normalization:**
 

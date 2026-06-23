@@ -56,6 +56,10 @@ jobs:
       - name: 1. Count drift
         shell: bash
         run: |
+          # GH Actions default `bash -e -o pipefail` would fail this step on
+          # any grep that finds no matches inside a pipeline. We manage exit
+          # code via $fail.
+          set +e
           set -u
           fail=0
 
@@ -122,20 +126,26 @@ jobs:
       - name: 2. Broken relative links (root *.md)
         shell: bash
         run: |
+          # GH Actions default shell is `bash -e -o pipefail`, so a `grep` /
+          # `echo | grep -q` that finds nothing returns exit 1 and would fail
+          # the whole step. Disable -e here; we manage exit code via $fail.
+          set +e
           set -u
           fail=0
           # Read into a tempfile rather than piping into a `while` subshell —
           # pipe-subshells lose the per-file `fail=1` mutation and `exit 1`
-          # only terminates the subshell, not the step. Tempfile keeps it
-          # explicit and the step exits with the aggregated result.
+          # only terminates the subshell, not the step.
           tmp=$(mktemp)
           for f in README.md CLAUDE.md NEXT_SESSION.md LESSONS_LEARNED.md operating-philosophy.md analysis-methodology.md; do
             [ -f "$f" ] || continue
-            grep -oE '\]\(([^)]+)\)' "$f" | sed 's/](//;s/)$//' > "$tmp"
+            # `|| true` so a file with no `](...)` matches doesn't break the pipeline.
+            grep -oE '\]\(([^)]+)\)' "$f" 2>/dev/null | sed 's/](//;s/)$//' > "$tmp" || true
+            [ ! -s "$tmp" ] && continue
             while IFS= read -r link; do
-              echo "$link" | grep -qE '^https?://' && continue
-              echo "$link" | grep -qE '^#' && continue
-              path=$(echo "$link" | cut -d'#' -f1)
+              case "$link" in
+                http*|https*|"#"*) continue ;;
+              esac
+              path="${link%%#*}"
               [ -z "$path" ] && continue
               if [ ! -e "$path" ]; then
                 echo "::error file=$f::Broken link: $link"
@@ -149,6 +159,7 @@ jobs:
       - name: 3. Skill ↔ prompt ↔ index parity
         shell: bash
         run: |
+          set +e
           set -u
           EXEMPT="adr api-audit doc-ci-check office-hours prompt-review retro review security-audit security-model-init tradeoff"
           fail=0
@@ -190,6 +201,7 @@ jobs:
       - name: 4. NEXT_SESSION.md HEAD freshness
         shell: bash
         run: |
+          set +e
           set -u
           declared=$(grep -oE 'HEAD = [a-f0-9]{7,40}' NEXT_SESSION.md | head -1 | awk '{print $3}')
           [ -z "$declared" ] && { echo "NEXT_SESSION.md: no HEAD declaration found — skipping"; exit 0; }

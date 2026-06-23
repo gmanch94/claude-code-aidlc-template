@@ -31,14 +31,21 @@ Enumerate threats across two layers:
 
 | Threat | Recommended method | Latency |
 |---|---|---|
-| Prompt injection | Classifier (fine-tuned BERT) + regex heuristics | <20ms |
-| Jailbreak | Llama Guard / dedicated safety classifier | 30–80ms |
-| PII ingestion/leakage | Presidio / regex NER + entity blocklist | <10ms |
-| Scope violation | Intent classifier (zero-shot or fine-tuned) | <30ms |
-| Harmful output | Llama Guard / Perspective API / custom classifier | 30–80ms |
-| Hallucination | Entailment check against RAG context (NLI model) | 50–100ms |
-| Format violation | JSON schema validation / regex | <5ms |
+| Prompt injection | Classifier (fine-tuned BERT) + regex heuristics; **Azure Prompt Shields** (unified direct-jailbreak + indirect-injection API, GA) | <20ms (Prompt Shields adds ~30-80ms) |
+| Jailbreak | Llama Guard / dedicated safety classifier; **Azure Prompt Shields**; **Bedrock Guardrails content filter** | 30–80ms |
+| PII ingestion/leakage | Presidio / regex NER + entity blocklist; **Bedrock Guardrails PII filter** (built-in detectors + custom regex) | <10ms |
+| Scope violation | Intent classifier (zero-shot or fine-tuned); **Bedrock Guardrails denied topics** (natural-language descriptions) | <30ms |
+| Harmful output | Llama Guard / Perspective API / custom classifier; **Bedrock Guardrails content filter** (multimodal toxicity); **Azure Content Safety** | 30–80ms |
+| Hallucination / ungroundedness | Entailment check against RAG context (NLI model); **Bedrock Guardrails contextual grounding check**; **Azure Groundedness Detection with auto-correction** (auto-rewrites ungrounded portions) | 50–100ms |
+| **Formal-policy violation** | **Bedrock Automated Reasoning** (Nov 2025) — mathematical verification of responses against formal policy rules; auto-generated test Q&A. **Distinct technique** from NLI/Llama Guard/Presidio. Use when policy is expressible as formal rules. | Higher latency; budget separately |
+| Format violation | JSON schema validation / regex; **OpenAI Structured Outputs strict mode** (`strict: true` + JSON schema; requires `additionalProperties: false`, all properties required, `["type","null"]` for optional) | <5ms |
 | Excessive length | Token count gate | <1ms |
+| **Protected material / copyright** | **Azure Protected Material detection** (flags copyrighted / proprietary content) | 30-80ms |
+
+**Cross-vendor first-party guardrails:**
+- **Bedrock Guardrails** (AWS): 5 detection techniques on one policy + ApplyGuardrail API works on **non-Bedrock models** too (centralize the safety posture). See `/bedrock-design`.
+- **Azure Content Safety** stack: Prompt Shields + Groundedness Detection + Content Safety filters + Protected Material — all stackable; can also run outside Foundry on non-Azure models via standalone Content Safety API. See `/azure-foundry-design`.
+- **Vertex AI safety filters** + Gemini built-in safety settings.
 
 **Step 3 — Architecture**
 

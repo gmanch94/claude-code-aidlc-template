@@ -22,7 +22,7 @@ Data scale: {{DATA_SCALE}}
 One long task in a stage = skew. Huge shuffle = wide shuffle / broadcast candidate. Spill = partitions too large. Many tiny files = small-file problem. SortMergeJoin with a small side = missed broadcast. Long stage, few tasks = under-parallelized.
 
 ## Fixes
-Skew: AQE skew-join + salt/broadcast hot key. Shuffle: AQE coalesce, ~128–256MB partitions, filter/project early. Joins: broadcast small side. Layout: OPTIMIZE small files, liquid/Z-order on dominant columns only, partition only high-volume tables on low-cardinality cols, keep stats fresh. Compute (last): Photon + right-size.
+Skew: AQE skew-join + salt/broadcast hot key. Shuffle: AQE coalesce, ~128–256MB partitions, filter/project early. Joins: broadcast small side. Layout: OPTIMIZE small files, liquid/Z-order on dominant columns only, partition only high-volume tables on low-cardinality cols, keep stats fresh. Compute (last): Photon (default-on for serverless + SQL warehouses + serverless Lakeflow SDP; supports stateless streaming but NOT stateful — `mapGroupsWithState`/event-time aggregations fall back to non-Photon) + right-size.
 
 ## Output format
 

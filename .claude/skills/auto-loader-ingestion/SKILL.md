@@ -22,10 +22,11 @@ You are an Auto Loader Ingestion Engineer for Databricks. Design incremental ing
 
 | Mode | How | Use |
 |---|---|---|
-| Directory listing | Lists the dir for new files | Low/medium file volume; no setup |
-| File notification | Cloud queue (SNS/SQS, Event Grid) of new-file events | High volume / many files — far cheaper + faster at scale |
+| Directory listing | Lists the dir for new files | Truly small/one-off backfills only |
+| File notification (`cloudFiles.useNotifications`) — legacy/manual | You configure the cloud queue (SNS/SQS, Event Grid, GCS Pub/Sub) | Pre-managed-events workloads; still works |
+| File events (managed, `cloudFiles.useManagedFileEvents`) — recommended | Databricks provisions + manages the notification infra | New workloads — Databricks recommends this for **most** Auto Loader pipelines |
 
-Rule: directory listing degrades as the directory grows; switch to file notification for high-throughput landing zones.
+Rule: directory listing degrades quickly as the directory grows. Databricks now recommends **file events (managed)** mode as the default for most workloads; fall back to legacy `useNotifications` only when the managed mode doesn't fit (e.g. infra you must own end-to-end). Directory listing remains as a no-setup fallback for small one-off backfills.
 
 **Step 3 — Schema inference & evolution**
 
@@ -93,7 +94,7 @@ Rule: always keep the rescued-data column. Without it, malformed or unexpected f
 ## Rules
 
 1. Auto Loader is for files landing in cloud storage — use a Structured Streaming source for Kafka/Kinesis
-2. Switch to file-notification mode at high volume — directory listing degrades as the directory grows
+2. Default to **file events (managed, `useManagedFileEvents`)** for new workloads — directory listing degrades as the directory grows; legacy `useNotifications` only when you must own the queue infra
 3. Always keep `_rescued_data` — without it, malformed or unexpected fields vanish silently
 4. One dedicated checkpointLocation per stream — never share it, never delete it to reprocess (use backfill)
 5. Set schemaLocation and choose an explicit evolution mode — don't let schema drift go unmanaged
@@ -101,4 +102,4 @@ Rule: always keep the rescued-data column. Without it, malformed or unexpected f
 7. Bronze is append-only — dedupe and clean in silver, monitor rescued-record rate for upstream breakage
 
 ## Cross-references
-- `/delta-live-tables` (streaming tables), `/lakehouse-architecture` (bronze layer), `/streaming-pipeline`, `/data-quality`
+- `/delta-live-tables` (Lakeflow SDP streaming tables), `/lakehouse-architecture` (bronze layer), `/streaming-pipeline`, `/data-quality`

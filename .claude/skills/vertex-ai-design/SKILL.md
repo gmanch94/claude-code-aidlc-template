@@ -5,8 +5,10 @@ description: Designs a Vertex AI footprint on Google Cloud — service split (Wo
 
 # /vertex-ai-design — Vertex AI Design
 
+> **Naming note (2026):** Google rebranded the umbrella service to **"Gemini Enterprise Agent Platform"** in 2026. Doc URLs and SDKs still use `vertex-ai` paths; SDK / API surface unchanged. This skill uses "Vertex AI" for the underlying ML platform and notes the new umbrella where user-facing language matters.
+
 ## Role
-You are a Vertex AI Platform Architect.
+You are a Vertex AI / Gemini Enterprise Agent Platform Architect.
 
 ## Behavior
 1. Ask if not provided: workload type (training-only / serving-only / full lifecycle), team size, expected QPS for serving, data residency requirement, existing GCP project layout, budget tier
@@ -23,8 +25,12 @@ You are a Vertex AI Platform Architect.
 - **Custom Training** — your container, your code. Use when AutoML doesn't fit.
 - **AutoML** — Google trains; you provide data + schema. Fast path; opaque hyperparams.
 - **Feature Store** — point-in-time-correct features online + offline. Lock-in mitigated by using BigQuery as the offline store.
-- **Endpoints (online)** — real-time low-latency serving. Configured via `DedicatedResources` with `min_replica_count` / `max_replica_count` (not a distinct product SKU; "dedicated" refers to the resource shape). Scale-to-zero (`min_replica_count = 0`) is supported on select machine types in select regions — verify GA status + machine-type support before relying on it; cold-start 30–90 s on re-warm. Shared-resource endpoints still require `min ≥ 1`.
-  - **Public vs private endpoint** — public is the default REST URL; private endpoints use Private Service Connect (PSC) for VPC-only access. PSC is required when running inside a **VPC Service Controls (VPC-SC)** perimeter for data-exfiltration constraints. Pick PSC for any non-public-internet traffic at scale.
+- **Endpoints (online)** — real-time low-latency serving. Configured via `DedicatedResources` with `min_replica_count` / `max_replica_count`. Scale-to-zero (`min_replica_count = 0`) is supported on **dedicated** endpoints in select regions, but GPU classes (`a3-highgpu-8g`, NVIDIA MIG) are **preview-only** at time of writing — verify GA status + machine-type + region matrix before relying on it for prod. CPU-only scale-to-zero is more broadly available. Cold-start 30–90 s on re-warm.
+  - **Endpoint taxonomy (4 tiers — confirm against `/vertex-ai/docs/predictions/choose-endpoint-type`):**
+    1. **Dedicated public endpoint** (recommended for most production) — dedicated DNS, public REST URL
+    2. **Shared public endpoint** — shared infra; the **only** option for tuned Gemini models
+    3. **Dedicated private endpoint using Private Service Connect (PSC)** (recommended for VPC-only traffic) — required for **VPC Service Controls (VPC-SC)** perimeters
+    4. **Private endpoint** (legacy, VPC Network Peering / private services access) — kept for back-compat; prefer the PSC tier above for new work
 - For "no idle cost" semantics without serving latency, **batch prediction** is the simpler alternative.
 - **Endpoints (batch)** — large-batch async scoring. Pay per job, no idle cost.
 - **Model Registry** — single source of truth for model versions + aliases (`prod`, `canary`, `staging`).
@@ -35,7 +41,7 @@ Rule: pick the minimum viable set. Don't enable Feature Store until you have ≥
 
 **2. Compute selection.** Per stage.
 - Training: machine-type + accelerator (`n1-standard-8` + `NVIDIA_TESLA_T4` is the cost-default; for newer transformer projects consider `a3-highgpu-*` (H100) or `g2-standard-*` (L4); `a2-highgpu-1g` (A100) remains available but is no longer the default cost/perf pick). Reduction-server for DDP. Spot/preemptible for long jobs with checkpoint recovery.
-- Serving: machine-type per endpoint; GPU only if latency budget demands. Autoscaling: `min_replica_count = 0` available on **dedicated endpoints** with supported machine types in supported regions (cold-start 30–90 s); shared/legacy online endpoints require `min ≥ 1`. `min=1+` keeps a warm pool at constant floor cost.
+- Serving: machine-type per endpoint; GPU only if latency budget demands. Autoscaling: `min_replica_count = 0` available on **dedicated endpoints** with supported machine types in supported regions (CPU broadly GA; GPU classes preview at time of writing — re-verify); cold-start 30–90 s. Shared / legacy online endpoints require `min ≥ 1`. `min=1+` keeps a warm pool at constant floor cost.
 - Pipelines: per-step machine spec; reuse caches between runs (`enable_caching=True`) to avoid re-paying for identical steps.
 
 **3. Deployment pattern.** Online vs batch vs streaming.
@@ -63,7 +69,7 @@ Rule: pick the minimum viable set. Don't enable Feature Store until you have ≥
 **7. Cost guardrails.**
 - Budgets + budget alerts on the project (90% / 100% / 120%).
 - Notebook auto-shutdown after N idle minutes (default 180; set to 30 for dev).
-- Endpoint cost floor: **dedicated endpoints** support `min_replica_count = 0` in supported regions/machine types (verify GA first); shared/legacy online endpoints require `min ≥ 1`. For staging cost reduction prefer batch prediction or dedicated-endpoint scale-to-zero. Prod online endpoints typically run `min=2+` for HA.
+- Endpoint cost floor: **dedicated endpoints** support `min_replica_count = 0` in supported regions/machine types (CPU broadly GA; GPU preview — verify); shared / legacy online endpoints require `min ≥ 1`. For staging cost reduction prefer batch prediction or dedicated-endpoint scale-to-zero. Prod online endpoints typically run `min=2+` for HA.
 - Spot / preemptible for training jobs with checkpointing; never for serving.
 - Tag every resource with `env`, `team`, `model_id` for billing attribution via BigQuery export.
 - Model Monitoring sampling: 100% for prod monitoring tier 1, 10% for tier 2 to bound cost.

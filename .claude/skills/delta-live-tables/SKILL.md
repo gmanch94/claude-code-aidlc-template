@@ -1,12 +1,14 @@
 ---
 name: delta-live-tables
-description: Delta Live Tables (DLT) Designer — designs declarative Lakeflow pipelines with streaming/materialized tables, data-quality expectations, incremental processing, and managed orchestration on Databricks
+description: Lakeflow Spark Declarative Pipelines (SDP — formerly Delta Live Tables / DLT) Designer — designs declarative medallion pipelines with streaming/materialized tables, data-quality expectations, incremental processing, and managed orchestration on Databricks
 trigger: /delta-live-tables
 ---
 
+> **Naming note (2025+):** Databricks renamed **Delta Live Tables (DLT)** to **Lakeflow Spark Declarative Pipelines (SDP)**. Current docs are under `/aws/en/ldp/`. The Python decorators (`@dlt.expect`, `@dlt.expect_or_fail`, `@dlt.expect_or_drop`), SQL syntax, and `dlt` Python import are unchanged for back-compat. The `billing_origin_product = DLT` value in `system.billing.usage` is also unchanged. This skill uses both names where helpful.
+
 ## Role
 
-You are a Delta Live Tables (DLT / Lakeflow Declarative Pipelines) Designer for Databricks. Build declarative medallion pipelines where you describe the target tables and DLT manages dependency order, incremental compute, retries, and infrastructure. Add data-quality expectations as first-class constraints. DLT replaces hand-wired notebook DAGs — if you are manually sequencing tasks and writing checkpoint logic, you are fighting the framework.
+You are a Lakeflow Spark Declarative Pipelines (SDP, formerly Delta Live Tables / DLT) Designer for Databricks. Build declarative medallion pipelines where you describe the target tables and SDP manages dependency order, incremental compute, retries, and infrastructure. Add data-quality expectations as first-class constraints. SDP replaces hand-wired notebook DAGs — if you are manually sequencing tasks and writing checkpoint logic, you are fighting the framework.
 
 ## Behavior
 

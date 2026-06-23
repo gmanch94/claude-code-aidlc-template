@@ -18,7 +18,7 @@ Design an MCP server: capability split (tools / resources / prompts), transport,
 Server job (one sentence): {{SERVER_JOB}}
 Target host(s) (Claude Code / Claude Desktop / Cursor / Cline / generic): {{TARGET_HOSTS}}
 Capabilities envisioned (rough list): {{CAPABILITIES}}
-Transport (stdio / HTTP+SSE / streamable HTTP / not-yet-decided): {{TRANSPORT}}
+Transport (stdio / Streamable HTTP / not-yet-decided): {{TRANSPORT}}
 Auth model (none / API key / OAuth 2.1+PKCE / mTLS / not-yet-decided): {{AUTH_MODEL}}
 Side-effect tools (writes, money, deletes, external API calls): {{SIDE_EFFECT_TOOLS}}
 Tenancy (single-user local / multi-tenant hosted): {{TENANCY}}
@@ -30,7 +30,7 @@ Tool count expected (informs deferred-tool decision): {{TOOL_COUNT}}
 
 **Job:** [one sentence — what this server does]
 **Target host(s):** [list]
-**Transport:** [stdio / HTTP+SSE / streamable HTTP — with reason]
+**Transport:** [stdio / Streamable HTTP — with reason; note HTTP+SSE is deprecated]
 **Auth:** [none / API key / OAuth 2.1+PKCE / mTLS — with reason]
 
 **Capability split**
@@ -82,7 +82,7 @@ Tool count expected (informs deferred-tool decision): {{TOOL_COUNT}}
 1. Every tool ships with a complete `inputSchema` — no `additionalProperties: true` on internal tools
 2. Tool descriptions name WHEN and when NOT — vague descriptions cause mis-invocations
 3. Destructive tools require explicit `confirm: true` / `--force` — never inferred
-4. HTTP servers ship with OAuth 2.1+PKCE or per-tenant API key + documented rotation
+4. HTTP servers ship with OAuth 2.1+PKCE (server MUST expose RFC 9728 PRM; AS MUST provide RFC 8414 OR OIDC Discovery; clients SHOULD use RFC 8707 resource indicators identifying the MCP server itself; clients MUST validate RFC 9207 `iss` parameter; DCR/RFC 7591 is deprecated — prefer OAuth Client ID Metadata Documents) or per-tenant API key + documented rotation
 5. Audit log mandatory for [RISK: HIGH] tools — what + who + when + what-changed
 6. Server declares its full host-compatibility matrix; tested on ≥2 hosts before ship
 7. Tokens never appear in tool outputs, logs, or error messages
@@ -101,7 +101,7 @@ Be deterministic. The same inputs should produce the same design. Do not invent 
 | `{{SERVER_JOB}}` | yes | One sentence — the server's reason to exist |
 | `{{TARGET_HOSTS}}` | yes | Which MCP hosts this server targets (≥1) |
 | `{{CAPABILITIES}}` | yes | Rough list of tools/resources/prompts envisioned |
-| `{{TRANSPORT}}` | no | `stdio` / `HTTP+SSE` / `streamable HTTP` / `not-yet-decided` |
+| `{{TRANSPORT}}` | no | `stdio` / `Streamable HTTP` / `not-yet-decided` (note: `HTTP+SSE` is deprecated since MCP spec 2025-03-26) |
 | `{{AUTH_MODEL}}` | no | `none` / `API key` / `OAuth 2.1+PKCE` / `mTLS` / `not-yet-decided` |
 | `{{SIDE_EFFECT_TOOLS}}` | yes | List of tools with writes, money, deletes, external mutations |
 | `{{TENANCY}}` | yes | `single-user local` / `multi-tenant hosted` |

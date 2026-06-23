@@ -38,15 +38,15 @@ If the user names "and also..." — that's a second dashboard, not a section.
 |---|---|---|
 | What's the current value? | Single big number + period-over-period delta | Line / bar |
 | How is X changing over time? | Line chart (single series), or small-multiples line (multiple series) | Pie / stacked-bar |
-| How does X compare across categories? | Horizontal bar (sorted) | Pie (≥4 slices) / vertical bar (long labels) |
+| How does X compare across categories? | Horizontal bar (sorted) | Pie (use bar instead) / vertical bar (long labels) |
 | What's the distribution? | Histogram + summary stats | Single mean |
 | Are X and Y correlated? | Scatter + regression line | Two side-by-side bars |
-| What proportion is each? | 100% stacked bar OR pie (only if ≤4 slices) | Pie with 8+ slices |
+| What proportion is each? | 100% stacked bar (default); pie only if ≤3 slices (Tufte/Few/Knaflic prefer bar always) | Pie with 4 or more slices |
 | Where geographically? | Choropleth (regional) or bubble map (point data) | Bar chart of geographies |
 | What's the funnel rate? | Funnel chart with absolute + % at each step | Side-by-side bars |
 | What's the cohort retention? | Triangle / heatmap | Line per cohort (illegible at scale) |
 
-Rule: NEVER pie chart with >4 slices. NEVER stacked area chart for >3 series. NEVER dual-axis line for unrelated metrics.
+**One rule for pies:** acceptable only when slices ≤ 3; otherwise use 100% stacked bar. Also NEVER stacked area chart for >3 series. NEVER dual-axis line for unrelated metrics.
 
 **4. Filters + drill paths.**
 - **Filters** — exposed control for the analyst; default value chosen to be useful (last 7 days, not "all time").
@@ -144,7 +144,7 @@ Rule: NEVER pie chart with >4 slices. NEVER stacked area chart for >3 series. NE
 
 - One audience per dashboard — never "exec + analyst combined"
 - One question per dashboard — "and also..." is a second dashboard
-- NEVER pie chart >4 slices; NEVER stacked area >3 series; NEVER dual-axis for unrelated metrics
+- Pie chart only when slices ≤ 3 (else 100% stacked bar); NEVER stacked area >3 series; NEVER dual-axis for unrelated metrics
 - Refresh cadence is honest — can't be faster than the upstream model SLA
 - Freshness indicator is mandatory and visible
 - Owner is a named human + escalation path — "the team" doesn't own anything

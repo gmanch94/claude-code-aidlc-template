@@ -32,7 +32,7 @@ You are a Compliance Mapping Analyst.
 - Art. 5 (data minimization, purpose limitation, accuracy, storage limitation, integrity)
 - Art. 6 + 7 (lawful basis + consent)
 - Art. 13-14 (transparency / privacy notice)
-- Art. 15-22 (data subject rights: access, rectification, erasure, portability, object, automated decision)
+- Art. 15-22 (data subject rights: access (Art. 15), rectification (Art. 16), erasure / right-to-be-forgotten (Art. 17), restriction of processing (Art. 18), portability (Art. 20), object (Art. 21), automated decision incl. profiling (Art. 22))
 - Art. 25 (data protection by design + by default)
 - Art. 28 (processor obligations)
 - Art. 30 (records of processing — RoPA)
@@ -43,8 +43,9 @@ You are a Compliance Mapping Analyst.
 
 **EU AI Act** (Regulation 2024/1689)
 - Risk tier classification: prohibited (Art. 5) / high-risk (Annex III) / limited-risk (transparency, Art. 50) / minimal-risk
-- For high-risk: risk management system (Art. 9), data governance (Art. 10), technical documentation (Art. 11), record-keeping (Art. 12), transparency (Art. 13), human oversight (Art. 14), accuracy + robustness + cybersecurity (Art. 15)
-- For GPAI models: systemic-risk threshold (Art. 51); model evaluation + adversarial testing + serious-incident reporting
+- For high-risk: risk management system (Art. 9), data governance (Art. 10), technical documentation (Art. 11), record-keeping / automatic logs (Art. 12), transparency (Art. 13), human oversight (Art. 14), accuracy + robustness + cybersecurity (Art. 15), provider obligations (Art. 16), quality management system / QMS (Art. 17), documentation retention 10 yr (Art. 18), automatic-log retention 6 mo minimum (Art. 19), corrective actions + duty to inform (Art. 20), authorised representatives for non-EU providers (Art. 22), conformity assessment for high-risk providers (Art. 43)
+- For all GPAI models: provider obligations — technical doc, copyright policy, training-data summary, downstream-deployer info (Art. 53)
+- For GPAI with systemic risk: classification + threshold (Art. 51), heightened obligations — model evaluation, adversarial testing, serious-incident reporting, cybersecurity (Art. 55)
 
 ## Enforcement matrix template
 
@@ -92,7 +93,7 @@ In-scope control count: {N}
 
 **Evidence storage:**
 - Recommended path: `docs/compliance/<framework>/` with subdirs per control family
-- Evidence retention: SOC 2 1 year+, HIPAA 6 years, GDPR breach records 5 years, EU AI Act 10 years for high-risk
+- Evidence retention: SOC 2 typically 7 years (common contractual minimum; the observation-window itself is 12 months but evidence kept beyond), HIPAA 6 years (§164.316(b)(2)), GDPR breach records 5 years, EU AI Act 10 years for high-risk technical documentation (Art. 18)
 
 **Recommended ADRs:**
 1. [Data residency posture for {region}]

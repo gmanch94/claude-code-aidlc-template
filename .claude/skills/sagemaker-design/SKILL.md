@@ -25,9 +25,10 @@ You are a SageMaker Platform Architect.
 - **Feature Store** — online (DynamoDB-backed, per-throughput) + offline (S3, Parquet). Lock-in modest; offline store is your S3.
 - **Endpoints (real-time)** — REST, always-on. Multi-AZ. Autoscaling supported; cannot scale to 0 unless using **Serverless Inference**.
 - **Endpoints (async)** — long-running requests via S3 input/output; queue-backed; can scale to 0.
-- **Endpoints (serverless)** — pay per invocation; cold start; max payload 4MB.
+- **Endpoints (serverless)** — pay per invocation; cold start; eligibility gates: **max payload 4 MB, max memory 6 GB**, and an invocation timeout that AWS has raised over time (60 s historically; now in the multi-minute range for many configs — **verify the current cap in your region** before committing). Pushing past any of these means switch to Async (long-running) or Real-time (low-latency).
 - **Endpoints (batch transform)** — async batch scoring on S3; pay per job.
 - **Endpoints (multi-model / MME / MCE)** — many models sharing one endpoint; cost-efficient at high model-count.
+- **Inference Recommender** — right-sizing tool for real-time endpoint instance + config selection; runs candidate instance types against a sample workload and reports cost/latency. Run BEFORE picking an `instance_type` for a new endpoint — beats guessing.
 - **Model Registry** — model versions + approval workflow; `ModelPackageGroup` per family.
 - **Model Monitor** — data quality / model quality / bias drift / feature attribution. Hourly capture + scheduled monitoring jobs.
 - **Clarify** — bias + explainability at training time and post-deploy.
@@ -36,14 +37,14 @@ You are a SageMaker Platform Architect.
 Rule: pick the minimum viable set. Don't enable Feature Store online until a real-time consumer exists.
 
 **2. Compute selection.** Per stage.
-- Training: instance family (`ml.m5` CPU, `ml.g5` / `ml.p4d` GPU, `ml.trn1` Trainium). Spot via `EnableManagedSpotTraining=True` + `MaxWaitTimeInSeconds` ≈ 2× max training time. Distributed training: `smdistributed.dataparallel` / `model.parallel` / `torch.distributed`.
+- Training: instance family (`ml.m5` CPU; `ml.g6` / `ml.p5` GPU as the modern default; `ml.g5` / `ml.p4d` still available but older; `ml.trn2` Trainium for cost-optimised transformer training, `ml.trn1` for legacy). Spot via `EnableManagedSpotTraining=True` + `MaxWaitTimeInSeconds` ≈ 2× max training time. Distributed training: `smdistributed.dataparallel` / `model.parallel` / `torch.distributed`.
 - Real-time serving: instance per endpoint variant; GPU only if latency budget demands. Autoscaling: `InvocationsPerInstance` is the canonical metric.
 - Pipelines: per-step instance; cache step outputs (`CacheConfig`) to avoid re-paying for identical steps.
 
 **3. Deployment pattern.** Match the request shape.
 - **Real-time** — sub-second p99, always-on cost. Production-default for online inference where latency matters.
 - **Async** — long-running (>60s) or large-payload; queue-backed; scale-to-0 supported.
-- **Serverless** — bursty traffic, payload <4MB, cold-start tolerable. Cheapest at low QPS.
+- **Serverless** — bursty traffic, payload <4 MB AND memory ≤6 GB AND invocation duration within current regional cap (verify; the historical 60 s ceiling has been raised), cold-start tolerable. Cheapest at low QPS. If any gate fails → Async (long timeout) or Real-time (low latency).
 - **Batch transform** — schedule via EventBridge; no idle cost.
 - **MME / MCE** — many small models sharing one endpoint; trade per-model latency variance for cost.
 - **Edge** — SageMaker Neo + Greengrass for on-device; see `/edge-ml-deployment`.

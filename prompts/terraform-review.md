@@ -81,6 +81,7 @@ Be exhaustive on [BLOCKER]; concise on [NITPICK]. Don't pad with nits to look th
 | `{{CI_SYSTEM}}` | yes | Informs plan-vs-apply pattern checks |
 | `{{INPUT}}` | yes | The code / diff / plan output to review |
 | `{{CHANGE_NOTES}}` | no | What changed (provider upgrade, destructive op, etc.) |
+| `{{N}}` / `{{M}}` / `{{P}}` | output | Filled by the model — counts of [BLOCKER] / [SUGGESTION] / [NITPICK] findings in the verdict line |
 
 ## Usage notes
 

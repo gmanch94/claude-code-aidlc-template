@@ -84,7 +84,7 @@ Embed required (yes/no — gates RLS strictness): {{EMBED_REQUIRED}}
    - "Over time?" → line (single) or small-multiples (NOT stacked area >3 series)
    - "Compare categories?" → horizontal bar sorted (NOT pie if >4 slices)
    - "Distribution?" → histogram + summary (NOT single mean)
-   - "Proportion?" → pie ONLY if ≤4 slices (else 100% stacked bar)
+   - "Proportion?" → 100% stacked bar default; pie ONLY if ≤3 slices (Tufte/Few/Knaflic prefer bar always)
    - "Geographic?" → choropleth (regional) or bubble (point) — NOT bar of geographies
    - "Funnel?" → funnel with absolute + % at each step
 4. NEVER dual-axis line for unrelated metrics

@@ -161,7 +161,7 @@ jobs:
         run: |
           set +e
           set -u
-          EXEMPT="adr api-audit doc-ci-check office-hours prompt-review retro review security-audit security-model-init tradeoff"
+          EXEMPT="adr api-audit doc-ci-check office-hours prompt-review retro review rollback-checkpoint security-audit security-model-init tradeoff"
           fail=0
 
           for s in $(ls .claude/skills/); do

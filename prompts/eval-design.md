@@ -21,6 +21,9 @@ Failure cost: {{FAILURE_COST}}
 ## Metrics by task
 Extraction/classification → P/R/F1 vs gold. Generation/RAG → faithfulness/groundedness, answer relevance, citation accuracy (LLM-as-judge + human spot-check). Safety → violation rate. Always include a non-LLM baseline.
 
+## Tooling (2026-06)
+**OpenAI Evals sunset — read-only 2026-10-31, shutdown 2026-11-30** (announced 2026-06-03). Migrate to: **Promptfoo** (OpenAI's own named target), Braintrust, Langfuse, LangSmith, Arize Phoenix, Inspect AI, or OpenAI Agents SDK tracing. Distillation pipelines (Stored Completions → Evals → SFT/DPO on smaller model) also break — plan both eval AND distillation stage replacements in the same migration.
+
 ## Output format
 
 ### Eval Design: [feature]
@@ -48,6 +51,8 @@ Extraction/classification → P/R/F1 vs gold. Generation/RAG → faithfulness/gr
 5. Include a non-LLM baseline — beat it or justify the cost
 6. Re-eval on every model/prompt change — silent regressions ship otherwise
 7. Report per-slice, not just aggregate — an average hides the failing segment
+8. Don't build new pipelines on OpenAI Evals (sunset 2026-11-30) — pick a survivor (Promptfoo / Braintrust / Langfuse / LangSmith / Arize Phoenix / Inspect AI / Agents SDK tracing)
+9. For multi-judge agreement, diversify reasoning method (failure-mode enum / first-principles / adversarial counter-example), not just lens — N=3 reasoning-diverse beats N=9 same-family (arxiv 2605.29800)
 ```
 
 ---

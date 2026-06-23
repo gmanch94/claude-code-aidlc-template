@@ -30,21 +30,35 @@ Framework preference: {{FRAMEWORK_PREFERENCE}}
 | Event-driven (reactive) | Tasks triggered by external events or agent outputs |
 | Debate / critique | Improve output quality through adversarial review |
 
-## Framework selection
+## Framework selection (2026-06 refresh)
 | Framework | Best for | Key trait |
 |---|---|---|
-| LangGraph | Stateful, cyclic workflows with conditional routing | Graph-based; fine-grained state control |
+| LangGraph 1.0 (GA 2025-10-22) | Stateful, cyclic workflows with conditional routing; durable execution | Graph-based; fine-grained state control |
+| OpenAI Agents SDK (Python+JS/TS) | OpenAI-native; Handoffs + Guardrails + Tracing primitives | Vendor sandboxes (Blaxel/Cloudflare/Daytona/E2B/Modal/Runloop/Vercel); supersedes Swarm |
+| Google ADK v2.0 (GA 2026-06) | GCP-native; graph engine | Workflow Runtime; Task API for agent↔agent delegation |
 | CrewAI | Role-based teams with clear responsibilities | High-level; agent personas + task delegation |
-| AutoGen | Conversation-based collaboration | Chat-centric; flexible back-and-forth |
+| AutoGen v0.4 / AG2 | Conversation-based; async event-driven actor architecture | **Install collision**: AG2 owns `pyautogen` on PyPI; pin explicitly |
+| Foundry framework-mix on same runtime | DeepSeek planner + OpenAI generator + LangGraph orchestrator on Azure | Foundry-specific; see `/azure-foundry-design` |
+| Anthropic Workflow tool (Claude Code) | Deterministic orchestration inside Claude Code | Parallel/pipeline/journaling/resume; see `/workflow-design` |
 | Custom (LLM API) | Simple pipelines, full control, no framework overhead | Explicit orchestration; fewest abstractions |
 
-Rule: use LangGraph when workflow has cycles or conditional branches; CrewAI for role-based teams; custom for simple sequential pipelines.
+Rule: LangGraph for cyclic+durable; **OpenAI Agents SDK** for OpenAI-native with Handoffs; **ADK** for GCP-native; CrewAI for role-based teams; **Anthropic Workflow tool** for Claude-Code-native deterministic fan-out; custom for simple pipelines.
 
 ## Agent design principles
 - Orchestrator: plans tasks, routes to workers, synthesizes results
 - Specialist workers: one role per domain; tools scoped to that role only (principle of least privilege)
-- Critic / verifier: validates output quality; prevents error propagation
+- Critic / verifier: validates output quality; prevents error propagation. **Diversify reasoning method** (failure-mode enum / first-principles / adversarial counter-example), not just lens — N=3 reasoning-diverse beats N=9 same-family (arxiv 2605.29800)
 - Every agent needs: role, tool access, output schema, failure behavior
+- **Handoff contract** (when pattern uses handoffs): which sibling/parent receives control; what payload transfers
+
+## Handoff-as-primitive matrix
+| Pattern | State owner | Stuck-agent recovery | Iteration gate |
+|---|---|---|---|
+| Supervisor (1 parent, N workers) | Supervisor | Supervisor times out worker | Per-worker + global |
+| Hierarchical (parent → child → grandchild) | Each level for its subtree | Parent kills hung subtree; resume from sibling | Cap per level + total |
+| Peer-collaborative (CrewAI) | Shared crew state | Peers vote stuck task as failed | Per-task + total |
+| Event-driven actor (AutoGen v0.4) | Each actor's mailbox | Stuck mailbox flushed; supervisor restart | Per-actor msg cap + ttl |
+| Handoff chain (Agents SDK) | Chain head (immutable log) | Last successful handoff is resume point | Total handoff count |
 
 ## State management
 | Approach | When to use |

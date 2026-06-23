@@ -27,6 +27,18 @@ Before recording any claim about an API's capabilities (CRUD support, sandbox, a
 
 **"Inferred from absence" is not valid.** Find the spec, the API listing, or the explicit documentation that enumerates what IS supported. If a source is a prototype or unofficial repo, label it as such — do not treat it as current documentation.
 
+## Adversarial-verification gate (for portfolio-level claims)
+
+When the audit produces a portfolio-level claim that will drive an external-facing artifact (vendor feedback letter, integration go/no-go, board recommendation), spawn **N=3 reasoning-diverse verifiers** before declaring it final:
+
+- **Verifier A — failure-mode enumeration:** "list every way the cited primary source could be misleading (out of date / scope-limited / vendor-promotional)"
+- **Verifier B — first-principles re-derivation:** "re-derive the same claim from a different starting source; do you reach the same conclusion?"
+- **Verifier C — adversarial counter-example:** "construct a counter-example API or feature that breaks the claim's generalization"
+
+**Decision rule:** ≥2 of 3 must concur. Diverging verifiers trigger a Phase 5+ re-pass.
+
+**Why N=3 reasoning-diverse beats N=9 same-family:** correlated errors collapse same-family panels — additional same-method verifiers have near-zero marginal value. "Nine Judges, Two Effective Votes" (arxiv 2605.29800). Same pattern used in `/review` and `/security-audit`.
+
 ---
 
 ## Cross-File Consistency Check

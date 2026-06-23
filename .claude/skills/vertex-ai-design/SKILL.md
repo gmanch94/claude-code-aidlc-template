@@ -7,6 +7,14 @@ description: Designs a Vertex AI footprint on Google Cloud — service split (Wo
 
 > **Naming note (2026):** Google rebranded the umbrella service to **"Gemini Enterprise Agent Platform"** in 2026. Doc URLs and SDKs still use `vertex-ai` paths; SDK / API surface unchanged. This skill uses "Vertex AI" for the underlying ML platform and notes the new umbrella where user-facing language matters.
 
+> **Model + pricing snapshot (verified 2026-06-22 — re-confirm against live pricing page before quoting in deliverables):**
+> - **Gemini 3.1 Pro GA 2026-02-19** (NOT Nov 2025 preview as some secondary sources still say); **context window 2M tokens**; ≤200k pricing **$2 input / $12 output per Mtok**; over-200k tier **$4 / $18** (1.5× output bump, not just input).
+> - **Gemini 3 Flash Preview** (2025-12-17): $0.50 / $3.00 per Mtok.
+> - **Gemini 3.1 Flash-Lite Preview** (2026-03-03): $0.25 / $1.50 per Mtok.
+> - **Gemini Live API GA on Vertex** (at I/O 2026, ~May 2026), powered by Gemini 2.5 Flash Native Audio — 30 HD voices in **24 languages** (not 70+).
+> - **Agent Engine sessions + memory bank GA** — **billing starts 2026-01-28** (free before that date). $0.25 per 1k events/memories quoted by secondary sources; re-verify against live pricing before assuming.
+> - **Naming:** Gemini 3 lineup is **Pro / Flash / Flash-Lite**. There is no "Nano" or "Ultra" tier in the 3.x line — don't fabricate tiers.
+
 ## Role
 You are a Vertex AI / Gemini Enterprise Agent Platform Architect.
 
@@ -54,6 +62,13 @@ Rule: pick the minimum viable set. Don't enable Feature Store until you have ≥
 - **Triggers:** Pipelines triggered by Eventarc (file landed) / Cloud Scheduler (cron) / Pub/Sub (event) / manual.
 - **CI/CD:** model promotion gated by Pipelines step — `evaluate → compare-vs-baseline → promote-alias` is a deterministic flow, not a human-click.
 - **Rollback:** flip the alias on Model Registry; endpoint resolves the new version on next traffic-split sync. RTO ≤ 60s.
+
+**4b. RAG path decision (Vertex AI Search vs RAG Engine vs custom Vector Search).** Three overlapping managed-RAG paths — **picking two doubles the bill** with little incremental benefit:
+- **Vertex AI Search** ($1.50–$6.00 per 1K queries, 10K/mo free) — turnkey enterprise search; built-in connectors; LLM-grounded answers.
+- **Vertex AI RAG Engine** — managed RAG-as-a-service; chunking + embedding + retrieval pipeline managed for you.
+- **Custom Vector Search** (Vector Search index built from Pipelines, hosted on Matching Engine) — full control over chunking + embedding model + retrieval strategy.
+
+Decision rule: pick **one**. Vertex AI Search for off-the-shelf enterprise search; RAG Engine for managed RAG without owning the pipeline; custom Vector Search for control. Defer chunking + retrieval-eval depth to `/rag-design`.
 
 **5. Feature Store decision.** Do you actually need it?
 - Yes when: ≥2 services consume the same features; point-in-time correctness across training/serving matters; features are computed at >1 cadence.

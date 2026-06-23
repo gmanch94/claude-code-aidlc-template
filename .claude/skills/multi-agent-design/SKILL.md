@@ -24,20 +24,41 @@ You are a Multi-Agent System Designer. Select the orchestration pattern, choose 
 
 | Framework | Best for | Key trait |
 |---|---|---|
-| LangGraph | Stateful, cyclic workflows with conditional routing | Graph-based; fine-grained state control |
+| **LangGraph 1.0** (GA 2025-10-22) | Stateful, cyclic workflows with conditional routing; durable execution; Uber/LinkedIn/Klarna in production | Graph-based; fine-grained state control; durable execution |
+| **OpenAI Agents SDK** (Python + JS/TS, v0.x ~weekly releases) | OpenAI-native; Handoffs + Guardrails + Tracing as primitives | **Handoffs** = first-class control-transfer primitive; vendor sandboxes (Blaxel/Cloudflare/Daytona/E2B/Modal/Runloop/Vercel); supersedes Swarm (deprecated experimental predecessor) |
+| **Google ADK v2.0** (GA 2026-06) | GCP-native; graph engine with routing, fan-out/fan-in, loops, retry, HITL, nested workflows | Workflow Runtime; Task API for agent↔agent delegation; breaking changes vs 1.28+ |
 | CrewAI | Role-based teams with clear responsibilities | High-level; agent personas + task delegation |
-| AutoGen | Conversation-based multi-agent collaboration | Chat-centric; flexible back-and-forth |
+| AutoGen v0.4 / AG2 (fork) | Conversation-based multi-agent collaboration; async event-driven actor architecture | Chat-centric; **install collision**: AG2 forked Sep '24 and owns PyPI `autogen` / `pyautogen`; AutoGen v0.4 is the Microsoft-maintained line — pin explicitly |
+| **Foundry framework-mix on same runtime** | Mix DeepSeek planner + OpenAI generator + LangGraph orchestrator on Azure Foundry Agent Service | Single runtime, multi-framework — Foundry-specific. See `/azure-foundry-design` |
+| **Anthropic Workflow tool** (Claude Code) | Deterministic orchestration inside Claude Code; parallel/pipeline/journaling/resume | See `/workflow-design` for the producer-side framing |
 | Custom (LLM API) | Simple pipelines, full control, no framework overhead | Explicit orchestration; fewest abstractions |
 
-Rule: use LangGraph when workflow has cycles or conditional branches; CrewAI for role-based teams; custom for simple sequential pipelines.
+Rule: use **LangGraph** when workflow has cycles or conditional branches and you need durable execution; **OpenAI Agents SDK** for OpenAI-native with Handoffs; **ADK** for GCP-native; CrewAI for role-based teams; **Anthropic Workflow tool** for Claude-Code-native deterministic fan-out; custom for simple sequential pipelines. Pair with `/workflow-design` for the deterministic-orchestration mechanics.
 
-**Step 3 — Agent role definition**
+**Step 3 — Agent role definition + handoff-as-primitive matrix**
 
 Every system needs:
 - **Orchestrator** — plans tasks, routes to workers, synthesizes results
 - **Specialist workers** — one role per domain (researcher, coder, analyst, writer)
-- **Critic / verifier** — validates output quality; prevents error propagation
-- **Memory manager** (optional) — manages shared context across long workflows
+- **Critic / verifier** — validates output quality; prevents error propagation. **Diversify reasoning method** (failure-mode enumeration / first-principles re-derivation / adversarial counter-example), not just lens — same-family critics collapse on correlated errors ("Nine Judges, Two Effective Votes," arxiv 2605.29800). N=3 reasoning-diverse beats N=9 same-family.
+- **Memory manager** (optional) — manages shared context across long workflows. See `/agent-memory`.
+
+**Handoff-as-primitive matrix:**
+
+| Pattern | Who owns state | How a stuck sub-agent is recovered | Max-iteration gate |
+|---|---|---|---|
+| **Supervisor (one parent, N workers)** | Supervisor | Supervisor times out worker; reassigns or fails the workflow | Per-worker iteration cap + global cap |
+| **Hierarchical (parent → child → grandchild)** | Each level for its own subtree | Parent kills hung child subtree; resumes from sibling | Cap per level; total-agent cap |
+| **Peer-collaborative (CrewAI-style)** | Shared crew state | Other peers vote a stuck peer's task as failed; reassign | Iteration cap per task; total task cap |
+| **Event-driven actor (AutoGen v0.4)** | Each actor owns its mailbox | Stuck actor's mailbox flushed; supervisor restart | Per-actor message cap + ttl |
+| **Handoff chain (Agents SDK)** | Chain head (immutable hand-off log) | Last successful handoff is the resume point | Total handoff count cap |
+
+Each agent needs:
+- Role description (1–2 sentences)
+- Tool access list (only what the role needs — principle of least privilege)
+- Output schema (what it produces for the next agent — use structured output at handoff boundaries)
+- Failure behavior (what to emit if it cannot complete its task)
+- **Handoff contract** (if pattern uses handoffs): which sibling/parent receives control; what payload is transferred
 
 Each agent needs:
 - Role description (1–2 sentences)

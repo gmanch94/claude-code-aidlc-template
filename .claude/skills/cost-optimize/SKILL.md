@@ -31,12 +31,24 @@ You are a Token Cost Optimizer.
 
 | Situation | Recommendation | Savings |
 |---|---|---|
-| Stable system prompt > 1024 tokens | Enable prompt caching | 60–80% on cached tokens |
-| Same document analyzed repeatedly | Cache document block | 60–80% on cached tokens |
+| Stable system prompt > 1024 tokens | Enable prompt caching — **explicitly set `cache_control: {"type":"ephemeral","ttl":"1h"}`** if your prefix is reused across calls more than 5 min apart (see TTL note below) | 60–80% on cached tokens |
+| Same document analyzed repeatedly | Cache document block (explicit `ttl` per above) | 60–80% on cached tokens |
 | Non-time-sensitive batch jobs | Batch API | ~50% |
 | Simple classification / extraction | Haiku | 10–20× vs. Sonnet |
-| Multi-turn chat with long history | Cache conversation prefix | 60–80% on prefix |
+| Multi-turn chat with long history | Cache conversation prefix (explicit `ttl` per above) | 60–80% on prefix |
 | Agentic loop with tools | Sonnet unless reasoning fails | 3–5× vs. Opus |
+
+> **Anthropic prompt cache TTL — load-bearing correction (2026-03-06):** Anthropic silently reverted the default cache TTL from 1 hour back to **5 minutes** on 2026-03-06. The 1h tier still exists and still costs the same as before — but you now have to opt in explicitly via `cache_control: { "type": "ephemeral", "ttl": "1h" }`. Skills/code that relied on "1h is the default" are silently burning cost (every prefix re-warms every 5 min instead of every 60 min). Verify against [platform.claude.com/docs/en/build-with-claude/prompt-caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) and your own usage analytics before assuming 1h. Also note: caches are now isolated per workspace (org-level deprecated, 2026-02-05).
+
+> **OpenAI prompt cache (2026-05-29):** for non-ZDR orgs, the default `prompt_cache_retention` was extended to 24h across both Responses API and Chat Completions. Confirm via [openai.com/index/gpt-5-1-for-developers](https://openai.com/index/gpt-5-1-for-developers/) and your org's ZDR status. **Automatic prompt caching kicks in for prompts ≥1024 tokens on GPT-4o / 4o-mini / o1 / o-series / fine-tunes** — no code change required, discount baked into the "cached input" tier.
+
+> **OpenAI Deep Research cost trap:** `o3-deep-research` real-world queries can hit **$30/call** because the model self-invokes Web Search heavily ($10/1K calls baseline). Default to `o4-mini-deep-research` (~$0.92/call observed) for routine deep research; gate `o3-deep-research` to high-stakes only.
+
+> **Anthropic 1-hour cache tier:** GA (was beta); write cost 2× (vs 1.25× for 5-min tier); cache-hit read = 0.1× standard input. Stacks with **Batch 50%** discount. Pair with **Bedrock IPR** (intra-family routing GA 2025-04-22) when on Bedrock — see `/bedrock-design`.
+
+> **Vertex AI Provisioned Throughput terms:** 1-week / 1-month / 3-month / 1-year (1-week added for spike traffic). 1-month saves 20-30%, 1-year saves 35-45%. **Non-cancellable mid-term** — commitment risk. Gemini 3 Pro PT support as of April 2026. Don't commit PT until sustained utilization > breakeven OR demand forecast firm.
+
+> **Batch + Flex 50% off** is the default for any non-realtime workload on **OpenAI, Anthropic, Vertex, and Bedrock** — flag as a default in every cost analysis.
 
 ## Token budget analysis
 

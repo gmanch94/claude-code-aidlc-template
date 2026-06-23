@@ -171,8 +171,11 @@ Run before and after compression:
 | Throughput (req/s) | Document delta | GPU serving |
 | Calibration ECE | < 0.05 absolute change | Especially after QAT |
 | Fairness metrics | No new disparities introduced | Re-run `/fairness-audit` |
+| **Agentic capability** (if model is used by an agent) | < X% drop on tool-use tasks | **ACBench (Agentic Compression Benchmark)** — ICML 2025; 12 tasks × 4 capabilities × 15 models; specifically measures the agentic regressions that LongBench misses. https://github.com/pprp/ACBench |
 
 **Test on target hardware** — GPU latency results don't predict CPU/edge results.
+
+**Agentic-capability gate (new):** if the compressed model will be invoked by an agent (tool calls, multi-step reasoning, planning), classical NLP benchmarks (LongBench, perplexity, downstream task accuracy) under-detect the regression that matters most. Run **ACBench** as the agent-eval gate. Notable findings from the benchmark: 4-bit GPTQ/AWQ and 50% Wanda/SparseGPT pruning often LOSE agentic capability before they lose perplexity/task-accuracy, so PTQ that "looks fine" can still break tool-use chains. Test before shipping into an agent loop.
 
 ---
 

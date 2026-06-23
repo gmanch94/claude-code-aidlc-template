@@ -19,7 +19,7 @@ Latency tolerance: {{LATENCY}}
 Quality floor: {{QUALITY_FLOOR}}
 
 ## Levers
-Tier per call (Haiku/Sonnet/Opus by difficulty); prompt caching (stable system prompt / context); batch API for non-realtime; prompt compression / context trimming; cascade (cheap model first, escalate on low confidence).
+Tier per call (Haiku/Sonnet/Opus by difficulty); prompt caching (stable system prompt / context — **on Anthropic, explicitly set `cache_control.ttl: "1h"` since the default reverted to 5min on 2026-03-06; on OpenAI non-ZDR orgs the default `prompt_cache_retention` extended to 24h on 2026-05-29**); batch API for non-realtime; prompt compression / context trimming; cascade (cheap model first, escalate on low confidence).
 
 ## Output format
 
@@ -40,7 +40,11 @@ Tier per call (Haiku/Sonnet/Opus by difficulty); prompt caching (stable system p
 ## Rules
 1. Measure spend by call type first — optimize the expensive 20%, not everything
 2. Right-size the model per call — not every request needs the top tier
-3. Prompt caching is the biggest cheap win when the system prompt/context is stable
+3. Prompt caching is the biggest cheap win when the system prompt/context is stable — but **set the TTL explicitly** (Anthropic 1h tier requires `cache_control.ttl: "1h"`; relying on "1h default" silently burns cost since 2026-03-06; OpenAI auto-caches ≥1024-token prompts on GPT-4o/o-series with no code change; non-ZDR orgs got 24h default `prompt_cache_retention` on 2026-05-29)
+8. **Batch + Flex 50% off** is the default for any non-realtime workload — applies across OpenAI, Anthropic, Vertex, Bedrock
+9. **Deep Research cost trap (OpenAI):** `o3-deep-research` can hit $30/call (self-invokes Web Search at $10/1K); default to `o4-mini-deep-research` (~$0.92/call); gate o3-DR to high-stakes only
+10. **Provisioned Throughput is non-cancellable mid-term** (Vertex 1wk/1mo/3mo/1yr; 1yr saves 35-45%; Bedrock PT similar) — don't commit until sustained utilization > breakeven OR demand forecast firm
+11. **Bedrock Intelligent Prompt Routing (IPR, GA 2025-04-22)** for intra-family routing — verify the cost-cut number against your own traffic mix (30% claim is from blog posts, not GA page)
 4. Batch non-realtime calls — the batch API is materially cheaper
 5. Cascade: cheap model first, escalate only on low confidence — measure escalation rate
 6. Every cut names its quality risk — never trade below the stated quality floor

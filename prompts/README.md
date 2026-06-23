@@ -99,6 +99,31 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`rollout.md`](rollout.md) | Phased rollout (shadow→canary→limited→GA), eval gates, rollback triggers | `ORGANIZATION_NAME`, `CHANGE`, `RISK`, `TRAFFIC`, `ROLLBACK` |
 | [`retro.md`](retro.md) | Engineering retrospective — reviews commits, surfaces lessons, writes LESSONS_LEARNED | `TEAM_OR_PROJECT_NAME`, `COMMIT_RANGE`, `GIT_LOG`, `INCIDENT_NOTES`, `DEVELOPER_NOTES` |
 
+**Cloud ML platforms:**
+
+| File | Use case | Key placeholders |
+|---|---|---|
+| [`vertex-ai-design.md`](vertex-ai-design.md) | GCP Vertex footprint — service split (Workbench / Pipelines / Training / Endpoints / Feature Store / Garden / Monitoring), compute, MLOps, deployment pattern, cost guardrails, observability, lock-in posture | `ORGANIZATION_NAME`, `WORKLOAD_TYPE`, `QPS_TARGET`, `LATENCY_BUDGET`, `REGION`, `PROJECT_LAYOUT`, `BUDGET`, `DATA_SOURCES`, `COMPLIANCE` |
+| [`sagemaker-design.md`](sagemaker-design.md) | AWS SageMaker footprint — service split (Studio / Training / Endpoints / Pipelines / Feature Store / Monitor / Clarify / JumpStart), deployment pattern (real-time / async / serverless / batch / MME), compute, MLOps, cost guardrails, lock-in posture | `ORGANIZATION_NAME`, `WORKLOAD_TYPE`, `TRAFFIC_PROFILE`, `LATENCY_BUDGET`, `PAYLOAD_SIZE`, `REGION`, `ACCOUNT_LAYOUT`, `BUDGET`, `DATA_SOURCES`, `COMPLIANCE` |
+
+**Infrastructure as code:**
+
+| File | Use case | Key placeholders |
+|---|---|---|
+| [`terraform-review.md`](terraform-review.md) | Terraform code + plan review — state + locking, modules, providers, secrets, blast-radius (`prevent_destroy` / `ignore_changes`), drift, plan-vs-apply CI, destructive-op safety; [BLOCKER] / [SUGGESTION] / [NITPICK] grouped | `ORGANIZATION_NAME`, `ENVIRONMENT`, `PROVIDERS`, `STATE_BACKEND`, `WORKSPACE_STRATEGY`, `CI_SYSTEM`, `INPUT`, `CHANGE_NOTES` |
+
+**Compliance:**
+
+| File | Use case | Key placeholders |
+|---|---|---|
+| [`compliance-mapping.md`](compliance-mapping.md) | SOC 2 / HIPAA / GDPR / EU AI Act control mapping — enforcement matrix (code path + evidence + owner + CLEAN/PARTIAL/GAP status), gap register, cross-framework overlap | `ORGANIZATION_NAME`, `FRAMEWORKS`, `SYSTEM_SCOPE`, `DATA_CLASSIFICATION`, `REGIONS`, `USER_POPULATIONS`, `STACK_SUMMARY`, `AI_IN_SCOPE` |
+
+**Analytics / BI:**
+
+| File | Use case | Key placeholders |
+|---|---|---|
+| [`dashboard-design.md`](dashboard-design.md) | BI dashboard spec — single audience + single question, chart selection rubric, refresh + honest SLA, governance (owner / certification / deprecation), performance budget, accessibility | `ORGANIZATION_NAME`, `AUDIENCE`, `QUESTION`, `SOURCE`, `REFRESH_REQUIREMENT`, `UPSTREAM_SLA`, `TOOL`, `DECISIONS`, `SENSITIVE_SEGMENTS` |
+
 **Auth / Identity (OAuth / OIDC):**
 
 | File | Use case | Key placeholders |

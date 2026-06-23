@@ -32,13 +32,18 @@ Cost constraint: {{COST_CONSTRAINT}}
 
 Rule: always establish a quality floor before routing to a smaller model.
 
-## Model tier map
+## Model tier map (2026-06 refresh — re-verify pricing against vendor pages)
 | Tier | Examples | Best for | Cost relative |
 |---|---|---|---|
-| Small | Haiku, GPT-4o-mini, Llama-3-8B | Classification, extraction, simple Q&A | 1× |
-| Medium | Sonnet, GPT-4o, Llama-3-70B | Reasoning, multi-step, code generation | 5–15× |
-| Large | Opus, GPT-4, Claude 3.5 | Complex reasoning, long context, creative | 25–75× |
-| Specialized | CodeLLM, domain fine-tuned | Domain-specific specialized tasks | Varies |
+| Ultra-fast OSS (Groq / Cerebras) | Llama 4 / DeepSeek / Qwen / GPT-OSS on Groq LPU (~460 tok/s); WSE-3 on Cerebras (~1000 tok/s on trillion-param MoEs) | Latency-critical OSS workloads; sub-100ms TTFT | 0.5–1× (latency = differentiator) |
+| Small | Haiku 4.5 ($1/$5), GPT-5.4 nano ($0.20/$1.25), GPT-4.1 nano ($0.10/$0.40), Gemini 3 Flash-Lite preview ($0.25/$1.50), Llama-3-8B | Classification, extraction, simple Q&A | 1× |
+| Medium | Sonnet 4.6 ($3/$15), GPT-5.4 mini ($0.75/$4.50), GPT-5.4 ($2.50/$15), Gemini 3 Flash preview ($0.50/$3), o4-mini ($1.10/$4.40), Llama-3-70B | Reasoning, multi-step, code generation | 5–15× |
+| Large | Opus 4.8 (~$5/$25), Fable 5 ($10/$50), GPT-5.5 ($5/$30), GPT-5.5 Pro ($30/$180), Gemini 3.1 Pro ($2/$12 ≤200k / $4/$18 over), o3 ($2/$8) | Complex reasoning, long context, creative | 25–75× |
+| Specialized | Cohere Command A+, Mistral Medium 3 ($0.40/$2.00 — frontier-class floor), domain fine-tuned | Domain-specific specialized tasks | Varies |
+
+**Vendor-managed intra-family routing:** Amazon **Bedrock IPR** (GA 2025-04-22) auto-routes within Claude / Llama / Nova families by predicted complexity — see `/bedrock-design`. Cost-cut numbers from blog posts; verify against own traffic mix.
+
+**Inference engine note:** HF **TGI in maintenance mode** as of 2026 — HF Inference Endpoints default to **vLLM** or **SGLang**. **TensorRT-LLM** +15–30% throughput on H100 with ~28-min compile cost (pre-compile in CI). **SGLang RadixAttention** wins on shared-prefix workloads.
 
 ## Fallback chain
 Query → Primary → [failure: timeout/rate-limit/quality] → Secondary → [failure] → Tertiary → Error
@@ -100,6 +105,10 @@ Primary → [model] → Secondary → [model] → Tertiary → [model] → Error
 4. Fallback chain must reach a model unlikely to fail — diversify providers across tiers
 5. Escalation rate is the primary diagnostic — spike means threshold is wrong
 6. Self-hosted OSS models: latency SLA shifts to your infra team — account for this
+7. Sub-100ms TTFT on OSS: Groq or Cerebras (LPU / WSE-3); per-token cost competitive, latency the differentiator
+8. Inside AWS, use Bedrock IPR for intra-family routing instead of rolling your own classifier
+9. Don't pick HF TGI for new deployments — maintenance mode
+10. Refresh the tier map quarterly — prices + new models + retirements move fast
 ```
 
 ---

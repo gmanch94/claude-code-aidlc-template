@@ -25,6 +25,42 @@ the settings snippet below into your `.claude/settings.json` to enable.
 
 ---
 
+## Hook event catalog (2026)
+
+Claude Code now exposes **12+ lifecycle events** for hook wiring (the reference hooks above target only `PreToolUse` and `PostToolUse`; the rest are unused capacity in this repo). Verify the current list against the [official hooks docs](https://code.claude.com/docs/en/hooks) before relying on any specific event — names and payloads continue to evolve.
+
+| Event | When it fires | Common uses |
+|---|---|---|
+| `SessionStart` | New session begins | Greet, run staleness check, log session id, load resume bookmark |
+| `UserPromptSubmit` | User submits a prompt before model receives it | Prompt-time guardrails, refuse certain topics, prepend project context |
+| `PreToolUse` | Before a tool runs | Block dangerous ops, scan secrets, force confirmation |
+| `PostToolUse` | After a tool returns | Audit log, mutate output via `hookSpecificOutput.updatedToolOutput`, record `duration_ms` |
+| `PostToolUseFailure` | Tool errored out | Capture failure for triage, escalate, alert |
+| `PostToolBatch` | Batch of tool calls completed | Aggregate metrics, summarize what changed |
+| `Stop` | Turn ends cleanly | Refuse turn-end with uncommitted changes, flush audit log, post turn summary |
+| `StopFailure` | Turn ends with an error | Capture stack, open issue, escalate |
+| `SubagentStop` | A subagent finished | Roll up subagent transcript, attribute spend, write to parent log |
+| `TaskCreated` / `TaskCompleted` | TaskCreate / Task completed via Task API | Update external tracker, time per task |
+| `TeammateIdle` | Background teammate idle | Idle-pool reclaim, status flip |
+| `WorktreeCreate` / `WorktreeRemove` | Git worktree lifecycle | Track scratch worktrees, auto-cleanup |
+| `CwdChanged` | Working directory changed mid-session | Reload project rules, re-read CLAUDE.md, log boundary cross |
+| `SessionEnd` | Session terminated | Final audit-log flush, commit reminder, durable bookmark update |
+| `PreCompact` | Just before context compaction | Write in-progress work to disk (this repo's existing precompact_checkpoint.py) |
+
+**Capability notes:**
+- `PostToolUse` now ships `duration_ms` in its event payload — enables latency budgets per tool.
+- `PostToolUse` can mutate the tool result the model sees via `hookSpecificOutput.updatedToolOutput` (e.g. redact PII before the model reads it).
+- Some sources catalog 32+ events including more granular subagent + worktree variants — the 12+ above is conservative-stable.
+
+**Suggested hooks this repo doesn't yet ship** (gap analysis):
+- `UserPromptSubmit` guardrail — refuse prompts that ask for credential extraction / silent destructive-op patterns.
+- `Stop` guardrail — refuse to end a turn with uncommitted destructive changes.
+- `SessionStart` staleness check — flag stale `NEXT_SESSION.md` (see `staleness_check.py`).
+- `PreToolUse` shadow-Git checkpoint — snapshot working tree before mutating tool calls (see `shadow_git_checkpoint.py`).
+- `SessionEnd` audit-log finalize — rotate `.claude/logs/audit.jsonl`, append turn summary.
+
+---
+
 ## Protocol
 
 Each script reads a JSON object from stdin:

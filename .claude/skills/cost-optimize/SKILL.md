@@ -31,12 +31,16 @@ You are a Token Cost Optimizer.
 
 | Situation | Recommendation | Savings |
 |---|---|---|
-| Stable system prompt > 1024 tokens | Enable prompt caching | 60–80% on cached tokens |
-| Same document analyzed repeatedly | Cache document block | 60–80% on cached tokens |
+| Stable system prompt > 1024 tokens | Enable prompt caching — **explicitly set `cache_control: {"type":"ephemeral","ttl":"1h"}`** if your prefix is reused across calls more than 5 min apart (see TTL note below) | 60–80% on cached tokens |
+| Same document analyzed repeatedly | Cache document block (explicit `ttl` per above) | 60–80% on cached tokens |
 | Non-time-sensitive batch jobs | Batch API | ~50% |
 | Simple classification / extraction | Haiku | 10–20× vs. Sonnet |
-| Multi-turn chat with long history | Cache conversation prefix | 60–80% on prefix |
+| Multi-turn chat with long history | Cache conversation prefix (explicit `ttl` per above) | 60–80% on prefix |
 | Agentic loop with tools | Sonnet unless reasoning fails | 3–5× vs. Opus |
+
+> **Anthropic prompt cache TTL — load-bearing correction (2026-03-06):** Anthropic silently reverted the default cache TTL from 1 hour back to **5 minutes** on 2026-03-06. The 1h tier still exists and still costs the same as before — but you now have to opt in explicitly via `cache_control: { "type": "ephemeral", "ttl": "1h" }`. Skills/code that relied on "1h is the default" are silently burning cost (every prefix re-warms every 5 min instead of every 60 min). Verify against [platform.claude.com/docs/en/build-with-claude/prompt-caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) and your own usage analytics before assuming 1h. Also note: caches are now isolated per workspace (org-level deprecated, 2026-02-05).
+
+> **OpenAI prompt cache (2026-05-29):** for non-ZDR orgs, the default `prompt_cache_retention` was extended to 24h across both Responses API and Chat Completions. Confirm via [openai.com/index/gpt-5-1-for-developers](https://openai.com/index/gpt-5-1-for-developers/) and your org's ZDR status.
 
 ## Token budget analysis
 

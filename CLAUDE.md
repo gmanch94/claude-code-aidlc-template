@@ -325,7 +325,7 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 
 **Permissions:** `.claude/settings.json` pre-allows safe read-only operations (`Read`, `Glob`, `Grep`, git read commands) so they never prompt. Destructive tools (`Write`, `Edit`, `Bash` broadly) are intentionally omitted — add them to `settings.local.json` (gitignored) for your own machine, or use the `update-config` skill.
 
-**Hooks:** See `.claude/hooks/README.md` for protocol, wiring snippet, smoke tests, and the full inventory. **13 reference hooks ship** (none wired by default) — 3 generic + 10 domain guardrails:
+**Hooks:** See `.claude/hooks/README.md` for protocol, wiring snippet, smoke tests, the full inventory, and the **2026 event catalog** (Claude Code now exposes 12+ lifecycle events — `SessionStart` / `UserPromptSubmit` / `PreToolUse` / `PostToolUse` / `PostToolUseFailure` / `PostToolBatch` / `Stop` / `StopFailure` / `SubagentStop` / `TaskCreated` / `TaskCompleted` / `TeammateIdle` / `WorktreeCreate` / `WorktreeRemove` / `CwdChanged` / `SessionEnd` / `PreCompact`; `PostToolUse` ships `duration_ms` + can mutate output via `hookSpecificOutput.updatedToolOutput`). **13 reference hooks ship** (none wired by default) — 3 generic + 10 domain guardrails; the bundled set targets only `PreToolUse`/`PostToolUse`. Authoring new hooks against the broader event surface (e.g. `UserPromptSubmit` prompt-time gates, `Stop` uncommitted-changes refusal, `SessionStart` staleness check, `SessionEnd` audit-log finalize) is on the backlog:
 
 *Generic (3):*
 - `block_dangerous_git.py` (PreToolUse/Bash) — blocks force-push, `reset --hard`, `--no-verify`, and other destructive git ops

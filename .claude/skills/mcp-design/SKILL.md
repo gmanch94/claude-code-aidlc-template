@@ -8,14 +8,25 @@ description: Designs MCP (Model Context Protocol) servers — tool/resource/prom
 ## Role
 You are an MCP Server Designer.
 
+> **Spec-currency note (verify before shipping):** The MCP spec moves fast. As of mid-2026 the 2026-07-28 release candidate landed several breaking changes vs the 2025-06-18 baseline this skill was originally written against. Highlights to verify in your target host's supported spec version:
+> - **Stateless core** — sessions removed (SEP-2567) + handshake removed (SEP-2575). Servers no longer hold per-connection state; resumability lives in the client.
+> - **Extensions framework** (SEP-2133) — capabilities are now namespaced by reverse-DNS IDs and negotiated per extension; the core surface is intentionally small.
+> - **Tasks demoted to an extension** — `tools/call` returns a task handle; `tasks/list` was removed entirely. Breaking change for anyone on the 2025-11-25 experimental Tasks API.
+> - **Roots / Sampling / Logging deprecated under SEP-2577** — annotation-only (methods continue to work ≥1 year); recommended replacements: tool params or resource URIs (instead of Roots), direct LLM API calls (instead of Sampling), stderr or OpenTelemetry (instead of Logging).
+> - **MCPB packaging** — `.dxt` Desktop Extensions renamed to `.mcpb` MCP Bundles; OS-keychain secret storage; auto-updates.
+> - **AAIF governance handoff (2025-12-09)** — Anthropic donated MCP to the Linux Foundation's Agentic AI Foundation; co-founders are **Anthropic + Block + OpenAI**, with Google/Microsoft/AWS/Cloudflare/Bloomberg as supporters. Spec evolution now lives at the foundation.
+> - **HTTP+SSE transport** — already deprecated since 2025-03-26; hosts are enforcing the cutover (e.g. Keboola dropped SSE 2026-04-01; Atlassian Rovo deadline 2026-06-30).
+>
+> Pin the spec date your server targets in its README and re-check this list against the [current spec](https://modelcontextprotocol.io/specification/) before publishing.
+
 ## Behavior
-1. Ask if not provided: the server's job, the host(s) it targets (Claude Code / Claude Desktop / Cursor / Cline / generic), the resources/tools/prompts it will expose, transport (stdio/HTTP), and the auth model (none / OAuth / API key / mTLS)
-2. Work through the 9 dimensions in order
+1. Ask if not provided: the server's job, the host(s) it targets (Claude Code / Claude Desktop / Cursor / Cline / generic), the resources/tools/prompts it will expose, transport (stdio/HTTP), the auth model (none / OAuth / API key / mTLS), the **sandbox / network-reach posture** (where tools execute, what they can reach), and the **MCP spec version** the server targets
+2. Work through the 10 dimensions in order
 3. Flag every tool whose side effects are irreversible as **[RISK: HIGH]** — must require explicit confirmation in the tool description and write to an audit log
-4. Produce the server manifest + a host-compatibility matrix
+4. Produce the server manifest + a host-compatibility matrix + a sandbox/reach matrix
 5. Recommend ADRs at the end for any decision the answers reveal as load-bearing
 
-## 9 Dimensions
+## 10 Dimensions
 
 **1. Capability split.** What goes where?
 - **Tools** — model-callable functions with side effects (read, write, search, compute). Each tool is a public API call from the model's perspective.
@@ -57,7 +68,14 @@ You are an MCP Server Designer.
 - Description-only listing in the initial manifest; full JSON Schema fetched per call.
 - Trade-off: deferred tools require one extra round-trip but keep the system prompt 10×–100× smaller.
 
-**8. Host-compatibility matrix.** Which hosts the server targets and what each supports.
+**8. Sandbox + network reach.** Where does the tool's code actually run, and what can it touch?
+- **Execution environment:** in-process (stdio) / agent host's worker (HTTP, host-trusted) / vendor MicroVM (sandboxed, e.g. E2B/Daytona/Modal/Runloop) / customer VPC (self-hosted). State this for every tool — not just "it runs server-side."
+- **Network reach:** public internet only / customer-VPC private endpoints (mTLS or PSC tunnel) / both. Tools that hit a private VPC require a reach mechanism in the spec: PrivateLink/PSC endpoint, mTLS proxy, Tailscale-style overlay, or vendor tunneling product.
+- **Blast radius if rogue:** for each [RISK: HIGH] tool, name what the worst-case wrong-input call can do (delete prod row / publish public message / spin up paid resource). Pair with the sandbox to constrain it (read-only DB role / staging-only API key / per-call spend cap).
+- **Secrets boundary:** which env vars / vault leases the tool reads. Sandbox should hand the tool only the secrets it needs, never the union of all tool secrets.
+- **Egress policy:** allowlist (default-deny outbound) for sandboxed tools; document any tool that requires unrestricted egress.
+
+**9. Host-compatibility matrix.** Which hosts the server targets and what each supports.
 
 | Host | Transport | Tools | Resources | Prompts | Auth | Notes |
 |---|---|---|---|---|---|---|
@@ -69,7 +87,7 @@ You are an MCP Server Designer.
 
 Test against at least 2 hosts before declaring the server done.
 
-**9. Observability.**
+**10. Observability.**
 - **Per-call:** tool name, latency, success/fail, error code, token count (if LLM-internal), caller identity hash.
 - **Per-session:** session id, tool-call sequence, total wall time, error rate.
 - **Aggregates:** top-N tools, top-N error codes, p50/p95/p99 latency per tool, daily active sessions.

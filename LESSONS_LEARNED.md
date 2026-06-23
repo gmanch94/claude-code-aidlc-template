@@ -149,3 +149,28 @@ When a PR introduces work that requires operator-action-after-merge — _rotate 
 - Test: scan a deliberately-empty input through the workflow before merging — if it fails, the step is fragile.
 
 ---
+
+### Bash shell redirects `N->M` arguments in `-m "..."` commit messages — use `-F <msgfile>`
+
+When a commit-message string passed via `git commit -m "..."` contains a pattern like `13->15` or `143->149`, the **bash shell parses `->NNN` as a file redirect** and creates an empty file named `NNN` in the working directory. The `-m` value isn't quoted strongly enough at the bash level (even with double-quotes, the shell expands operators before git sees them in some cases).
+
+**Why:** During the count-drift fix on PR #35, I ran `git commit -m "fix: refresh counts — 13->15 hooks, 143->149 prompts"`. After the commit landed, `git status` showed `?? 149` — an empty file. Bash had interpreted `->149` as `> 149` (output redirect to a file named "149"). The subsequent `git add -A` staged it, polluting the next commit.
+
+**How to apply:**
+- Any commit message containing `->` (arrow), `>` (greater-than at a word boundary), `<` (less-than), or `|` (pipe) should be written to a tempfile and passed via `git commit -F <msgfile>`, not inline `-m "..."`.
+- Tempfile pattern (POSIX): `cat > scratch/msg.txt <<'EOF'` (note single-quoted heredoc — disables interpolation) then `git commit -F scratch/msg.txt`.
+- In this repo we already standardize on `scratch/commit_msg_*.txt` for any non-trivial commit message — the same rule now covers `->` patterns too.
+- The CLAUDE.md "Things to avoid" already warns about PowerShell here-strings; this lesson extends that rule to bash `-m` shell-redirect patterns.
+
+### Exempt-list updates: 3 mirrors must agree — verify all three before push
+
+The `/doc-ci-check` skill enforces a 5-artifact rule (SKILL + prompt + CLAUDE.md row + README row + prompts/README row) for every skill UNLESS the skill is on the exempt list. The exempt list is **mirrored in 3 places**: CLAUDE.md L86, `.claude/skills/doc-ci-check/SKILL.md` L64, `.github/workflows/doc-ci.yml` L164. Updating only 1 or 2 of the 3 leaves doc-ci red.
+
+**Why:** Added `/rollback-checkpoint` as an operator-workflow skill (no prompt template) in PR #35. Updated CLAUDE.md exempt list, then the parallel Edits to doc-ci.yml + SKILL.md returned ambiguous tool results — I thought they had reverted; they had not. Pushed, doc-ci failed: workflow EXEMPT var didn't list `/rollback-checkpoint` so it demanded `prompts/rollback-checkpoint.md`. Took a follow-up commit to actually update both. Two commit cycles for what should have been one.
+
+**How to apply:**
+- After updating CLAUDE.md exempt list, immediately `grep -n "EXEMPT=" .github/workflows/doc-ci.yml` and `grep -n "adr.*api-audit" .claude/skills/doc-ci-check/SKILL.md` to confirm both contain the new skill name — verify on disk, don't trust Edit-tool success messages alone.
+- If the rule changes (e.g. new category of exempt skill), update the prose description in CLAUDE.md as well as the literal list — the description was "workflow / facilitator / agent-spawning skills"; adding `/rollback-checkpoint` (an operator workflow, not LLM-parameterizing) required extending the description to "workflow / facilitator / agent-spawning / **operator** skills".
+- For future automation: the `/doc-ci-check` skill itself could add a step "check all 3 exempt-list mirrors are byte-identical strings (modulo formatting)" — encode the consistency check into the skill so single-source-of-truth drift becomes impossible.
+
+---

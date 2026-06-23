@@ -83,7 +83,7 @@ Skip steps only with explicit agreement — not because the task feels small.
 - [PR / commit conventions — branch naming, squash vs. merge, etc.]
 - [Any file that must never be edited directly (generated files, lockfiles, etc.)]
 - [Stack-specific: language version, formatter, linter commands]
-- **Skill authoring (standing):** whenever a new skill is added under `.claude/skills/`, ALWAYS also (1) add a corresponding prompt template in `prompts/<name>.md` and (2) wire the skill into the CLAUDE.md Automation index (and the `prompts/README.md` index). A skill is not "done" until both exist. **Exempt from the prompt-template requirement:** workflow / facilitator / agent-spawning skills that *are* the prompt or spawn a subagent rather than parameterize an LLM system prompt — `adr`, `office-hours`, `retro`, `review`, `tradeoff`, `prompt-review`, `api-audit`, `security-audit`, `security-model-init`. These still get a CLAUDE.md index entry but no `prompts/<name>.md`. A stale-check should not re-flag them.
+- **Skill authoring (standing):** whenever a new skill is added under `.claude/skills/`, ALWAYS also (1) add a corresponding prompt template in `prompts/<name>.md` and (2) wire the skill into the CLAUDE.md Automation index (and the `prompts/README.md` index). A skill is not "done" until both exist. **Exempt from the prompt-template requirement:** workflow / facilitator / agent-spawning skills that *are* the prompt or spawn a subagent rather than parameterize an LLM system prompt — `adr`, `office-hours`, `retro`, `review`, `tradeoff`, `prompt-review`, `api-audit`, `security-audit`, `security-model-init`, `doc-ci-check`. These still get a CLAUDE.md index entry but no `prompts/<name>.md`. A stale-check should not re-flag them. The same list is mirrored in `.claude/skills/doc-ci-check/SKILL.md` and `.github/workflows/doc-ci.yml` — keep all three in sync.
 
 **Confusion Protocol** — when facing an architectural decision or ambiguous requirement, stop and surface the assumption explicitly before proceeding. Never guess on design decisions. Ask one targeted question instead of producing output that may be wrong.
 
@@ -180,6 +180,7 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 - `/retro` — **Retrospective Facilitator** — engineering retrospective; reviews recent commits, surfaces lessons, writes to LESSONS_LEARNED.md
 - `/security-model-init` — **Security Model Scaffolder** — generates `docs/SECURITY_MODEL.md` with stack-specific scaffolding (Supabase/Firebase/Hasura/FastAPI/Express). Run as commit #2 on any new project that has auth/DB/API surfaces.
 - `/security-audit` — **Security Researcher** — deep audit of the codebase from an attacker's perspective. CRITICAL→LOW findings with file+line citations. Use BEFORE multi-PR sprints touching DB/auth, BEFORE production deploy, AFTER major feature sweeps.
+- `/doc-ci-check` — **Doc-CI Gate** — count drift + broken-link + skill↔prompt↔CLAUDE↔README↔prompts/README parity + NEXT_SESSION HEAD freshness. Severity-grouped report. Run BEFORE shipping any docs commit and AFTER adding a skill/prompt/hook. Pair with `.github/workflows/doc-ci.yml` for CI enforcement.
 
 *Research and analysis:*
 - `/api-audit` — **API Ecosystem Analyst** — structured API portfolio audit (6-phase: discovery → inventory → shortcomings → recommendations → executive summary → options analysis); enforces primary-source verification, cross-file consistency, and advisor review gates
@@ -205,6 +206,7 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 - `/prompt-review` — **Prompt Quality Reviewer** — 9-dimension prompt health score
 - `/rag-design` — **RAG System Architect** — RAG system design (chunking, embedding, retrieval, reranking, observability)
 - `/agent-design` — **Agentic System Designer** — agentic system design (loop, tool manifest, guardrails, fallbacks)
+- `/mcp-design` — **MCP Server Designer** — MCP server design: tool/resource/prompt manifests; transport (stdio vs HTTP+SSE); auth (OAuth 2.1+PKCE / API key / mTLS); schema discipline; scope boundaries; error contract + idempotency; deferred-tool strategy; host-compatibility matrix; observability + audit log. Producer side (complements `/agent-design`)
 - `/multi-agent-design` — **Multi-Agent System Designer** — orchestration pattern + framework (LangGraph/CrewAI/AutoGen); agent roster; state schema; failure handling; max_iterations gate
 - `/guardrails-design` — **Guardrails System Designer** — input/output safety layers; threat inventory; detection per threat (Llama Guard/Presidio/NLI); latency budget; FPR targets; fail-open vs. fail-closed
 - `/red-team` — **AI Red Team Lead** — 5-phase AI red team battery (base model → app → infra → operational → user-interaction adversarial)
@@ -310,10 +312,24 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 
 **Permissions:** `.claude/settings.json` pre-allows safe read-only operations (`Read`, `Glob`, `Grep`, git read commands) so they never prompt. Destructive tools (`Write`, `Edit`, `Bash` broadly) are intentionally omitted — add them to `settings.local.json` (gitignored) for your own machine, or use the `update-config` skill.
 
-**Hooks:** See `.claude/hooks/README.md` for protocol, wiring snippet, and smoke tests. Three reference hooks ship with the template (none wired by default):
-- `block_dangerous_git.py` (PreToolUse/Bash) — blocks force-push, `reset --hard`, `--no-verify`, and other destructive git operations
-- `scan_secrets.py` (PreToolUse/Write|Edit) — blocks files containing AWS/GitHub/Slack/OpenAI/Google/Stripe key shapes
+**Hooks:** See `.claude/hooks/README.md` for protocol, wiring snippet, smoke tests, and the full inventory. **13 reference hooks ship** (none wired by default) — 3 generic + 10 domain guardrails:
+
+*Generic (3):*
+- `block_dangerous_git.py` (PreToolUse/Bash) — blocks force-push, `reset --hard`, `--no-verify`, and other destructive git ops
+- `scan_secrets.py` (PreToolUse/Write|Edit) — blocks files containing AWS/GitHub/Slack/OpenAI/Anthropic/Google/Stripe key shapes
 - `audit_log.py` (PostToolUse/*) — passive; appends every tool call to `.claude/logs/audit.jsonl`
+
+*Domain guardrails (10):*
+- `block_infra_destroy.py` — blocks `terraform destroy`, `kubectl delete --all`, mass cloud-resource deletes (no escape hatch)
+- `check_sql_safety.py` — blocks unguarded `DROP/TRUNCATE/DELETE`
+- `check_unsafe_patterns.py` — flags OWASP A02/A03/A05/A08 + XSS patterns
+- `check_cloud_cost.py` — warns on expensive EC2/RDS/EKS classes, `deletion_protection=false`, `publicly_accessible=true`
+- `check_programming_gotchas.py` — blocks Python mutable defaults, bare `except:`, `== None`
+- `check_ml_leakage.py` — blocks `fit_transform(X_test)`; warns on missing `random_state`, preprocessing-order leakage, operational-availability features
+- `block_test_set_balancing.py` — blocks SMOTE / `fit_resample` on `X_test` / `X_val`
+- `check_metric_guardrail.py` — Goodhart's-law check on eval/experiment configs without counter-metric
+- `check_pii_in_logs.py` — warns when log calls reference PII-shaped vars
+- `check_prompt_safety.py` — warns on prompt-injection risk (f-string with user vars) + hardcoded model paths
 
 **Scheduled routines:** None configured by default. Use `/schedule` to create recurring remote agents. Each routine runs on a cron schedule and can invoke any skill or task.
 

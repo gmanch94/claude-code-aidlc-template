@@ -27,7 +27,7 @@ This template fixes all four in under 5 minutes of setup.
 | `LESSONS_LEARNED.md` | Process lessons that accumulate across sessions. Pre-seeded with 8 generalizable lessons; add project-specific ones as you work. |
 | `NEXT_SESSION.md` | Session bookmark — HEAD, branch, what landed, what's open. Claude reads it first after `/clear`. |
 | `.claude/settings.json` | Permission allowlist. Pre-populated with `Read`, `Glob`, `Grep`, safe git read commands, and context-mode MCP tools — so common read-only ops never prompt. Add project-specific patterns here; put machine-local ones in `.claude/settings.local.json` (gitignored). |
-| `.claude/hooks/` | Three reference guardrail hooks (none wired by default): `block_dangerous_git.py` (blocks force-push, `--no-verify`, etc.), `scan_secrets.py` (blocks known secret key shapes), `audit_log.py` (passive tool-call logger). See `.claude/hooks/README.md` for the wiring snippet. |
+| `.claude/hooks/` | **13** reference guardrail hooks (none wired by default) — 3 generic (`block_dangerous_git`, `scan_secrets`, `audit_log`) + 10 domain (cloud-cost, SQL safety, ML leakage, PII-in-logs, prompt safety, OWASP patterns, infra-destroy, programming gotchas, test-set balancing, metric guardrails). See `.claude/hooks/README.md` for the full inventory + wiring snippet. |
 | `.claude/skills/review/SKILL.md` | `/review` — code review with [BLOCKER] / [SUGGESTION] / [NITPICK] format. |
 | `.claude/skills/adr/SKILL.md` | `/adr` — draft an Architecture Decision Record with full rationale and alternatives. |
 | `.claude/skills/tradeoff/SKILL.md` | `/tradeoff` — structured tradeoff analysis: options × pros/cons/failure-mode + recommendation with named constraint. |
@@ -35,7 +35,7 @@ This template fixes all four in under 5 minutes of setup.
 | `.claude/skills/security-model-init/SKILL.md` | `/security-model-init` — generate `docs/SECURITY_MODEL.md` scaffold for projects with user-facing surfaces. |
 | `templates/security-model/SECURITY_MODEL-TEMPLATE.md` | Annotated template for the per-(operation × role × surface) enforcement table; stack-specific scaffolding blocks for Supabase/Firebase/Hasura/FastAPI/Express. |
 | `context/MEMORY.md` | Index for Claude's persistent project memory. |
-| `prompts/` | 66 system prompt templates across ML, data engineering, LLM, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
+| `prompts/` | **138** system prompt templates across ML, data engineering, LLM, auth, Databricks, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
 | `templates/skill/SKILL-TEMPLATE.md` | Annotated template for authoring new skills. Copy to `.claude/skills/<name>/SKILL.md` and fill in. |
 | `.gitignore` | Gitignores `scratch/` (personal workspace), `.claude/settings.local.json`, and `.claude/logs/` (hook audit logs). |
 | `operating-philosophy.md` | Portable working philosophy — communication style, context-mode tool hierarchy, advisor protocol, primary-source verification, session management, git hygiene, Karpathy failure modes, design principles. Copy sections into any project's `CLAUDE.md`. |
@@ -131,6 +131,14 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/computer-vision` | **Computer Vision Advisor** — architecture by task × dataset size (CNN/ViT/YOLO/SegFormer), preprocessing + augmentation pipeline, mAP@0.5:0.95 evaluation, 3-phase transfer learning |
 | `/online-learning` | **Online Learning Advisor** — streaming ML method (Hoeffding Tree/HAT/VW), concept drift detection (ADWIN/EDDM), prequential evaluation; batch retrain recommended when viable |
 
+**Industrial / IoT (OT data):**
+
+| Command | What it does |
+|---|---|
+| `/uns-contextualization` | **Unified Namespace Architect** — ISA-95 namespace hierarchy; asset/digital-twin models (class once, instance per unit); raw-tag → business-concept map stored as versioned data; non-destructive (`_raw` preserved); per-signal owner/unit/freshness SLA |
+| `/industrial-iot-ingestion` | **Industrial IoT Ingestion Architect** — OT protocol selection (OPC-UA / MQTT+Sparkplug B / Modbus); edge gateway store-and-forward (no-loss on outage); source/edge event-time stamping; OT→IT one-way boundary (no control path); deadband volume control |
+| `/predictive-maintenance` | **Predictive Maintenance Advisor** — frames anomaly vs RUL vs failure-classification by failure-event count; lead-time gate (horizon = parts + scheduling + repair); cost-weighted threshold; leakage-audited features; alert→work-order policy |
+
 **General (any project):**
 
 | Command | What it does |
@@ -141,6 +149,7 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/tradeoff` | **Tradeoff Analyst** — Options × pros/cons/failure-mode table + recommendation with named constraint |
 | `/security-audit` | **Security Researcher** — Deep audit from attacker's perspective; stack-aware (Supabase/Firebase/Hasura/FastAPI/Express); CRITICAL→LOW findings with file+line. Use BEFORE multi-PR sprints touching DB/auth, BEFORE production deploy |
 | `/security-model-init` | **Security Model Scaffolder** — generates `docs/SECURITY_MODEL.md` with stack-specific scaffolding. Run as commit #2 on any new project that has auth/DB/API surfaces |
+| `/doc-ci-check` | **Doc-CI Gate** — count drift + broken-link + skill↔prompt↔CLAUDE↔README↔prompts/README parity + NEXT_SESSION HEAD freshness. Severity-grouped report. Use BEFORE shipping any docs commit. Pair with `.github/workflows/doc-ci.yml` |
 | `/retro` | **Retrospective Facilitator** — Engineering retrospective — shipped summary, went well/wrong, one process change, writes new entries to LESSONS_LEARNED.md |
 
 **Research and analysis:**
@@ -159,6 +168,18 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/pii-scan` | **PII Exposure Auditor** — PII exposure audit — maps data elements across 10 AI lifecycle stages; surfaces governance gaps; recommends ADRs |
 | `/observability` | **Observability Stack Designer** — AI observability stack design — 5 signal layers, required metrics + alert thresholds, drift indicators, dashboard spec |
 
+**Auth / Identity (OAuth / OIDC):**
+
+| Command | What it does |
+|---|---|
+| `/oauth-flow-design` | **OAuth 2.x Flow Architect** — grant selection by client type (auth-code + PKCE / client-credentials / device); redirect-URI exact-match allowlist; `state` + PKCE; implicit/password rejected |
+| `/oidc-integration` | **OIDC Integration Architect** — ID-token vs access-token; discovery + JWKS; `nonce`; claims→user via `sub` (+`iss`) not email; IdP federation; RP-initiated + back-channel logout |
+| `/jwt-validation` | **JWT Validation Engineer** — verifier-pins-alg (reject `none`, RS↔HS confusion); JWKS-by-`kid`; `iss`/`aud`/`exp`/`nbf` checks; bounded skew; strict-mode lib (most auth CVEs live here) |
+| `/token-lifecycle` | **Token Lifecycle Engineer** — no-localStorage / BFF storage; short access TTL; refresh rotation + reuse detection → family revoke; introspection / deny-list; secure-cookie attrs |
+| `/session-management` | **Session Management Engineer** — server-side vs stateless; `HttpOnly`+`Secure`+`SameSite`+`__Host-` cookies; CSRF token beyond SameSite; id-regen on login; idle + absolute timeout; logout + SLO |
+| `/m2m-auth` | **M2M Auth Engineer** — workload-identity / mTLS over static secrets; client-credentials + `private_key_jwt`; one-audience minimal-scope tokens; per-service credential; vault + rotation |
+| `/scopes-consent-design` | **Scopes & Consent Designer** — `resource:action` read/write-split taxonomy (no `full_access`); scope + per-resource ownership / RBAC; legible consent; incremental auth; over-scoping audit |
+
 **AI / LLM projects:**
 
 | Command | What it does |
@@ -167,6 +188,7 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/prompt-review` | **Prompt Quality Reviewer** — 9-dimension prompt health score — clarity, injection risk, role/persona, output format, token efficiency, hallucination surface, fallback, PII, versioning |
 | `/rag-design` | **RAG System Architect** — context window vs. RAG decision, chunking, embedding, vector store, retrieval pattern, reranking, freshness, observability |
 | `/agent-design` | **Agentic System Designer** — Agentic system design — loop architecture, tool manifest, guardrails checklist, HITL design, fallback paths, observability |
+| `/mcp-design` | **MCP Server Designer** — MCP server design — tool/resource/prompt manifests; transport (stdio vs HTTP+SSE); auth (OAuth 2.1+PKCE / API key / mTLS); schema discipline; scope boundaries; error contract + idempotency; deferred-tool strategy; host-compatibility matrix; observability + audit log. Producer side (complements `/agent-design`) |
 | `/multi-agent-design` | **Multi-Agent System Designer** — orchestration pattern (sequential/parallel/hierarchical/debate), framework selection (LangGraph/CrewAI/AutoGen), agent roster, state schema, failure handling, max_iterations gate |
 | `/guardrails-design` | **Guardrails System Designer** — input/output safety layers, threat inventory, detection method per threat (Llama Guard/Presidio/NLI), latency budget, FPR targets, fail-open vs. fail-closed policy |
 | `/red-team` | **AI Red Team Lead** — 5-phase AI red team battery — base model, application, infrastructure, operational, user-interaction adversarial (misinterpreted ambient input, spoofed biometrics, frustrated-user exploit, overreliance); phases scaled to risk tier |
@@ -203,6 +225,21 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/split-design` | **Data Split Designer** — Train/val/test split — random/temporal/group decision, ratios by dataset size, stratification, minimum eval sizes |
 | `/cross-validation` | **Cross-Validation Strategist** — CV strategy — k-fold variant selection, time series CV, group k-fold, nested CV for hyperparameter tuning |
 | `/leakage-audit` | **Data Leakage Auditor** — Data leakage detection — temporal, target, group, preprocessing-order, and operational-availability leakage (production-readiness check) with code fixes |
+| `/lakehouse-architecture` | **Lakehouse Architect** — medallion bronze/silver/gold zones; open table format (Iceberg/Delta/Hudi); partitioning by dominant query filter; compaction + snapshot expiry for OT/IoT scale; query-engine choice; lineage + time-travel reproducibility |
+
+**Databricks integration:**
+
+| Command | What it does |
+|---|---|
+| `/unity-catalog-governance` | **Unity Catalog Governance Architect** — catalog/schema/table namespace; group-based least-privilege grants; dynamic masking + row filters in UC (not BI); lineage for pre-change impact; system-table audit; per-catalog storage credentials |
+| `/databricks-asset-bundles` | **DABs Engineer** — jobs / pipelines / models / dashboards as code in `databricks.yml`; per-target (dev/staging/prod) overrides; service-principal run-as; build-once promote-many; `validate` gate in CI |
+| `/delta-live-tables` | **DLT Designer** — declarative medallion pipelines; streaming table vs materialized view per layer; expectations (warn/drop/fail) as code; `APPLY CHANGES` for CDC/SCD; triggered vs continuous |
+| `/databricks-jobs-orchestration` | **Workflows Orchestrator** — multi-task DAG; job-cluster / serverless (never all-purpose for prod); bounded retries + timeouts + on-failure alert; idempotent tasks for repair runs |
+| `/spark-performance-tuning` | **Spark Performance Engineer** — Spark-UI-evidence-first diagnosis (skew/shuffle/spill/small files/join); AQE + broadcast + clustering fixes; query+layout before compute |
+| `/dbu-cost-optimization` | **Databricks Cost Engineer** — `system.billing` attribution first; jobs vs all-purpose; serverless / Photon / spot; forced auto-termination; cluster-policy guardrails (distinct from `/cost-optimize` LLM tokens) |
+| `/databricks-model-serving` | **Model Serving Engineer** — UC-registered model → endpoint; serve-by-alias rollout/rollback; scale-to-zero vs warm; traffic-split canary; inference tables → drift monitoring |
+| `/mosaic-ai-vector-search` | **Vector Search Engineer** — Databricks-native RAG retrieval; Delta Sync index (CDF on); pinned embedding model (change = reindex); hybrid search + UC ACLs; recall@k / MRR eval (chunking → `/rag-design`) |
+| `/auto-loader-ingestion` | **Auto Loader Ingestion Engineer** — incremental `cloudFiles` → Delta bronze; directory-listing vs file-notification by volume; `_rescued_data` kept; dedicated checkpoint exactly-once; schema evolution |
 
 **ML algorithm selection / tuning:**
 
@@ -253,6 +290,7 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 |---|---|
 | `/model-deployment` | **Model Deployment Engineer** — Artifact packaging checklist, phased rollout (shadow→canary→limited→full GA), automated + manual rollback triggers, deployment.yaml |
 | `/inference-service-design` | **Inference Service Designer** — Serving pattern decision (REST/gRPC/batch + edge/IoT/on-device), latency budget breakdown, scaling spec, circuit breaker + safe fallback, OTA rollout for edge, observability signals |
+| `/edge-ml-deployment` | **Edge ML Deployment Engineer** — edge-vs-cloud gate; per-stage latency budget; on-device-validated compressed model; signed atomic OTA + offline rollback; fail-safe fallback; OT advises-not-actuates boundary; offline-tolerant observability |
 | `/model-decommissioning` | **Model Decommissioning Planner** — Retire a model — retirement criteria, dependency audit, consumer notification, archive policy, retention schedule |
 
 **Responsible AI:**
@@ -386,11 +424,15 @@ At the end of each session, you (or Claude) update `NEXT_SESSION.md` with HEAD, 
 
 **More LESSONS_LEARNED entries.** Every time something goes wrong or unusually right, add a one-liner with a **Why:** line. The file compounds — after 10 sessions it's the most valuable thing in the repo.
 
-**Hooks.** Three reference hooks ship with the template in `.claude/hooks/`. None are wired by default — paste the snippet from `.claude/hooks/README.md` into your `settings.json` to enable any of them:
+**Hooks.** **13** reference hooks ship with the template in `.claude/hooks/`. None are wired by default — paste the snippet from `.claude/hooks/README.md` into your `settings.json` to enable any of them.
 
+*Generic (3):*
 - `block_dangerous_git.py` — PreToolUse/Bash: blocks force-push, `reset --hard`, `--no-verify`, and other destructive git operations
-- `scan_secrets.py` — PreToolUse/Write|Edit: blocks AWS/GitHub/Slack/OpenAI/Google/Stripe key shapes before they land on disk
-- `audit_log.py` — PostToolUse/*: passive; appends every tool call to `.claude/logs/audit.jsonl` (always exits 0)
+- `scan_secrets.py` — PreToolUse/Write|Edit: blocks AWS/GitHub/Slack/OpenAI/Anthropic/Google/Stripe key shapes before they land on disk
+- `audit_log.py` — PostToolUse/*: passive; appends every tool call to `.claude/logs/audit.jsonl`
+
+*Domain guardrails (10):*
+- `block_infra_destroy.py`, `check_sql_safety.py`, `check_unsafe_patterns.py`, `check_cloud_cost.py`, `check_programming_gotchas.py`, `check_ml_leakage.py`, `block_test_set_balancing.py`, `check_metric_guardrail.py`, `check_pii_in_logs.py`, `check_prompt_safety.py` — see `.claude/hooks/README.md` for the full inventory + behaviour table.
 
 To write your own, copy `templates/skill/SKILL-TEMPLATE.md` as a model for structure, then see `.claude/hooks/README.md` for the protocol (stdin format, exit codes, smoke tests).
 

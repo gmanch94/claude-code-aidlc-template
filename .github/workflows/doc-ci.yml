@@ -1,0 +1,211 @@
+name: doc-ci
+
+# Doc-CI gate. Mirrors the /doc-ci-check skill's deterministic checks so the
+# same staleness that ships locally fails in CI. Keep this file and the skill
+# in sync — when one changes, change the other.
+#
+# Catches:
+#   1. Count drift  (declared N vs actual N in README/CLAUDE.md/NEXT_SESSION/prompts-README/hooks-README)
+#   2. Broken relative links in root *.md files
+#   3. Skill ↔ prompt ↔ CLAUDE.md ↔ README ↔ prompts/README parity (excluding exempt list)
+#   4. NEXT_SESSION.md HEAD vs git HEAD
+#
+# Does NOT catch (warn-only in the skill, skipped here): ungraded external facts.
+
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - "README.md"
+      - "CLAUDE.md"
+      - "NEXT_SESSION.md"
+      - "LESSONS_LEARNED.md"
+      - "prompts/**"
+      - ".claude/skills/**"
+      - ".claude/hooks/**"
+      - "stacks/**"
+      - "templates/**"
+      - "decisions/**"
+      - ".github/workflows/doc-ci.yml"
+  pull_request:
+    branches: [master, main]
+    paths:
+      - "README.md"
+      - "CLAUDE.md"
+      - "NEXT_SESSION.md"
+      - "LESSONS_LEARNED.md"
+      - "prompts/**"
+      - ".claude/skills/**"
+      - ".claude/hooks/**"
+      - "stacks/**"
+      - "templates/**"
+      - "decisions/**"
+      - ".github/workflows/doc-ci.yml"
+
+concurrency:
+  group: doc-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  doc-ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 1. Count drift
+        shell: bash
+        run: |
+          # GH Actions default `bash -e -o pipefail` would fail this step on
+          # any grep that finds no matches inside a pipeline. We manage exit
+          # code via $fail.
+          set +e
+          set -u
+          fail=0
+
+          skills=$(ls .claude/skills/ | wc -l)
+          prompts=$(ls prompts/*.md 2>/dev/null | grep -v 'README.md' | wc -l)
+          hooks=$(ls .claude/hooks/*.py 2>/dev/null | wc -l)
+
+          echo "Counts: skills=$skills, prompts=$prompts, hooks=$hooks"
+
+          # Scope: ONLY aggregate-inventory claims, NOT narrative deltas.
+          # An inventory claim looks like:  `prompts/` | **143** system prompt templates ...
+          # A delta claim looks like:       feat: add 7 new skills + 5 enhancements
+          #
+          # Heuristic: match only when the count appears WITH inventory framing —
+          #   - inside a markdown table cell (line starts with `|`), OR
+          #   - immediately follows a literal path/bullet for the inventory (`.claude/skills/` / `prompts/` / `.claude/hooks/`)
+          # AND the line does NOT contain a delta verb (add / new / wave / wire / cover / land / ship / PR #).
+          #
+          # This trades a small chance of missed drift in unusual phrasing for
+          # zero false positives on commit-log / "what landed" narrative.
+          # Leading boundary: word-boundary, NOT inside "tier-2" / "phase-3" / "v1.4" etc.
+          # Use ` ` or `*` before the number so "tier-2" (preceded by `-`) doesn't match.
+          NUM_RE='( |\*\*)[0-9]+\+?(\*\*)?'
+          MOD_RE='( (system|reference|guardrail|core|domain|generic))*'
+          NOUN_RE=' +(skill|prompt|hook)s?\b'
+          FULL_RE="${NUM_RE}${MOD_RE}${NOUN_RE}"
+          DELTA_VERBS='\b(add|added|adding|new|wave|wire|wired|cover|covered|covering|land|landed|ship|shipped|merge|merged|PR #|launched|introduce)\b'
+          INVENTORY_CONTEXT='^(\| |- `\.?[a-zA-Z]|- \*\*|prompts/|.claude)'
+
+          # NEXT_SESSION.md is a resume bookmark, not an inventory doc — its counts
+          # intentionally lag master between PR merge + bookmark update.
+          # README.md / CLAUDE.md / prompts/README.md / hooks-README / stacks-README
+          # are the inventory docs subject to drift checks.
+          for f in README.md CLAUDE.md prompts/README.md .claude/hooks/README.md stacks/README.md; do
+            [ -f "$f" ] || continue
+            while IFS=: read -r line content; do
+              # Skip if line contains a delta verb (narrative, not inventory)
+              if echo "$content" | grep -qiE "$DELTA_VERBS"; then continue; fi
+              # Require inventory context (table row or labelled bullet)
+              if ! echo "$content" | grep -qE "$INVENTORY_CONTEXT"; then continue; fi
+
+              num=$(echo "$content" | grep -oE "$FULL_RE" | head -1 | grep -oE '[0-9]+' | head -1)
+              [ -z "$num" ] && continue
+              noun=$(echo "$content" | grep -oE "$FULL_RE" | head -1 | grep -oE '(skill|prompt|hook)' | head -1)
+              case "$noun" in
+                skill)  actual=$skills ;;
+                prompt) actual=$prompts ;;
+                hook)   actual=$hooks ;;
+                *)      continue ;;
+              esac
+              # Allow "100+" / "**100+**" rounded claims if actual >= declared
+              if echo "$content" | grep -qE "${num}\+"; then
+                if [ "$actual" -ge "$num" ]; then continue; fi
+              fi
+              if [ "$num" != "$actual" ]; then
+                echo "::error file=$f,line=$line::Count drift — declared $num $noun(s), actual $actual"
+                fail=1
+              fi
+            done < <(grep -nE "$FULL_RE" "$f" 2>/dev/null || true)
+          done
+
+          exit $fail
+
+      - name: 2. Broken relative links (root *.md)
+        shell: bash
+        run: |
+          # GH Actions default shell is `bash -e -o pipefail`, so a `grep` /
+          # `echo | grep -q` that finds nothing returns exit 1 and would fail
+          # the whole step. Disable -e here; we manage exit code via $fail.
+          set +e
+          set -u
+          fail=0
+          # Read into a tempfile rather than piping into a `while` subshell —
+          # pipe-subshells lose the per-file `fail=1` mutation and `exit 1`
+          # only terminates the subshell, not the step.
+          tmp=$(mktemp)
+          for f in README.md CLAUDE.md NEXT_SESSION.md LESSONS_LEARNED.md operating-philosophy.md analysis-methodology.md; do
+            [ -f "$f" ] || continue
+            # `|| true` so a file with no `](...)` matches doesn't break the pipeline.
+            grep -oE '\]\(([^)]+)\)' "$f" 2>/dev/null | sed 's/](//;s/)$//' > "$tmp" || true
+            [ ! -s "$tmp" ] && continue
+            while IFS= read -r link; do
+              case "$link" in
+                http*|https*|"#"*) continue ;;
+              esac
+              path="${link%%#*}"
+              [ -z "$path" ] && continue
+              if [ ! -e "$path" ]; then
+                echo "::error file=$f::Broken link: $link"
+                fail=1
+              fi
+            done < "$tmp"
+          done
+          rm -f "$tmp"
+          exit $fail
+
+      - name: 3. Skill ↔ prompt ↔ index parity
+        shell: bash
+        run: |
+          set +e
+          set -u
+          EXEMPT="adr api-audit doc-ci-check office-hours prompt-review retro review security-audit security-model-init tradeoff"
+          fail=0
+
+          for s in $(ls .claude/skills/); do
+            is_exempt=0
+            for e in $EXEMPT; do [ "$s" = "$e" ] && is_exempt=1; done
+
+            if [ ! -f ".claude/skills/$s/SKILL.md" ]; then
+              echo "::error::Skill $s missing SKILL.md"
+              fail=1
+            fi
+
+            if [ $is_exempt -eq 0 ] && [ ! -f "prompts/$s.md" ]; then
+              echo "::error::Skill $s missing prompts/$s.md (not in exempt list)"
+              fail=1
+            fi
+
+            # Tight grep: match `/<skill>` (slash-prefixed) or `\`<skill>\`` (backtick-wrapped) ONLY.
+            # `grep -q "$s"` (loose) would mis-match e.g. `eda` against `edamame` or `read-only`.
+            if ! grep -qE "(/${s}\b|\`${s}\`|\[\`${s}\.md\`\])" CLAUDE.md 2>/dev/null; then
+              echo "::error file=CLAUDE.md::Skill $s not indexed in CLAUDE.md"
+              fail=1
+            fi
+
+            if ! grep -qE "/${s}\b" README.md 2>/dev/null; then
+              echo "::error file=README.md::Skill $s not in slash-command table"
+              fail=1
+            fi
+
+            if [ $is_exempt -eq 0 ] && ! grep -qE "(\[\`${s}\.md\`\]|\`${s}\.md\`|/${s}\b)" prompts/README.md 2>/dev/null; then
+              echo "::error file=prompts/README.md::Skill $s not in prompts index"
+              fail=1
+            fi
+          done
+
+          exit $fail
+
+      - name: 4. NEXT_SESSION.md HEAD freshness
+        shell: bash
+        run: |
+          set +e
+          set -u
+          declared=$(grep -oE 'HEAD = [a-f0-9]{7,40}' NEXT_SESSION.md | head -1 | awk '{print $3}')
+          [ -z "$declared" ] && { echo "NEXT_SESSION.md: no HEAD declaration found — skipping"; exit 0; }
+          actual=$(git rev-parse --short=${#declared} HEAD)
+          if [ "$declared" != "$actual" ]; then
+            echo "::warning file=NEXT_SESSION.md::HEAD drift — declared $declared, actual $actual (acceptable on master pushes; bookmark refreshes on session end)"
+          fi

@@ -36,7 +36,9 @@ In-scope control count: {{N}}
 **EU AI Act risk tier** (if {{AI_IN_SCOPE}} = yes):
 - Tier: [prohibited / high-risk / limited-risk transparency / minimal-risk]
 - Justification: [Annex III category match OR transparency-only obligation OR neither]
-- If high-risk: list applicable Articles (9, 10, 11, 12, 13, 14, 15)
+- If high-risk: list applicable Articles (9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 43, 72, 73)
+- If GPAI: list provider obligations (Art. 53) + cite AI Office Preliminary Guidelines (22 Apr 2025); if GPAI with systemic risk (Art. 51 — 10^25 FLOP presumption): list Art. 55 obligations
+- State the **phased application date** the system must comply by: 2 Feb 2025 (Art. 5 prohibited) / 2 Aug 2025 (GPAI) / 2 Aug 2026 (general + most Annex III) / 2 Aug 2027 (Annex I product-safety + pre-existing GPAI) / 2 Aug 2030 (public-sector legacy)
 
 **Enforcement matrix**
 
@@ -77,7 +79,7 @@ In-scope control count: {{N}}
 3. Cross-framework overlaps are explicitly documented — same control mapped 3× costs 3× to audit
 4. Out-of-scope controls are listed WITH reason — silent omission reads as "missed"
 5. For GDPR data subject rights (Art. 15-22) — operational path required (request → fulfilment SLA), not just a policy doc
-6. For HIPAA "addressable" specs — decision recorded as implemented / alternative-measure / not-reasonable-with-justification
+6. For HIPAA "addressable" specs — decision recorded as implemented / alternative-measure / not-reasonable-with-justification. (HHS 2025 NPRM proposes removing this distinction + adding mandatory encryption / MFA / network segmentation / asset inventory — re-scope once final rule adopted.)
 7. For EU AI Act — risk tier classification is the FIRST decision; entire control set depends on it
 8. The matrix is the deliverable — auditors read tables, not essays
 9. Don't invent controls — use the framework's exact IDs (SOC 2 CC6.1, HIPAA §164.312(b), GDPR Art. 32, EU AI Act Art. 14)

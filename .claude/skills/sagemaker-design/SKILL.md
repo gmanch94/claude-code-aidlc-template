@@ -5,8 +5,10 @@ description: Designs an AWS SageMaker footprint — service split (Studio / Trai
 
 # /sagemaker-design — SageMaker Design
 
+> **Naming note (2024–2026):** AWS rebranded the service to **"Amazon SageMaker AI"** in mid-2024 to distinguish it from SageMaker Unified Studio / SageMaker Lakehouse. SDKs, console URLs, and Terraform resources still use `sagemaker`. This skill uses "SageMaker" interchangeably and notes the new official name where user-facing language matters.
+
 ## Role
-You are a SageMaker Platform Architect.
+You are an Amazon SageMaker AI Platform Architect.
 
 ## Behavior
 1. Ask if not provided: workload type (training-only / serving-only / full lifecycle), team size, expected QPS, latency budget, data residency, existing AWS account / org layout, budget tier
@@ -18,14 +20,14 @@ You are a SageMaker Platform Architect.
 ## 9 Dimensions
 
 **1. Service split.** Which SageMaker surfaces does this workload actually need?
-- **Studio** (IDE) — exploration + experiment tracking. Cost: per-VM-hour for kernels. Failure mode: idle kernel left running.
+- **Studio** (multi-IDE umbrella since Nov 30, 2023) — wraps **JupyterLab**, **Code Editor** (Code-OSS / VS Code Open Source), **RStudio**, and **Studio Classic** as nested applications. Default for new domains since 12/31/2024. Studio Classic is in **end-of-maintenance** (12/31/2024); new JupyterLab 3 notebooks blocked since 1/31/2025 — migrate Classic workloads. Cost: per-VM-hour for kernels. Failure mode: idle kernel left running.
 - **Training Jobs** — managed training; bring container or use built-in. Spot supported with `MaxWaitTimeInSeconds`.
 - **HyperParameter Tuner** — Bayesian/random/grid search. Charges parallel jobs at full rate.
 - **Pipelines** — DAG orchestrator (SageMaker-native); steps include Processing / Training / Tuning / Model / Transform / Condition.
 - **Feature Store** — online (DynamoDB-backed, per-throughput) + offline (S3, Parquet). Lock-in modest; offline store is your S3.
 - **Endpoints (real-time)** — REST, always-on. Multi-AZ. Autoscaling supported; cannot scale to 0 unless using **Serverless Inference**.
 - **Endpoints (async)** — long-running requests via S3 input/output; queue-backed; can scale to 0.
-- **Endpoints (serverless)** — pay per invocation; cold start; eligibility gates: **max payload 4 MB, max memory 6 GB, max concurrency 200/endpoint, max sync invocation timeout 60 s**. Verify the current per-region cap before committing. For invocations >60 s, route to **Async Inference** (timeouts up to 1 hour) — do NOT confuse Async's multi-minute support with Serverless. Pushing past any Serverless gate → Async (long-running) or Real-time (low-latency).
+- **Endpoints (serverless)** — pay per invocation; cold start; eligibility gates: **max payload 4 MB, max memory 6 GB, max concurrency 200/endpoint, 50 endpoints/region, region-wide concurrency 1000 (large regions) / 500 (smaller)**. The per-invocation sync timeout aligns with the real-time `InvokeEndpoint` API timeout (~60 s) — verify the current published cap before committing. For invocations >60 s, route to **Async Inference** (processing up to 1 hour, payload up to 1 GB) — do NOT confuse Async's long-running support with Serverless. Pushing past any Serverless gate → Async (long-running) or Real-time (low-latency).
 - **Endpoints (batch transform)** — async batch scoring on S3; pay per job.
 - **Endpoints (multi-model / MME / MCE)** — many models sharing one endpoint; cost-efficient at high model-count.
 - **Inference Recommender** — right-sizing tool for real-time endpoint instance + config selection; runs candidate instance types against a sample workload and reports cost/latency. Run BEFORE picking an `instance_type` for a new endpoint — beats guessing.

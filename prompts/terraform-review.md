@@ -17,7 +17,7 @@ Review Terraform code + plan output across 9 dimensions: state backend + locking
 ## Context
 Target environment (dev / staging / prod): {{ENVIRONMENT}}
 Provider(s) in use (aws / google / azurerm / kubernetes / databricks / vault / multiple): {{PROVIDERS}}
-State backend (s3+dynamodb / gcs / azurerm / remote-terraform-cloud / other): {{STATE_BACKEND}}
+State backend (s3+lockfile / s3+dynamodb-legacy / gcs / azurerm / hcp-terraform-cloud-block / remote-tfe-legacy / other): {{STATE_BACKEND}}
 Workspace strategy (per-env workspaces / per-env keys / single shared): {{WORKSPACE_STRATEGY}}
 CI system (GitHub Actions / GitLab / CircleCI / Atlantis / TF Cloud / other): {{CI_SYSTEM}}
 Code or plan to review: {{INPUT}}
@@ -62,7 +62,7 @@ Counts: {{N}} [BLOCKER], {{M}} [SUGGESTION], {{P}} [NITPICK]
 6. Distinguish prod from dev — many [SUGGESTION] in dev become [BLOCKER] in prod (`force_destroy`, lifecycle gates, secret handling, unpinned providers)
 7. For plan output: scrutinize every `replace` / `destroy` — provider updates silently force-replace resources
 8. Secrets NEVER in committed tfvars or `default` — flag as [BLOCKER] regardless of env
-9. State backend must have locking + encryption — `local` backend in prod is [BLOCKER]
+9. State backend must have locking + encryption — `local` backend in prod is [BLOCKER]. For S3 prefer native `use_lockfile = true` (TF 1.10+); DynamoDB locking is deprecated but still acceptable. For HCP Terraform / TFE prefer the `cloud` block over `backend "remote"` for new work.
 10. `prevent_destroy = true` on irreplaceable prod resources (state buckets, KMS keys, IAM roles backing CI) — absence is [BLOCKER]
 
 Be exhaustive on [BLOCKER]; concise on [NITPICK]. Don't pad with nits to look thorough. Flag gaps with `[NEED-MORE-CONTEXT: <what>]` rather than guess.

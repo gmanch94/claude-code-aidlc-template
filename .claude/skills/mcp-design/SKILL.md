@@ -1,6 +1,6 @@
 ---
 name: mcp-design
-description: Designs MCP (Model Context Protocol) servers — tool/resource/prompt manifests, transport choice (stdio vs HTTP+SSE), auth model, schema discipline, scope/permission boundaries, error contract, idempotency, deferred-tool surfaces, host-compatibility matrix, and observability. Use when authoring a new MCP server or auditing an existing one before shipping. Complements `/agent-design` (consumer-side) — this is the producer side.
+description: Designs MCP (Model Context Protocol) servers — tool/resource/prompt manifests, transport choice (stdio vs Streamable HTTP), auth model, schema discipline, scope/permission boundaries, error contract, idempotency, deferred-tool surfaces, host-compatibility matrix, and observability. Use when authoring a new MCP server or auditing an existing one before shipping. Complements `/agent-design` (consumer-side) — this is the producer side.
 ---
 
 # /mcp-design — MCP Server Design
@@ -23,9 +23,9 @@ You are an MCP Server Designer.
 - **Prompts** — reusable templated workflows the user can invoke (often as a slash command in the host).
 - Default rule: read-only **and** large → resource. Write-side-effect → tool. User-invokable template → prompt.
 
-**2. Transport choice.** stdio vs HTTP+SSE vs streamable HTTP.
+**2. Transport choice.** stdio vs Streamable HTTP.
 - **stdio** — local single-tenant, no auth needed (host is the trust boundary). Default for Claude Desktop / Claude Code local installs.
-- **HTTP + SSE / streamable HTTP** — multi-tenant, hosted, requires auth. Pick when the server has shared state, costs money per request, or the host is remote.
+- **Streamable HTTP** — multi-tenant, hosted, requires auth. Pick when the server has shared state, costs money per request, or the host is remote. (The earlier `HTTP+SSE` transport from the 2024-11-05 spec is **deprecated** since 2025-03-26; retain only for backwards-compat with old hosts.)
 - Mixing is allowed: stdio for dev, HTTP for prod, same handler code.
 
 **3. Schema discipline.** Tool input/output schemas — the MCP spec pins to **JSON Schema 2020-12**. Author to that draft; older drafts (7 / 2019-09) work in practice but strict-mode hosts validate against 2020-12.
@@ -36,7 +36,7 @@ You are an MCP Server Designer.
 
 **4. Auth model.**
 - **stdio:** none — host is trust boundary. Document any env-var secrets the server reads (`API_KEY`, etc.) and where to put them.
-- **HTTP:** OAuth 2.1 + PKCE — the MCP authorization spec REQUIRES resource servers to expose **authorization server metadata (RFC 8414)** and **protected resource metadata (RFC 9728)**, and clients MUST use **resource indicators (RFC 8707)** when targeting downstream APIs. **Dynamic client registration (RFC 7591) is RECOMMENDED** (not MUST) — implement if hosts will onboard at scale. Per-tenant API key or mTLS are alternatives only for service-to-service / non-OAuth deployments. Bearer tokens in `Authorization: Bearer` header. Verify against the current MCP authorization spec — the spec evolves; pin the spec version your server targets in the README.
+- **HTTP:** OAuth 2.1 + PKCE — per the current MCP authorization spec, MCP servers (acting as OAuth resource servers) **MUST** expose **protected resource metadata (RFC 9728**, published as Proposed Standard April 2025**)**. The authorization server **MUST** provide **either** OAuth 2.0 Authorization Server Metadata (**RFC 8414**) **OR** OpenID Connect Discovery 1.0 — either satisfies the discovery requirement. Clients **SHOULD** use **resource indicators (RFC 8707)** to identify the MCP server itself as the target resource (not "downstream APIs"). **Dynamic Client Registration (RFC 7591) is deprecated / optional** in the current spec — prefer **OAuth Client ID Metadata Documents** (`draft-ietf-oauth-client-id-metadata-document`), which servers/clients **SHOULD** support. Clients **MUST** validate the **`iss` parameter (RFC 9207)** on authorization responses. Per-tenant API key or mTLS are alternatives only for service-to-service / non-OAuth deployments. Bearer tokens in `Authorization: Bearer` header. Pin the MCP spec version your server targets in the README — the spec evolves.
 - **Per-user scoping:** if the server has access to user-specific data (Gmail, Slack, GitHub), each session carries a per-user token; the server NEVER returns another user's data because of a session mix-up.
 - **Token storage:** never log tokens; never return them in tool outputs; rotate on revocation.
 
@@ -83,7 +83,7 @@ Test against at least 2 hosts before declaring the server done.
 
 **Job:** <one sentence — what this server does>
 **Target host(s):** <Claude Code / Claude Desktop / Cursor / generic>
-**Transport:** <stdio / HTTP+SSE / streamable HTTP>
+**Transport:** <stdio / Streamable HTTP>
 **Auth:** <none / API key / OAuth 2.1+PKCE / mTLS>
 
 **Capability split:**

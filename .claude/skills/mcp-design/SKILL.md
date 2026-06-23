@@ -36,7 +36,7 @@ You are an MCP Server Designer.
 
 **4. Auth model.**
 - **stdio:** none — host is trust boundary. Document any env-var secrets the server reads (`API_KEY`, etc.) and where to put them.
-- **HTTP:** OAuth 2.1 + PKCE — the MCP authorization spec **MUST**-requires resource servers to support **dynamic client registration (RFC 7591)**, **authorization server metadata discovery (RFC 8414)**, and **resource indicators (RFC 8707)** for downstream API targeting. Per-tenant API key or mTLS are alternatives only for service-to-service / non-OAuth deployments. Bearer tokens in `Authorization: Bearer` header.
+- **HTTP:** OAuth 2.1 + PKCE — the MCP authorization spec REQUIRES resource servers to expose **authorization server metadata (RFC 8414)** and **protected resource metadata (RFC 9728)**, and clients MUST use **resource indicators (RFC 8707)** when targeting downstream APIs. **Dynamic client registration (RFC 7591) is RECOMMENDED** (not MUST) — implement if hosts will onboard at scale. Per-tenant API key or mTLS are alternatives only for service-to-service / non-OAuth deployments. Bearer tokens in `Authorization: Bearer` header. Verify against the current MCP authorization spec — the spec evolves; pin the spec version your server targets in the README.
 - **Per-user scoping:** if the server has access to user-specific data (Gmail, Slack, GitHub), each session carries a per-user token; the server NEVER returns another user's data because of a session mix-up.
 - **Token storage:** never log tokens; never return them in tool outputs; rotate on revocation.
 

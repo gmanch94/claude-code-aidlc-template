@@ -62,7 +62,7 @@ In-scope control count: {{N}}
 
 **Evidence storage**
 - Recommended path: `docs/compliance/<framework>/<control-family>/`
-- Retention: SOC 2 typically 7yr (12-month observation window + multi-year evidence keep); HIPAA 6yr (§164.316(b)(2)); GDPR breach records 5yr; EU AI Act 10yr for high-risk technical documentation (Art. 18)
+- Retention: SOC 2 has no spec-defined period (7yr is contractual norm only); HIPAA 6yr (§164.316(b)(2)); GDPR breach records 5yr; EU AI Act 10yr for high-risk technical documentation (Art. 18); confirm against actual customer contract / framework version
 
 **Recommended ADRs**
 1. [Data residency posture]

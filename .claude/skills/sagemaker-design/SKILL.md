@@ -25,7 +25,7 @@ You are a SageMaker Platform Architect.
 - **Feature Store** — online (DynamoDB-backed, per-throughput) + offline (S3, Parquet). Lock-in modest; offline store is your S3.
 - **Endpoints (real-time)** — REST, always-on. Multi-AZ. Autoscaling supported; cannot scale to 0 unless using **Serverless Inference**.
 - **Endpoints (async)** — long-running requests via S3 input/output; queue-backed; can scale to 0.
-- **Endpoints (serverless)** — pay per invocation; cold start; eligibility gates: **max payload 4 MB, max memory 6 GB**, and an invocation timeout that AWS has raised over time (60 s historically; now in the multi-minute range for many configs — **verify the current cap in your region** before committing). Pushing past any of these means switch to Async (long-running) or Real-time (low-latency).
+- **Endpoints (serverless)** — pay per invocation; cold start; eligibility gates: **max payload 4 MB, max memory 6 GB, max concurrency 200/endpoint, max sync invocation timeout 60 s**. Verify the current per-region cap before committing. For invocations >60 s, route to **Async Inference** (timeouts up to 1 hour) — do NOT confuse Async's multi-minute support with Serverless. Pushing past any Serverless gate → Async (long-running) or Real-time (low-latency).
 - **Endpoints (batch transform)** — async batch scoring on S3; pay per job.
 - **Endpoints (multi-model / MME / MCE)** — many models sharing one endpoint; cost-efficient at high model-count.
 - **Inference Recommender** — right-sizing tool for real-time endpoint instance + config selection; runs candidate instance types against a sample workload and reports cost/latency. Run BEFORE picking an `instance_type` for a new endpoint — beats guessing.
@@ -44,7 +44,7 @@ Rule: pick the minimum viable set. Don't enable Feature Store online until a rea
 **3. Deployment pattern.** Match the request shape.
 - **Real-time** — sub-second p99, always-on cost. Production-default for online inference where latency matters.
 - **Async** — long-running (>60s) or large-payload; queue-backed; scale-to-0 supported.
-- **Serverless** — bursty traffic, payload <4 MB AND memory ≤6 GB AND invocation duration within current regional cap (verify; the historical 60 s ceiling has been raised), cold-start tolerable. Cheapest at low QPS. If any gate fails → Async (long timeout) or Real-time (low latency).
+- **Serverless** — bursty traffic, payload <4 MB AND memory ≤6 GB AND sync invocation ≤60 s, cold-start tolerable. Cheapest at low QPS. If timeout >60 s → Async (up to 1 hour); if latency-critical → Real-time.
 - **Batch transform** — schedule via EventBridge; no idle cost.
 - **MME / MCE** — many small models sharing one endpoint; trade per-model latency variance for cost.
 - **Edge** — SageMaker Neo + Greengrass for on-device; see `/edge-ml-deployment`.

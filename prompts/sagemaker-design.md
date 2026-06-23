@@ -115,7 +115,7 @@ Flag gaps with `[TBD: <what's missing>]`. Do not invent service choices not deri
 | `{{TEAM}}` | yes | Team size + ML maturity |
 | `{{TRAFFIC_PROFILE}}` | yes | `sustained QPS` / `bursty` / `async long-running` / `batch only` |
 | `{{LATENCY_BUDGET}}` | conditional | p99 ms; required for real-time / serverless |
-| `{{PAYLOAD_SIZE}}` | conditional | kB; informs serverless eligibility (4 MB max payload + 6 GB max memory + invocation within current regional timeout cap — verify cap, the historical 60 s ceiling was raised; any failure → use Async or Real-time) |
+| `{{PAYLOAD_SIZE}}` | conditional | kB; informs serverless eligibility (4 MB max payload + 6 GB max memory + 60 s sync timeout + 200 concurrency/endpoint — any failure → Async for >60 s, Real-time for latency-critical) |
 | `{{REGION}}` | yes | AWS region(s) |
 | `{{ACCOUNT_LAYOUT}}` | yes | `single account` / `per-env` / `per-team` / `AWS Organization` |
 | `{{BUDGET}}` | yes | `POC` / `dev` / `prod` / `scale` |

@@ -43,9 +43,10 @@ You are a Compliance Mapping Analyst.
 
 **EU AI Act** (Regulation 2024/1689)
 - Risk tier classification: prohibited (Art. 5) / high-risk (Annex III) / limited-risk (transparency, Art. 50) / minimal-risk
-- For high-risk: risk management system (Art. 9), data governance (Art. 10), technical documentation (Art. 11), record-keeping / automatic logs (Art. 12), transparency (Art. 13), human oversight (Art. 14), accuracy + robustness + cybersecurity (Art. 15), provider obligations (Art. 16), quality management system / QMS (Art. 17), documentation retention 10 yr (Art. 18), automatic-log retention 6 mo minimum (Art. 19), corrective actions + duty to inform (Art. 20), authorised representatives for non-EU providers (Art. 22), conformity assessment for high-risk providers (Art. 43)
+- For high-risk: risk management system (Art. 9), data governance (Art. 10), technical documentation (Art. 11 — content detailed in **Annex IV**), record-keeping / automatic logs (Art. 12), transparency (Art. 13), human oversight (Art. 14), accuracy + robustness + cybersecurity (Art. 15), provider obligations (Art. 16), quality management system / QMS (Art. 17), documentation retention 10 yr (Art. 18), automatic-log retention 6 mo minimum (Art. 19), corrective actions + duty to inform (Art. 20), authorised representatives for non-EU providers (Art. 22 — verify exact article against current OJ text), conformity assessment for high-risk providers (Art. 43), **post-market monitoring (Art. 72)**, **serious incident reporting (Art. 73)**
 - For all GPAI models: provider obligations — technical doc, copyright policy, training-data summary, downstream-deployer info (Art. 53)
 - For GPAI with systemic risk: classification + threshold (Art. 51), heightened obligations — model evaluation, adversarial testing, serious-incident reporting, cybersecurity (Art. 55)
+- All article references should be verified against the official OJ text of Regulation 2024/1689 before use in an audit deliverable — numbering shifted between draft and adopted versions.
 
 ## Enforcement matrix template
 
@@ -93,7 +94,7 @@ In-scope control count: {N}
 
 **Evidence storage:**
 - Recommended path: `docs/compliance/<framework>/` with subdirs per control family
-- Evidence retention: SOC 2 typically 7 years (common contractual minimum; the observation-window itself is 12 months but evidence kept beyond), HIPAA 6 years (§164.316(b)(2)), GDPR breach records 5 years, EU AI Act 10 years for high-risk technical documentation (Art. 18)
+- Evidence retention: **SOC 2 has no spec-defined retention period** (the framework prescribes none); a 7-year keep is the common contractual norm tied to multi-year audit windows. HIPAA 6 years (§164.316(b)(2)). GDPR breach records 5 years. EU AI Act 10 years for high-risk technical documentation (Art. 18). Always confirm retention against the specific customer contract / framework version in scope.
 
 **Recommended ADRs:**
 1. [Data residency posture for {region}]

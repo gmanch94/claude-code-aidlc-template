@@ -23,7 +23,9 @@ You are a Vertex AI Platform Architect.
 - **Custom Training** — your container, your code. Use when AutoML doesn't fit.
 - **AutoML** — Google trains; you provide data + schema. Fast path; opaque hyperparams.
 - **Feature Store** — point-in-time-correct features online + offline. Lock-in mitigated by using BigQuery as the offline store.
-- **Endpoints (online)** — real-time low-latency serving. **Dedicated endpoints** (DedicatedResources with autoscaling) support `min_replica_count = 0` for many machine types in supported regions (cold-start 30–90 s on re-warm) — verify regional GA + machine-type support before relying on it. Shared / legacy online endpoints still require `min ≥ 1`. For "no idle cost" semantics without serving latency, **batch prediction** is the simpler alternative.
+- **Endpoints (online)** — real-time low-latency serving. Configured via `DedicatedResources` with `min_replica_count` / `max_replica_count` (not a distinct product SKU; "dedicated" refers to the resource shape). Scale-to-zero (`min_replica_count = 0`) is supported on select machine types in select regions — verify GA status + machine-type support before relying on it; cold-start 30–90 s on re-warm. Shared-resource endpoints still require `min ≥ 1`.
+  - **Public vs private endpoint** — public is the default REST URL; private endpoints use Private Service Connect (PSC) for VPC-only access. PSC is required when running inside a **VPC Service Controls (VPC-SC)** perimeter for data-exfiltration constraints. Pick PSC for any non-public-internet traffic at scale.
+- For "no idle cost" semantics without serving latency, **batch prediction** is the simpler alternative.
 - **Endpoints (batch)** — large-batch async scoring. Pay per job, no idle cost.
 - **Model Registry** — single source of truth for model versions + aliases (`prod`, `canary`, `staging`).
 - **Model Monitoring** — drift / skew / attribution; pairs with online endpoints; billed per GB analyzed (tabular) and per prediction (online). Sample at the volume that fits the budget.

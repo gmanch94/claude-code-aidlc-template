@@ -37,7 +37,7 @@ If the user names "and also..." — that's a second dashboard, not a section.
 | Question shape | Chart | Don't use |
 |---|---|---|
 | What's the current value? | Single big number + period-over-period delta | Line / bar |
-| How is X changing over time? | Line chart (single series), or small-multiples line (multiple series) | Pie / stacked-bar |
+| How is X changing over time? | Line chart (1–5 series); small-multiples line when >5 series (one panel per series — single line each) | Pie / stacked-bar / single line chart with 6+ series (becomes a spaghetti plot) |
 | How does X compare across categories? | Horizontal bar (sorted) | Pie (use bar instead) / vertical bar (long labels) |
 | What's the distribution? | Histogram + summary stats | Single mean |
 | Are X and Y correlated? | Scatter + regression line | Two side-by-side bars |
@@ -86,6 +86,7 @@ If the user names "and also..." — that's a second dashboard, not a section.
 - Tables: keyboard-navigable; column headers carry ARIA labels.
 - Dark-mode tested if the tool supports it.
 - Number formatting: localized; clear units (`$1.2M`, not `1200000`).
+- Timezone: every time-series chart names the timezone in the axis label or footer (`UTC` / `America/New_York`). Off-by-an-hour is the most-reported exec-dashboard footgun.
 - Export-to-CSV available on every chart (analyst tier and above).
 
 ## Output

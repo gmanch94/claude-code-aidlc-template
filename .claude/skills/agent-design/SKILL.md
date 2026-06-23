@@ -16,7 +16,7 @@ You are a Agentic System Designer.
 
 ## 9 Dimensions
 
-**1. Loop architecture — stateless loop + durable session store (2026 convergence).** Observe → Think → Act → Check → repeat. The 2026 cross-vendor consensus (Claude Agent SDK `SessionStore`, LangGraph 1.0 durable execution, OpenAI Agents SDK long-horizon harness, Cline SDK durable sessions, CrewAI checkpointing) is: keep the loop **stateless** (any worker can run any turn) and put resumability in a **durable session store** (filesystem / KV / SQL / vendor-managed). State what lives where:
+**1. Loop architecture — stateless loop + durable session store (2026 convergence).** Observe → Think → Act → Check → repeat. The 2026 cross-vendor consensus (Claude Agent SDK `SessionStore`, **OpenAI Agents SDK long-horizon harness with Handoffs + Guardrails + Tracing primitives**, **Amazon Bedrock AgentCore Runtime (GA 2025-10-13, 8-hr execution windows, framework-agnostic)**, **Microsoft Foundry Agent Service (GA 2026-03-16, Responses-API wire-compat)**, LangGraph 1.0 durable execution, Cline SDK durable sessions, CrewAI checkpointing) is: keep the loop **stateless** (any worker can run any turn) and put resumability in a **durable session store** (filesystem / KV / SQL / vendor-managed). State what lives where:
 - **What survives restart:** task goal + subgoals + tool-call log + checkpoint cursor + memory tier handles.
 - **What is process-local:** in-flight LLM call, in-flight tool call (these must be idempotent so a replay after restart is safe).
 - **Resume semantics:** on restart, re-hydrate from the store + replay any tool calls whose result wasn't persisted (idempotency-key-protected).
@@ -40,6 +40,21 @@ You are a Agentic System Designer.
 For each tool, name its sandbox (independent of agent loop sandbox). Pair with `/mcp-design` dim 8 for tool-level reach + blast radius.
 
 **7. Fallback paths** — Tool call fails / max iterations without completion / unparseable response / user cancels mid-run / external dependency unavailable / restart mid-loop (the durable session store is the recovery mechanism).
+
+**7b. Adaptive Thinking + interleaved thinking + budget_tokens (Anthropic 2026).** First-class loop knobs on Claude 4.x / Sonnet 4.6 / Opus 4.x:
+- **Adaptive Thinking** (rebrand of Extended Thinking; `/adaptive-thinking` is canonical, `/extended-thinking` redirects).
+- **`budget_tokens` < `max_tokens`** normally; with **interleaved thinking + tools**, budget can exceed max_tokens (cap 200k context).
+- **Thinking output cap:** 128k on Opus 4.x / Sonnet 4.6; 64k on Haiku 4.5.
+- Use when the task benefits from explicit reasoning steps before tool use; budget to the cost-tolerance of the task class.
+
+**7c. Managed agent runtime selection.** When NOT to build the loop from scratch:
+- **Bedrock AgentCore** — managed AWS runtime; 8-hr session; MCP + A2A; framework-agnostic (CrewAI / LangGraph / LlamaIndex / Google ADK / OpenAI Agents SDK). See `/bedrock-design`.
+- **Foundry Agent Service** — managed Azure runtime; Responses-API wire-compat; Entra RBAC; thread persistence. See `/azure-foundry-design`.
+- **Vertex AI Agent Engine** — managed GCP runtime; Sessions + Memory Bank GA (billing starts 2026-01-28). See `/vertex-ai-design`.
+- **OpenAI Agents SDK** — vendor-managed Python/TS SDK with Handoffs + Guardrails + Tracing; vendor sandboxes (Blaxel / Cloudflare / Daytona / E2B / Modal / Runloop / Vercel). See `/openai-platform-design`.
+- **Self-host (LangGraph / CrewAI / AutoGen / your own)** — when sandbox / network / data-residency requires it.
+
+Decision rule: pick managed unless you have a documented reason to self-host. Vendor-managed runtimes ship session store + observability + tracing + sandbox out of the box.
 
 **8. Plan → Execute → Verify → Replan loop (2026 production pattern).** Beyond raw ReAct, modern long-horizon agents alternate phases:
 - **Plan** — produce a versioned plan with subgoals + exit criteria + rollback per subgoal (see `/plan-mode`).

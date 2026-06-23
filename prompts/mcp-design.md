@@ -72,6 +72,8 @@ Tool count expected (informs deferred-tool decision): {{TOOL_COUNT}}
 |---|---|---|---|---|---|
 | ... | ... | ... | ... | ... | ... |
 
+Note: Anthropic Messages API `mcp_servers` param is **tools-only** (HTTP remote, beta header `mcp-client-2025-11-20`); OpenAI Realtime API (`gpt-realtime` GA 2025-08-28) supports native remote-MCP. Add both to the matrix when relevant.
+
 **Observability**
 - Per-call metrics: [list]
 - Per-session metrics: [list]

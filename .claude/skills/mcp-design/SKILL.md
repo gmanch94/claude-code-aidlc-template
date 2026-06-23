@@ -81,11 +81,13 @@ You are an MCP Server Designer.
 |---|---|---|---|---|---|---|
 | Claude Desktop | stdio | yes | yes | yes | env-var only | restart on config change |
 | Claude Code | stdio + HTTP | yes | yes | yes | env-var + OAuth | deferred-tool aware |
+| **Anthropic Messages API `mcp_servers` param** | HTTP (remote-only, public HTTPS, Streamable HTTP / SSE, Anthropic egress IPs) | **yes (tools only — no resources / prompts)** | no | no | OAuth supported | Beta header `mcp-client-2025-11-20` (previous `mcp-client-2025-04-04` deprecated). Third deployment target alongside Claude Desktop / Claude Code |
+| **OpenAI Realtime API native MCP** | HTTP (remote) | yes | varies | varies | OAuth | `gpt-realtime` GA 2025-08-28 added native remote-MCP server support; pair with image input + SIP phone calling |
 | Cursor | stdio | yes | partial | no | env-var | check version pinning |
 | Cline | stdio | yes | yes | yes | env-var | — |
-| Generic / OpenAI clients | HTTP | yes | varies | varies | OAuth | spec-compliant only |
+| Generic OpenAI-clients | HTTP | yes | varies | varies | OAuth | spec-compliant only |
 
-Test against at least 2 hosts before declaring the server done.
+Test against at least 2 hosts before declaring the server done. Note: the Anthropic `mcp_servers` HTTP target is **tools-only** — design tool surfaces to not depend on Resources / Prompts when this host matters.
 
 **10. Observability.**
 - **Per-call:** tool name, latency, success/fail, error code, token count (if LLM-internal), caller identity hash.

@@ -61,7 +61,7 @@ None. Operates on the current working tree.
 These skills are workflow / facilitator / agent-spawning — they ARE the prompt or spawn a subagent rather than parameterize an LLM system prompt. They get an index entry in CLAUDE.md only (no prompt file, no prompts/README index row):
 
 ```
-adr  api-audit  doc-ci-check  office-hours  prompt-review  retro  review  security-audit  security-model-init  tradeoff
+adr  api-audit  doc-ci-check  office-hours  prompt-review  retro  review  rollback-checkpoint  security-audit  security-model-init  tradeoff
 ```
 
 Keep this list in sync with the `CLAUDE.md` "Skill authoring (standing)" rule and the GH Action below.

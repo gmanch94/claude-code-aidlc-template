@@ -1,3 +1,4 @@
 scratch/
 .claude/settings.local.json
 .claude/logs/
+.claude/checkpoints/

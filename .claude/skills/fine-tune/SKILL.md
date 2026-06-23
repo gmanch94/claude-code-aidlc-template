@@ -38,6 +38,39 @@ Can few-shot examples in the prompt achieve target quality?
 | Cost reduction is the only goal | Tier down to Haiku/Sonnet (see /cost-optimize) |
 | No eval exists yet | Build eval first — can't measure improvement otherwise |
 
+## Fine-tune approach selection (2026 trio)
+
+| Approach | When | Notes |
+|---|---|---|
+| **SFT (Supervised Fine-Tuning)** | Labeled completions exist (≥100 high-quality examples); style / format / task adherence is the gap | Cheapest; default starting point. Available on OpenAI, Anthropic, Together, Modal, SageMaker, Bedrock Custom Model Import, Vertex |
+| **DPO (Direct Preference Optimization)** | Preference pairs exist (chosen vs rejected response); behavior should be steered without explicit "right answer" | Newer; lower data requirement than RLHF; available on OpenAI, Together, custom (TRL library) |
+| **RFT (Reinforcement Fine-Tuning)** | Reasoning models (o3 / o4-mini); programmable grader scores responses and model learns to maximize | **OpenAI-specific** (RFT for o-series reasoning models); most flexible but most complex. See `/openai-platform-design` |
+
+## Distillation workflow
+
+```
+Stored Completions (capture from production)
+    →
+Evals (compare candidate small models against teacher)
+    →
+SFT or DPO on smaller model
+    →
+Deploy distilled model at lower cost / latency
+```
+
+**Caveat (2026):** OpenAI's distillation workflow tightly couples Stored Completions → **Evals** → fine-tune. **OpenAI Evals: read-only 2026-10-31, shutdown 2026-11-30.** Distillation pipelines that depend on Evals also break. Plan replacement for BOTH the eval stage AND the distillation stage in the same migration. Replacements: **Promptfoo** (OpenAI's own named target), Braintrust, Langfuse, Agents SDK tracing — see `/eval-design`.
+
+## Managed fine-tune cost benchmarks (2026)
+
+| Provider | Approach | Cost floor |
+|---|---|---|
+| **Together AI** | LoRA on Llama 70B | **$14 per M training tokens**; hosted at base-model pricing |
+| **Modal** | Self-managed GPU + bring-your-own-script | Hourly GPU rental; bVisor sandbox isolation (post-Butter acquisition Apr 2026) |
+| **SageMaker** | Managed training jobs + Custom Model Import | Per-hour ml instance; managed-spot reduces 50-70% |
+| **OpenAI fine-tune** | SFT / DPO / RFT on GPT family | Per-token training + per-token inference uplift |
+| **Bedrock Custom Model Import** | Upload your own weights (incl. fine-tuned Llama / Mistral / DeepSeek) | Per-second invocation at standard Bedrock pricing |
+| **Vertex AI** | Managed fine-tune on Gemini family + AutoML | Per-token training |
+
 ## Dataset requirements
 
 | Dimension | Minimum | Target |
@@ -89,4 +122,6 @@ Revisit when: [condition that changes this decision]
 - Fine-tune narrows generalization — always regression-test out-of-distribution inputs
 - Dataset curation is the bottleneck, not compute — budget more time for data than training
 - Gold labels from the annotation pipeline (see /feedback-loop) are the best training data source
+- **Pick SFT / DPO / RFT explicitly** — defaulting to SFT when DPO or RFT would fit is the most common silent mistake in 2026 fine-tune projects
+- **If your distillation workflow uses OpenAI Evals**, plan the replacement before 2026-11-30 — Evals shutdown breaks the pipeline at the eval stage
 - See REFERENCE.md for training data format, cost estimates, and fine-tune vs. alternatives matrix

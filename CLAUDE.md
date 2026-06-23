@@ -87,6 +87,8 @@ Skip steps only with explicit agreement — not because the task feels small.
 
 **Confusion Protocol** — when facing an architectural decision or ambiguous requirement, stop and surface the assumption explicitly before proceeding. Never guess on design decisions. Ask one targeted question instead of producing output that may be wrong.
 
+**AGENTS.md interop (multi-host repos)** — if this repo will be used with Codex / Cursor / Gemini CLI / Aider alongside Claude Code, keep the project rules in a single source-of-truth `AGENTS.md` at the repo root and have `CLAUDE.md` IMPORT it via `@AGENTS.md` (or a symlink). Claude Code as of mid-2026 does NOT read `AGENTS.md` directly, so the import is required; the other tools read `AGENTS.md` natively. This pattern keeps a single rules file usable across hosts without duplication. If the template is Claude-Code-only, ignore this — `CLAUDE.md` alone suffices.
+
 ---
 
 ## Tone and output constraints

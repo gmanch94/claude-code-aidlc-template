@@ -75,6 +75,20 @@ Report format:
 Be exhaustive. Don't summarize — enumerate every issue you find. False positives are recoverable; false negatives ship to production.
 ```
 
+## Multi-auditor escalation (when stakes warrant)
+
+When a single audit pass is not enough — pre-launch deploy, post-major-feature sweep, regulated workload, money-touching surface — spawn **N=3 auditors with DIVERSE reasoning methods**, not 3 copies of the same lens:
+
+- **Auditor A — failure-mode enumeration:** "list every attack vector across the 18 surfaces above"
+- **Auditor B — first-principles re-derivation:** "what invariants MUST hold for this app to be safe; check each one against current code"
+- **Auditor C — adversarial counter-example:** "construct a concrete curl/exploit payload that bypasses each invariant"
+
+**Decision rule:** a finding ships to the triage table if **≥2 of 3** auditors surface it. Auditor-only findings get a "needs corroboration" tag.
+
+**Why N=3 reasoning-diverse beats N=9 same-family:** correlated errors collapse same-family panels — additional same-method auditors have near-zero marginal value. "Nine Judges, Two Effective Votes" (arxiv 2605.29800).
+
+For routine audits, single-auditor pass is fine. Escalate to N=3 when the cost of a false negative is high (pre-launch deploy, money flows, schema migration affecting RLS).
+
 ## Output handling
 
 - If agent returns 0 findings: surface "✓ Audit clean — no findings" and remind the user to re-run after the next major feature sweep.

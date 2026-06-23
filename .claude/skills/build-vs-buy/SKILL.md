@@ -34,7 +34,11 @@ Score each dimension 1–5 for Build and Buy separately:
 | Feature store | **Buy** (Feast/Tecton/Vertex) | Complex on-prem + custom SCD requirements + data residency |
 | Data pipeline (standard ETL) | **Buy** (Airbyte/dbt/Fivetran) | Domain-specific transforms not supported; then build transforms only |
 | Data pipeline (ML-specific) | **Build** transforms on top of bought orchestration | — |
-| LLM fine-tuning infra | **Buy** (managed: Together AI/Modal/SageMaker) | Volume >100 runs/month justifies own setup |
+| LLM fine-tuning infra | **Buy** (managed: Together AI / Modal / SageMaker / Fireworks / OpenAI fine-tune) | Volume >100 runs/month justifies own setup. **2026 cost floor:** Together LoRA on Llama 70B = **$14/M training tokens** hosted at base-model pricing — frontier-class fine-tune floor |
+| **Frontier-class model pricing floor** | **Buy** (Mistral / Cohere / DeepSeek + aggregators) | **Mistral Medium 3 at $0.40/$2.00 per Mtok** is the frontier-class price floor (2026); use as the alternatives-list benchmark; below this, self-hosting OSS becomes the comparison |
+| **Inference aggregators** (mixed vendor access) | **Buy** (**OpenRouter** 5.5% flat passthrough fee, no per-token markup; **HF Inference Providers** 15+ partners under one OpenAI-compatible endpoint with unified billing) | Need ultra-fast OSS routing → Groq / Cerebras / Together direct |
+| **Ultra-fast OSS inference** (sub-100ms TTFT) | **Buy** (Groq LPU / Cerebras WSE-3) | Workload requires VPC isolation → self-host vLLM / SGLang on Modal / RunPod / Lambda Labs |
+| **Edge LLM inference** | **Buy** (Cloudflare Workers AI — Kimi K2.6 262K ctx / Granite 4.0 on 300+ edge locations, sub-100ms) | Mobile / on-device requires `/edge-ml-deployment` recipe instead |
 | Annotation platform | **Buy** (Label Studio/Scale AI/Labelbox) | Highly specialized domain UI requirements |
 | Model serving | **Buy** (managed: SageMaker endpoints/Vertex) | Latency <10ms or cost >$200k/yr justifies own |
 
@@ -116,3 +120,7 @@ For every buy decision, define:
 4. "We could build that" requires evidence — name the team, the timeline, and past comparable work; otherwise default to buy
 5. Data residency requirements flip many buy decisions — check regulatory constraints before evaluating vendors
 6. Foundation models: buy unless API spend exceeds $5M/yr — self-hosting frontier models is almost never cost-effective below that threshold
+7. Use **Mistral Medium 3 ($0.40/$2.00)** as the frontier-class price floor in the alternatives list — pricing has compressed; "is this cheaper than Mistral Medium 3?" is the modern build-or-OSS sanity check
+8. For mixed-vendor access, **OpenRouter** (5.5% flat passthrough) and **HF Inference Providers** (15+ partners under one endpoint) often beat per-vendor direct contracts at low-to-mid volume — refresh the inference-vendor map quarterly
+9. **Ultra-fast OSS** (Groq LPU / Cerebras WSE-3) is a distinct tier — buy when sub-100ms TTFT matters on OSS workloads; otherwise standard tier applies
+10. **Modal post-Butter** acquisition (Apr 2026, bVisor microkernel) strengthens sandbox isolation — re-eval if you considered Modal pre-acquisition; **Banana** is dead (since late 2023) — remove from any legacy vendor lists

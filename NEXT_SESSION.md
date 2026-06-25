@@ -2,13 +2,13 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-06-25. **Current branch:** `master`. **Prior HEAD = f999bca**; the 22-skill delta below ships via a feature-branch PR (squash-merged). After merge, refresh this bookmark to the new HEAD.
+**Last working session:** 2026-06-25. **Current branch:** `master`. **HEAD = 5fcaca3** (`feat(skills): 22 new advisory skills … (139 to 161) (#37)`, squash-merged).
 
 ---
 
-## 22-skill expansion (2026-06-25 — shipped via PR)
+## 22-skill expansion (2026-06-25 — shipped, PR #37, merged `5fcaca3`)
 
-22 new skills authored this session (gap-analysis → fan-out build → adversarial review → 5-artifact wiring). Parity-green; shipped on a feature branch and squash-merged to `master`.
+22 new skills authored this session (gap-analysis → fan-out build → adversarial review → 5-artifact wiring). Parity-green; squash-merged to `master` as `5fcaca3`.
 
 - **Batch 1 (9 skills):** `snowflake-cortex-design`, `bigquery-ml-design` (warehouse-native parity); `graph-ml-design`, `audio-ml-pipeline`, `multimodal-design`, `geospatial-ml` (modality spine); `privacy-preserving-ml`, `data-deidentification-design` (privacy); `decision-optimization` (predict-then-optimize).
 - **Batch 2 (13 skills):** `hypothesis-test-design`, `unstructured-eda` (EDA); `conformal-uncertainty`, `decision-threshold-policy` (model validation); `imputation-design`, `cdc-design`, `data-observability` (data eng); `databricks-agent-framework`, `lakehouse-monitoring` (Databricks); `prompt-management`, `context-engineering` (AI/LLM); `learning-to-rank` (ML domain); `human-oversight-design` (responsible AI).
@@ -25,7 +25,8 @@ To ship: `git status` to confirm the 44 untracked paths + 4 modified files, then
 ## State
 
 ```
-f999bca  chore: refresh bookmark — PR #35 merged as 274b5e8 on master (#36)   ← prior HEAD (22-skill PR squash-merges on top)
+5fcaca3  feat(skills): 22 new advisory skills — warehouse parity, modality spine, privacy, validation, LLMOps, data-eng (139 to 161) (#37)   ← HEAD
+f999bca  chore: refresh bookmark — PR #35 merged as 274b5e8 on master (#36)
 274b5e8  feat(skills+hooks): research wave 2 — 7 new skills + 2 new hooks + 13 enhanced + AGENTS.md interop (#35)
 c63b48f  fix(skills): drift corrections — Databricks rebrand sweep + MCP auth + Vertex endpoints + SageMaker Studio + Terraform/compliance modernization (#34)
 d242f29  chore: save state — bookmark HEAD=2721b08 (post PR #31+#32 merge) + bash -e lesson (#33)
@@ -106,7 +107,6 @@ Remote: https://github.com/gmanch94/claude-code-aidlc-template
 Open this file. Read it. Check `git status` and `git log -5 --oneline`. Confirm tree matches the state above. Then ask the user what they want to work on — don't start anything proactively.
 
 Next likely lever (operator's call):
-1. **Refresh this bookmark HEAD to the 22-skill squash-merge commit** (the PR landed; update the hash above).
-2. Promote `/anthropic-api-design` + `/skills-api-deploy` after primary-source verify of the Skills Admin endpoint
-3. Remaining Tier-3: SRE/SLO skill (confirm in-scope — generic-ops vs ML/data focus)
-4. Full data engineering project scaffold (separate repo)
+1. Promote `/anthropic-api-design` + `/skills-api-deploy` after primary-source verify of the Skills Admin endpoint
+2. Remaining Tier-3: SRE/SLO skill (confirm in-scope — generic-ops vs ML/data focus)
+3. Full data engineering project scaffold (separate repo)

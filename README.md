@@ -35,7 +35,7 @@ This template fixes all four in under 5 minutes of setup.
 | `.claude/skills/security-model-init/SKILL.md` | `/security-model-init` — generate `docs/SECURITY_MODEL.md` scaffold for projects with user-facing surfaces. |
 | `templates/security-model/SECURITY_MODEL-TEMPLATE.md` | Annotated template for the per-(operation × role × surface) enforcement table; stack-specific scaffolding blocks for Supabase/Firebase/Hasura/FastAPI/Express. |
 | `context/MEMORY.md` | Index for Claude's persistent project memory. |
-| `prompts/` | **149** system prompt templates across ML, data engineering, LLM, auth, Databricks, cloud ML / GenAI platforms (Bedrock / Azure Foundry / OpenAI / Vertex), agent design (incl. memory + plan-mode + workflow-design), IaC, compliance, BI, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
+| `prompts/` | **171** system prompt templates across ML, data engineering, LLM, auth, Databricks, cloud ML / GenAI platforms (Bedrock / Azure Foundry / OpenAI / Vertex), agent design (incl. memory + plan-mode + workflow-design), IaC, compliance, BI, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
 | `templates/skill/SKILL-TEMPLATE.md` | Annotated template for authoring new skills. Copy to `.claude/skills/<name>/SKILL.md` and fill in. |
 | `.gitignore` | Gitignores `scratch/` (personal workspace), `.claude/settings.local.json`, and `.claude/logs/` (hook audit logs). |
 | `operating-philosophy.md` | Portable working philosophy — communication style, context-mode tool hierarchy, advisor protocol, primary-source verification, session management, git hygiene, Karpathy failure modes, design principles. Copy sections into any project's `CLAUDE.md`. |

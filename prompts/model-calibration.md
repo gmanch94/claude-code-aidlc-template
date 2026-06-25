@@ -169,7 +169,7 @@ Failure mode: Platt scaling assumes sigmoid relationship; if actual miscalibrati
 ## Usage notes
 - ECE alone is not sufficient — always plot the reliability diagram; shape reveals what's wrong
 - For multi-class: calibrate per class (one-vs-rest) or use temperature scaling
-- Pair with `/model-validation` for the full pre-deploy checklist and `/eval-design` for threshold optimization at the calibrated probability scale
+- Pair with `/model-validation` for the full pre-deploy checklist; once calibrated, hand operating-point / threshold derivation to `/decision-threshold-policy`
 
 ---
 

@@ -120,4 +120,4 @@ print(f"AUC before: {auc_before:.4f}  after: {auc_after:.4f}")
 - Calibrating without checking AUC: calibration can hurt ranking quality if done wrong
 - Skipping calibration for threshold-based decisions: wrong threshold → wrong business outcome
 
-Pair with `/model-validation` for the full pre-deploy checklist and `/eval-design` for threshold optimization.
+Pair with `/model-validation` for the full pre-deploy checklist. Once scores are calibrated, hand the operating-point / threshold derivation (cost-optimal cut, auto/review/reject bands, abstention sizing) to `/decision-threshold-policy`.

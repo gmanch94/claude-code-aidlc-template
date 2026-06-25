@@ -32,6 +32,8 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`cohort-analysis.md`](cohort-analysis.md) | Cohort segmentation — acquisition/behavioral/attribute cohorts, outcome comparison, retention curves | `ORGANIZATION_NAME`, `DATASET_DESCRIPTION`, `OUTCOME_VARIABLE`, `COHORT_DIMENSIONS` |
 | [`time-series-eda.md`](time-series-eda.md) | Time series EDA — stationarity, trend, seasonality, ACF/PACF, structural breaks, anomalies | `ORGANIZATION_NAME`, `SERIES_NAME`, `FREQUENCY`, `MODELING_GOAL` |
 | [`feature-correlation.md`](feature-correlation.md) | Feature relationships — correlation by type, VIF, Cramér's V, interaction detection | `ORGANIZATION_NAME`, `FEATURE_LIST`, `TARGET_VARIABLE`, `MODEL_FAMILY` |
+| [`hypothesis-test-design.md`](hypothesis-test-design.md) | Statistical test selection for OBSERVATIONAL questions — test by outcome × group × paired × distribution, assumption checks, effect size + a priori power, multiplicity correction, pitfall guards | `ORGANIZATION_NAME`, `QUESTION`, `OUTCOME_TYPE`, `GROUPS`, `PAIRED_OR_INDEPENDENT` |
+| [`unstructured-eda.md`](unstructured-eda.md) | Pre-modeling text/image corpus profiling — length/encoding/language, near-dup rate, label coverage, corruption audit, cross-split duplicate leakage; GO/FIX-FIRST verdicts | `ORGANIZATION_NAME`, `MODALITY`, `CORPUS_SIZE`, `TASK`, `SPLITS` |
 
 **Unsupervised learning:**
 
@@ -54,6 +56,7 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 |---|---|---|
 | [`time-series-forecasting.md`](time-series-forecasting.md) | Forecasting model selection (ARIMA/ETS/Prophet/TFT/N-BEATS), time series CV, baseline comparison | `ORGANIZATION_NAME`, `SERIES_NAME`, `HORIZON`, `STATIONARITY_VERDICT`, `FORECAST_TYPE` |
 | [`recommender-design.md`](recommender-design.md) | Recommendation system design — algorithm, two-stage pipeline, cold-start, offline/online eval | `ORGANIZATION_NAME`, `DOMAIN`, `INTERACTION_TYPE`, `USER_COUNT`, `ITEM_COUNT` |
+| [`learning-to-rank.md`](learning-to-rank.md) | Learning-to-rank for query-document search/ads — objective class (pointwise/pairwise/listwise), model family (LambdaMART/cross-encoder), click-bias-corrected judgments (IPW), NDCG/MAP/MRR/ERR, query-level split + interleaving/A-B eval | `ORGANIZATION_NAME`, `DOMAIN`, `LABEL_SOURCE`, `RELEVANCE_GRANULARITY`, `POSITIONS_LOGGED` |
 | [`nlp-pipeline.md`](nlp-pipeline.md) | NLP pipeline — preprocessing, embedding selection, task metrics, annotation guidance | `ORGANIZATION_NAME`, `NLP_TASK`, `CORPUS_SIZE`, `DOMAIN`, `LABEL_AVAILABILITY` |
 | [`anomaly-detection.md`](anomaly-detection.md) | Anomaly detection — method by data type + label availability, threshold strategy, FPR evaluation, treatment | `ORGANIZATION_NAME`, `DATASET_CONTEXT`, `DATA_TYPE`, `LABEL_AVAILABILITY`, `DETECTION_GOAL` |
 | [`predictive-maintenance.md`](predictive-maintenance.md) | PdM framing (anomaly/RUL/classification by failure count), lead-time gate, cost-weighted threshold, alert→work-order policy | `ORGANIZATION_NAME`, `ASSET_FAILURE_MODES`, `FAILURE_HISTORY`, `LEAD_TIME`, `COSTS` |
@@ -61,6 +64,11 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`computer-vision.md`](computer-vision.md) | CV architecture by task × dataset size, preprocessing + augmentation, mAP eval | `ORGANIZATION_NAME`, `CV_TASK`, `DATASET_SIZE`, `NUM_CLASSES`, `DEPLOYMENT_CONSTRAINTS` |
 | [`survival-analysis.md`](survival-analysis.md) | Method by censoring type (KM/Cox/RSF/AFT), PH validation, C-statistic + calibration | `ORGANIZATION_NAME`, `EVENT_DEFINITION`, `CENSORING_TYPE`, `COVARIATE_DESCRIPTION`, `COMPETING_RISKS` |
 | [`online-learning.md`](online-learning.md) | Streaming ML, concept-drift detection, prequential eval, batch-retrain gate | `ORGANIZATION_NAME`, `LEARNING_TASK`, `STREAM_DESCRIPTION`, `DRIFT_PROFILE`, `UPDATE_FREQUENCY` |
+| [`graph-ml-design.md`](graph-ml-design.md) | Graph/network ML — GNN-vs-tabular gate, construction, task framing, GNN family + scale strategy, leakage-safe splits for connected data | `ORGANIZATION_NAME`, `SOURCE_DATA_SHAPE`, `PREDICTION_TARGET`, `GRAPH_SCALE`, `INDUCTIVE_OR_TRANSDUCTIVE` |
+| [`audio-ml-pipeline.md`](audio-ml-pipeline.md) | Audio/speech ML — task framing, representation (waveform/mel/MFCC) + VAD, pretrained backbone, augmentation, task metrics, leakage gates | `ORGANIZATION_NAME`, `AUDIO_TASK`, `AUDIO_SOURCE`, `SAMPLE_RATE`, `DATA_VOLUME` |
+| [`multimodal-design.md`](multimodal-design.md) | Multimodal/VLM — fusion gate, joint-embedding vs generative VLM, model selection, multimodal RAG, cross-modal eval | `ORGANIZATION_NAME`, `MODALITIES`, `TASK`, `QUERY_SHAPE`, `LABEL_AVAILABILITY` |
+| [`geospatial-ml.md`](geospatial-ml.md) | Geospatial/spatial ML — CRS discipline, spatial features, task→model, spatial-autocorrelation leakage + spatial CV | `ORGANIZATION_NAME`, `SPATIAL_DATA_TYPE`, `TASK`, `INPUT_CRS`, `EXTENT` |
+| [`decision-optimization.md`](decision-optimization.md) | Predict-then-optimize — handoff gate, formulation class (LP/MIP/stochastic/robust), optimizer's-curse remedies, decision-regret eval | `ORGANIZATION_NAME`, `DECISION_DESCRIPTION`, `OBJECTIVE`, `CONSTRAINTS`, `PREDICTION_SOURCE` |
 
 **Industrial / IoT (OT data):**
 
@@ -77,6 +85,8 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`agentic-assistant.md`](agentic-assistant.md) | Tool-use agent with guardrails | `AGENT_NAME`, `TOOL_LIST`, `OUT_OF_SCOPE_LIST` |
 | [`llm-routing.md`](llm-routing.md) | LLM routing — routing strategy, model tier map, fallback chain, quality-floor gate, cost/quality projection | `ORGANIZATION_NAME`, `APPLICATION_DESCRIPTION`, `TASK_TYPES`, `QUALITY_FLOOR`, `COST_CONSTRAINT` |
 | [`build-vs-buy.md`](build-vs-buy.md) | Build vs buy — 5-dimension scoring, AI tooling decision matrix, 3-year TCO, vendor alternatives, exit strategy | `ORGANIZATION_NAME`, `COMPONENTS`, `TEAM_SIZE`, `BUDGET_HORIZON`, `CONSTRAINTS` |
+| [`prompt-management.md`](prompt-management.md) | PromptOps lifecycle — versioning + registry, env promotion, eval-gated rollout, A/B + canary, regression rollback, change-control governance | `SYSTEM_CONTEXT`, `EVAL_THRESHOLDS`, `GOVERNANCE_CONSTRAINTS` |
+| [`context-engineering.md`](context-engineering.md) | Per-turn context-window assembly — budget allocation across sources, position-of-evidence ordering, overflow/compaction, relevance gating, assembly-quality probes | `ORGANIZATION_NAME`, `CALL_NAME`, `SOURCES`, `WINDOW`, `SYMPTOM` |
 | [`agent-design.md`](agent-design.md) | Agentic system — stateless loop + durable session store, tool manifest, sandbox + reach, guardrails, HITL, Plan-Execute-Verify-Replan, memory, fallbacks | `ORGANIZATION_NAME`, `GOAL`, `TOOLS`, `SIDE_EFFECTS`, `AUTONOMY` |
 | [`agent-memory.md`](agent-memory.md) | Memory architecture — tier selection, backing-store choice, validity windows, stale-context detection, per-tenant isolation, memory-quality eval | `ORGANIZATION_NAME`, `AGENT_NAME`, `SESSION_SHAPE`, `TENANCY`, `MEMORY_OPS`, `EVAL_TARGET` |
 | [`plan-mode.md`](plan-mode.md) | Versioned plan artifact at `scratch/PLAN-<task>.md` — subgoal DAG, exit criteria, rollback, cost roll-up, verify gates, Replan procedure | `ORGANIZATION_NAME`, `TASK_SLUG`, `GOAL`, `CONSTRAINTS`, `OUT_OF_SCOPE`, `EXECUTOR` |
@@ -111,6 +121,8 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`bedrock-design.md`](bedrock-design.md) | AWS Bedrock GenAI footprint — service split (Models / AgentCore / Knowledge Bases / Guardrails / Flows / Prompt Mgmt / IPR / Eval / Custom Import), model selection (Claude + Nova 2 + Llama + Mistral + Cohere), inference pattern (on-demand / PT / batch / cross-region), KB vector store, Guardrails (incl. Automated Reasoning), IPR routing, lock-in posture | `ORGANIZATION_NAME`, `WORKLOAD_TYPE`, `QPS_OR_BATCH`, `LATENCY_BUDGET`, `REGION`, `ACCOUNT_LAYOUT`, `BUDGET`, `MODEL_FAMILY`, `COMPLIANCE` |
 | [`azure-foundry-design.md`](azure-foundry-design.md) | Microsoft Foundry (formerly Azure AI Foundry) footprint — surface map (Ignite Nov 2025 rebrand), 1,900+ model catalog, Foundry Agent Service GA Mar 16 2026, BYO VNet private networking, Foundry IQ + AI Search agentic retrieval, safety stack (Prompt Shields + Groundedness), PTU vs PAYG vs Batch cost model, lock-in posture | `ORGANIZATION_NAME`, `WORKLOAD_NAME`, `WORKLOAD_TYPE`, `SUB_REGION`, `NETWORKING`, `TENANCY`, `MODEL_PREF`, `PTU_APPETITE`, `COMPLIANCE` |
 | [`openai-platform-design.md`](openai-platform-design.md) | OpenAI platform footprint (not Azure OpenAI) — Responses API default, Assistants sunset 2026-08-26, model catalog (GPT-5.x / 4.1 / o3 / o4-mini), Agents SDK, Realtime, Vector Stores, tools (Web Search / CUA / Code Interpreter / Structured Outputs strict), Deep Research cost trap, automatic caching, fine-tune trio (SFT/DPO/RFT), Evals sunset 2026-11-30 | `ORGANIZATION_NAME`, `WORKLOAD_NAME`, `WORKLOAD_TYPE`, `ASSISTANTS_USAGE`, `EVALS_USAGE`, `LATENCY_BUDGET`, `TOOLS`, `STRUCTURED_OUTPUT`, `FINE_TUNE_INTENT`, `COMPLIANCE` |
+| [`snowflake-cortex-design.md`](snowflake-cortex-design.md) | Snowflake AI/ML footprint — service split (Cortex AISQL / Analyst / Search / Agents / Snowpark ML + Model Registry + Feature Store / SPCS), compute substrate (warehouse vs Cortex serverless vs SPCS pool), governance, credit-based cost guardrails, in-warehouse-batch vs SPCS-real-time deployment, lock-in posture | `ORGANIZATION_NAME`, `WORKLOAD_NAME`, `WORKLOAD_TYPE`, `DATA_SOURCES`, `BUDGET` |
+| [`bigquery-ml-design.md`](bigquery-ml-design.md) | BigQuery ML footprint — BQML-vs-export-to-Vertex gate, model_type selection, Gemini-in-BigQuery + VECTOR_SEARCH, on-demand-vs-slot billing, TRANSFORM-clause skew guard, in-warehouse-vs-Vertex serving | `ORGANIZATION_NAME`, `WORKLOAD_NAME`, `TASK_TYPE`, `DATA_VOLUME`, `COMPUTE_MODEL` |
 
 **Infrastructure as code:**
 
@@ -177,6 +189,8 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`databricks-model-serving.md`](databricks-model-serving.md) | UC model → endpoint, serve-by-alias rollout, scale-to-zero vs warm, traffic-split canary, inference tables | `ORGANIZATION_NAME`, `UC_MODEL`, `ALIAS`, `ENDPOINT_TYPE`, `TRAFFIC`, `LATENCY_SLA` |
 | [`mosaic-ai-vector-search.md`](mosaic-ai-vector-search.md) | Databricks AI Search (formerly Mosaic AI Vector Search) — Delta Sync index, pinned embeddings, hybrid search + UC ACLs, recall@k eval | `ORGANIZATION_NAME`, `SOURCE`, `EMBEDDING`, `FILTERS`, `QUALITY_TARGET` |
 | [`auto-loader-ingestion.md`](auto-loader-ingestion.md) | Incremental cloudFiles → Delta bronze, file events (managed `useManagedFileEvents`) preferred, `_rescued_data`, dedicated-checkpoint exactly-once | `ORGANIZATION_NAME`, `LANDING_ZONE`, `FORMAT_VOLUME`, `SCHEMA_STABILITY`, `LATENCY` |
+| [`databricks-agent-framework.md`](databricks-agent-framework.md) | Mosaic AI Agent Framework — MLflow ChatAgent/ResponsesAgent contract, Tracing/autolog, Agent Evaluation judge harness (`mlflow.genai.evaluate`), UC-function tools, register to UC | `ORGANIZATION_NAME`, `AGENT_TASK`, `TOOLS`, `UC_TARGET`, `GROUND_TRUTH` |
+| [`lakehouse-monitoring.md`](lakehouse-monitoring.md) | Databricks data-profiling monitor over a Delta/inference table — profile type (Snapshot/TimeSeries/InferenceLog), baseline, slices, `_profile_metrics`/`_drift_metrics`, inference→drift-alert loop | `ORGANIZATION_NAME`, `TABLE`, `TABLE_KIND`, `PROBLEM_TYPE`, `BASELINE` |
 
 **Data cleansing / normalization:**
 
@@ -208,6 +222,8 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`split-design.md`](split-design.md) | Train/val/test split strategy + leakage verification | `DATASET_CONTEXT`, `TASK_TYPE`, `CONSTRAINTS` |
 | [`cv-design.md`](cv-design.md) | CV variant selection + nested CV configuration | `DATASET_CONTEXT`, `TASK_TYPE`, `COMPUTE_BUDGET` |
 | [`leakage-audit.md`](leakage-audit.md) | Audit pipeline for data leakage + code fixes | `PIPELINE_CONTEXT`, `FEATURE_LIST`, `PERFORMANCE_CONCERN` |
+| [`cdc-design.md`](cdc-design.md) | CDC capture-side — mechanism (log/query/trigger), snapshot→incremental cutover (no gap/dupe), delete/tombstone handling, DDL propagation, idempotent dedup into sink | `ORGANIZATION_NAME`, `SOURCE_ENGINE`, `TABLES`, `SINK`, `DELETES_MATTER` |
+| [`data-observability.md`](data-observability.md) | Estate-wide run-time data observability — five pillars as auto-baselined monitors, column-level lineage for root-cause, incident lifecycle, build-vs-buy axes | `ORGANIZATION_NAME`, `ESTATE`, `CONSUMERS`, `LINEAGE_STATE`, `GAPS` |
 | [`cross-validation.md`](cross-validation.md) | CV variant by structure (time/group/imbalance), leakage guards, nested CV, reporting | `ORGANIZATION_NAME`, `SIZE`, `STRUCTURE`, `TASK_METRIC`, `TUNING` |
 
 **ML algorithm selection / tuning:**
@@ -244,6 +260,7 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`outlier-detection.md`](outlier-detection.md) | Detect + treat outliers (Z-score / IQR / Isolation Forest / Mahalanobis) | `DATASET_CONTEXT`, `DETECTION_GOAL`, `STACK` |
 | [`data-filtering.md`](data-filtering.md) | Remove irrelevant observations by domain rules, quality, relevance, dedup | `DATASET_CONTEXT`, `FILTERING_GOALS`, `STACK` |
 | [`sparse-class-grouping.md`](sparse-class-grouping.md) | Collapse rare labels / high-cardinality features into groups | `DATASET_CONTEXT`, `GROUPING_TARGET`, `STACK` |
+| [`imputation-design.md`](imputation-design.md) | Missing-value strategy — MCAR/MAR/MNAR diagnosis, method selection (deletion/mean/KNN/MICE/model/time-aware), missingness-indicator, fit-on-train-only, distortion check | `DATASET_CONTEXT`, `MISSINGNESS_SUMMARY`, `DOWNSTREAM_MODEL` |
 
 **Model validation:**
 
@@ -252,6 +269,8 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`model-validation.md`](model-validation.md) | Pre-deploy checklist — performance, slices, edge cases, latency, Go/No-Go | `MODEL_CONTEXT`, `PERFORMANCE_BASELINE`, `DEPLOYMENT_CONSTRAINTS` |
 | [`model-calibration.md`](model-calibration.md) | Probability calibration — ECE, reliability diagram, Platt/isotonic/temperature | `MODEL_CONTEXT`, `CALIBRATION_GOAL`, `STACK` |
 | [`model-drift.md`](model-drift.md) | Production drift detection — data / concept / prediction drift + retraining triggers | `MODEL_CONTEXT`, `MONITORING_CONTEXT`, `STACK` |
+| [`conformal-uncertainty.md`](conformal-uncertainty.md) | Distribution-free UQ via split conformal — prediction sets (classification) + intervals (regression) with coverage guarantee, nonconformity score, calibration-set sizing, adaptive variants, coverage-loss-under-shift monitor | `MODEL_CONTEXT`, `COVERAGE_REQUIREMENT`, `DATA_SHIFT_CONTEXT` |
+| [`decision-threshold-policy.md`](decision-threshold-policy.md) | Score→decision — cost-optimal operating point (not 0.5), ROC-vs-PR by imbalance, prevalence-drift handling, multi-tier bands, abstention/reject-option sized to review capacity | `MODEL_CONTEXT`, `DECISION_COSTS`, `OPERATIONAL_CONSTRAINTS` |
 
 **Model deployment:**
 
@@ -269,6 +288,9 @@ Ready-to-use system prompt templates for common AI use cases. Each template incl
 | [`bias-audit.md`](bias-audit.md) | Training-data bias audit (6 classes: sample-selection, demographic, geographic, temporal, labeler, survivorship); run BEFORE training | `OPERATIONAL_ENV`, `TRAINING_DATA_CONTEXT`, `LABELING_CONTEXT` |
 | [`fairness-audit.md`](fairness-audit.md) | Model-output fairness audit — demographic parity, disparate impact, equal opportunity, mitigation | `MODEL_CONTEXT`, `PROTECTED_ATTRIBUTES`, `REGULATORY_CONTEXT` |
 | [`explainability.md`](explainability.md) | SHAP / LIME / counterfactuals — global + local explanations by audience | `MODEL_CONTEXT`, `EXPLANATION_GOALS`, `AUDIENCE` |
+| [`privacy-preserving-ml.md`](privacy-preserving-ml.md) | PPML mechanism — DP/DP-SGD/FL/anonymization per data flow, epsilon budget, inference-threat→defense map, privacy-utility tradeoff, residual-risk register | `SYSTEM_CONTEXT`, `DATA_FLOWS`, `ADVERSARY_MODEL`, `OBLIGATION_AND_UTILITY` |
+| [`data-deidentification-design.md`](data-deidentification-design.md) | De-identification treatment — per-field technique selection, direct-vs-quasi-identifier classification, re-id risk scoring, utility-vs-privacy matrix + release verdict | `ORGANIZATION_NAME`, `FIELDS`, `RELEASE_CONTEXT`, `DOWNSTREAM_TASK`, `REGIME` |
+| [`human-oversight-design.md`](human-oversight-design.md) | In-path human-oversight loop for non-agentic ML — escalation routing + queue sizing (Little's Law), override/appeal/contest flow, automation-bias mitigation, oversight metrics keyed to risk tier | `ORGANIZATION_NAME`, `SYSTEM`, `RISK_TIER`, `ARRIVAL_RATE`, `APPEAL_REQUIRED` |
 
 **MLOps / Lifecycle:**
 

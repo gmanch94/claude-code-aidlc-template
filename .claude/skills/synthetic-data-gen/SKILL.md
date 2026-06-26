@@ -61,7 +61,7 @@ When synthesizing question–answer or reasoning traces to fine-tune an LLM (not
 2. **Ambiguity vs. factual-inaccuracy filter** — when an item is missed, a judge separates *the question is ambiguous* (drop) from *the reference answer is wrong* (fix or drop). Different fixes; collapsing them poisons the set.
 3. **Leakage dedup** — exact + near-duplicate check of every synthesized item against any held-out eval/test corpus *before* it enters training (synthesis that reads from the same corpus leaks easily).
 
-Do NOT adopt the bootstrap-from-latest-policy regeneration loop unless you run your own RL post-training — that's frontier-lab machinery, out of scope for most teams. (Source: KARL agentic-synthesis pipeline, Databricks 2026.)
+Do NOT adopt the bootstrap-from-latest-policy regeneration loop unless you run your own RL post-training — that's frontier-lab machinery, out of scope for most teams. (Source: KARL agentic-synthesis pipeline, arXiv:2603.05218, Databricks 2026.)
 
 ### Images
 

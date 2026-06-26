@@ -61,7 +61,7 @@ Deploy distilled model at lower cost / latency
 
 **Caveat (2026):** OpenAI's distillation workflow tightly couples Stored Completions → **Evals** → fine-tune. **OpenAI Evals: read-only 2026-10-31, shutdown 2026-11-30.** Distillation pipelines that depend on Evals also break. Plan replacement for BOTH the eval stage AND the distillation stage in the same migration. Replacements: **Promptfoo** (OpenAI's own named target), Braintrust, Langfuse, Agents SDK tracing — see `/eval-design`.
 
-**OOD-generalization caveat:** when out-of-distribution generalization matters, prefer **one multi-task fine-tune over a stack of per-task experts you then distill**. Distillation teaches the model to imitate task-specific expert behavior — it scales within the training distribution but does not generalize beyond it; multi-task RL develops more general capability (KARL / OAPL multi-task-RL-vs-multi-expert-distillation finding, Databricks 2026). Balance training tokens roughly equally across tasks.
+**OOD-generalization caveat:** when out-of-distribution generalization matters, prefer **one multi-task fine-tune over a stack of per-task experts you then distill**. Distillation teaches the model to imitate task-specific expert behavior — it scales within the training distribution but does not generalize beyond it; multi-task RL develops more general capability (KARL / OAPL multi-task-RL-vs-multi-expert-distillation finding, arXiv:2603.05218, Databricks 2026). Balance training tokens roughly equally across tasks.
 
 ## Managed fine-tune cost benchmarks (2026)
 

@@ -41,7 +41,7 @@ TTC earns its keep when the task is **verifiable, aggregatable, or refinable** a
 | **Debate / multi-persona** | Reasoning benefits from adversarial cross-check | N agents argue; a judge decides | Parallel + judge |
 | **Budget forcing (think longer)** | Reasoning model; gains come from depth not breadth | Extend reasoning tokens on one call | Sequential |
 
-**Key result (KARL, Databricks 2026):** for open-ended tasks, **generative aggregation beats majority vote** — because it can produce an answer better than any candidate, not just select among them (measured: a synthesized answer beat the best of 5 rollouts 23.7% of the time on PMBench). Quality kept climbing from N=5→20 even with no equivalence classes. RL-trained models benefit from TTC both in- and out-of-distribution; SFT-distilled models only in-distribution.
+**Key result (KARL, arXiv:2603.05218, Databricks 2026):** for open-ended tasks, **generative aggregation beats majority vote** — because it can produce an answer better than any candidate, not just select among them (measured: a synthesized answer beat the best of 5 rollouts 23.7% of the time on PMBench). Quality kept climbing from N=5→20 even with no equivalence classes. RL-trained models benefit from TTC both in- and out-of-distribution; SFT-distilled models only in-distribution.
 
 ## Step 3 — Aggregator design
 

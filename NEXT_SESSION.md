@@ -2,7 +2,20 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-06-26. **Current branch:** `master`. **HEAD = fd71a25** (`feat(skills): /test-time-compute + 4 KARL-derived enhancements (161 to 162) (#39)`, squash-merged). Bookmark-refresh commit lags HEAD by one (this file's own commit), per the #37→#38 pattern.
+**Last working session:** 2026-06-26. **Current branch:** `master`. **HEAD = 07da69f** (`feat(skills): /agentic-data-curation + 3 trajectory-data enhancements (162 to 163) (#42)`, squash-merged). Bookmark-refresh commit lags HEAD by one (this file's own commit), per the #37→#38 pattern.
+
+---
+
+## OpenThoughts-Agent skill expansion (2026-06-26 — shipped, PR #42, merged `07da69f`)
+
+Mined *OpenThoughts-Agent: Data Recipes for Agentic Models* (arXiv:2606.24855, 23 Jun 2026) for skill ideas. Advisor gate leaned **fold** (single-paper specifics go stale and you own the staleness); user opted to **build** the skill — so it was grounded across the broader trajectory-data literature read directly (not off the OTAgent intro). Verdict: **1 ADD + 3 ENHANCE**.
+
+- **New skill `/agentic-data-curation`** (AI/LLM) — the `(task, trajectory)` training-data recipe for post-training a tool-use / coding / terminal agent: build gate (frontier API vs train-your-own) → task sourcing → executable environments + hard/soft verification → teacher rollouts + teacher selection (best ≠ biggest) → trajectory filtering (≥5-turn) + source mixing (top-4..8) → SFT then composable RL → agentic-benchmark eval. Defers to `/fine-tune`, `/rl-design`, `/synthetic-data-gen`, `/eval-design`, `/agent-design`. Full 5-artifact wiring.
+- **Grounded in 5 primaries (read, not secondhand):** SWE-smith arXiv:2504.21798, Nemotron-Terminal 2602.21193, SERA 2601.20789, daVinci-Env/OpenSWE 2603.13023, OpenThoughts-Agent 2606.24855.
+- **3 enhancements:** `/eval-design` (benchmark-defect hygiene — spec-verification / resource / drift, re-baseline on version bump), `/fine-tune` (teacher selection: strongest ≠ best teacher, hedged; + SFT/RL composition), `/synthetic-data-gen` (diversity-over-volume + trajectory pointer).
+- **Single-paper numbers caveated** ("measure on your own eval") — the reason the skill was grounded multi-source rather than as an OTAgent wrapper.
+- **Gap source / verdicts:** `scratch/openthoughts-agent-skill-ideas.md`. Advisor verified citations + defer-targets resolve; ship-ready.
+- **Counts moved:** skills 162→**163**, prompts 172→**173**. doc-ci green (parity, links, counts).
 
 ---
 
@@ -37,13 +50,13 @@ To ship: `git status` to confirm the 44 untracked paths + 4 modified files, then
 ## State
 
 ```
-fd71a25  feat(skills): /test-time-compute + 4 KARL-derived enhancements (161 to 162) (#39)   ← HEAD
+07da69f  feat(skills): /agentic-data-curation + 3 trajectory-data enhancements (162 to 163) (#42)   ← HEAD
+75d6cb7  docs(skills): add arXiv:2603.05218 to KARL inline citations for verifiability (#41)
+8d33b24  chore: refresh bookmark - HEAD=fd71a25 (PR #39 merged, /test-time-compute + 4 KARL enhancements, 161 to 162) (#40)
+fd71a25  feat(skills): /test-time-compute + 4 KARL-derived enhancements (161 to 162) (#39)
 72ef39d  chore: refresh bookmark — HEAD=5fcaca3 (PR #37 merged, 22 skills, 139 to 161) (#38)
 5fcaca3  feat(skills): 22 new advisory skills — warehouse parity, modality spine, privacy, validation, LLMOps, data-eng (139 to 161) (#37)
 f999bca  chore: refresh bookmark — PR #35 merged as 274b5e8 on master (#36)
-274b5e8  feat(skills+hooks): research wave 2 — 7 new skills + 2 new hooks + 13 enhanced + AGENTS.md interop (#35)
-c63b48f  fix(skills): drift corrections — Databricks rebrand sweep + MCP auth + Vertex endpoints + SageMaker Studio + Terraform/compliance modernization (#34)
-d242f29  chore: save state — bookmark HEAD=2721b08 (post PR #31+#32 merge) + bash -e lesson (#33)
 2721b08  Tier-2 skills: vertex-ai, sagemaker, terraform-review, compliance-mapping, dashboard-design (#32)
 a3edb60  Holistic review: stale-check + /doc-ci-check + /mcp-design (#31)
 ```

@@ -2,7 +2,19 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-06-25. **Current branch:** `master`. **HEAD = 5fcaca3** (`feat(skills): 22 new advisory skills … (139 to 161) (#37)`, squash-merged).
+**Last working session:** 2026-06-26. **Current branch:** `master`. **HEAD = fd71a25** (`feat(skills): /test-time-compute + 4 KARL-derived enhancements (161 to 162) (#39)`, squash-merged). Bookmark-refresh commit lags HEAD by one (this file's own commit), per the #37→#38 pattern.
+
+---
+
+## KARL-paper skill expansion (2026-06-26 — shipped, PR #39, merged `fd71a25`)
+
+Mined *KARL: Knowledge Agents via Reinforcement Learning* (arXiv:2603.05218, Databricks AI Research, Mar 2026) for new-skill ideas. 13-agent adversarial-dedup workflow judged 6 candidates against the real 161-skill index (overlap-skeptic + audience-fit lenses): **1 ADD, 4 ENHANCE, 1 DROP**.
+
+- **New skill `/test-time-compute`** (P1, AI/LLM) — inference-time scaling on a FIXED model: TTC gate (single-shot vs route-up vs fine-tune vs latency), method (self-consistency / best-of-N + verifier / generative aggregation / verifier-guided / sequential refinement / debate / budget-forcing), aggregator design, N/T sizing on the concave knee, failure modes (verifier gap / diminishing returns / reward hacking / latency). Full 5-artifact wiring + reciprocal defer into `/workflow-design` + cross-ref rule into `/llm-routing`.
+- **4 enhancements:** `/fine-tune` (GRPO/RLVR row + multi-task-RL-beats-distillation OOD caveat), `/eval-design` (query-regime coverage + human-preference blind side-by-side method), `/rag-design` (retrieval-count saturation ~40 docs/call), `/synthetic-data-gen` (difficulty-band + ambiguity-vs-inaccuracy + leakage-dedup for LLM QA data).
+- **Dropped:** `/reward-design` — frontier-lab activity, already covered by `/eval-design` + `/rl-design` + `/fine-tune` RFT + `/metric-gaming-audit`. KARL's OAPL off-policy trainer / MoE-stabilization / GPU-infra left out of scope (not the practitioner audience).
+- **Gap source / verdicts:** `scratch/karl-skill-ideas.md`. Advisor re-checked the KARL claims against the paper — all hold; applied 2 precision fixes (rag-design step-vs-doc conflation, synthetic-data-gen heading).
+- **Counts moved:** skills 161→**162**, prompts 171→**172**. doc-ci green (parity, links, counts). README staleness fix (100+→162 skills, 13→15 hook enumeration) folded into the same PR.
 
 ---
 
@@ -25,7 +37,9 @@ To ship: `git status` to confirm the 44 untracked paths + 4 modified files, then
 ## State
 
 ```
-5fcaca3  feat(skills): 22 new advisory skills — warehouse parity, modality spine, privacy, validation, LLMOps, data-eng (139 to 161) (#37)   ← HEAD
+fd71a25  feat(skills): /test-time-compute + 4 KARL-derived enhancements (161 to 162) (#39)   ← HEAD
+72ef39d  chore: refresh bookmark — HEAD=5fcaca3 (PR #37 merged, 22 skills, 139 to 161) (#38)
+5fcaca3  feat(skills): 22 new advisory skills — warehouse parity, modality spine, privacy, validation, LLMOps, data-eng (139 to 161) (#37)
 f999bca  chore: refresh bookmark — PR #35 merged as 274b5e8 on master (#36)
 274b5e8  feat(skills+hooks): research wave 2 — 7 new skills + 2 new hooks + 13 enhanced + AGENTS.md interop (#35)
 c63b48f  fix(skills): drift corrections — Databricks rebrand sweep + MCP auth + Vertex endpoints + SageMaker Studio + Terraform/compliance modernization (#34)

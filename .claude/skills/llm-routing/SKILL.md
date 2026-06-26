@@ -139,3 +139,4 @@ Primary → [model] → Secondary → [model] → Tertiary → [model] → Error
 8. For intra-family routing inside AWS, use **Bedrock IPR** (managed) instead of rolling your own classifier — see `/bedrock-design`
 9. Don't pick **HF TGI** for new deployments — maintenance mode; HF defaults to **vLLM** or **SGLang**
 10. Refresh the model tier map quarterly — pricing + new models + retirements move fast (Anthropic Sonnet 4 / Opus 4 retire 2026-06-15 on Bedrock; OpenAI Assistants sunset 2026-08-26)
+11. Routing UP to a bigger model and SAMPLING the small model N times are competing levers — route up when a bigger model meets the quality floor for less than N× the small-model spend; otherwise the scale-samples-vs-route-up call belongs to `/test-time-compute`

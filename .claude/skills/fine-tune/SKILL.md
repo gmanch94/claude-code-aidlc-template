@@ -38,13 +38,14 @@ Can few-shot examples in the prompt achieve target quality?
 | Cost reduction is the only goal | Tier down to Haiku/Sonnet (see /cost-optimize) |
 | No eval exists yet | Build eval first — can't measure improvement otherwise |
 
-## Fine-tune approach selection (2026 trio)
+## Fine-tune approach selection (2026 menu)
 
 | Approach | When | Notes |
 |---|---|---|
 | **SFT (Supervised Fine-Tuning)** | Labeled completions exist (≥100 high-quality examples); style / format / task adherence is the gap | Cheapest; default starting point. Available on OpenAI, Anthropic, Together, Modal, SageMaker, Bedrock Custom Model Import, Vertex |
 | **DPO (Direct Preference Optimization)** | Preference pairs exist (chosen vs rejected response); behavior should be steered without explicit "right answer" | Newer; lower data requirement than RLHF; available on OpenAI, Together, custom (TRL library) |
 | **RFT (Reinforcement Fine-Tuning)** | Reasoning models (o3 / o4-mini); programmable grader scores responses and model learns to maximize | **OpenAI-specific** (RFT for o-series reasoning models); most flexible but most complex. See `/openai-platform-design` |
+| **GRPO / online RL (RLVR)** | A verifiable or rubric-scored reward exists; reasoning / agentic tasks; you want OOD generalization, not just imitation of gold completions | Group-relative policy optimization — the open-weights RL path (DeepSeek, GLM). More compute + infra than SFT/DPO. **Off-policy variants (e.g. OAPL) tolerate trainer↔inference-engine skew without GRPO stabilization heuristics.** Reward design + RL mechanics defer to `/rl-design`; reward-gaming guard to `/metric-gaming-audit` |
 
 ## Distillation workflow
 
@@ -59,6 +60,8 @@ Deploy distilled model at lower cost / latency
 ```
 
 **Caveat (2026):** OpenAI's distillation workflow tightly couples Stored Completions → **Evals** → fine-tune. **OpenAI Evals: read-only 2026-10-31, shutdown 2026-11-30.** Distillation pipelines that depend on Evals also break. Plan replacement for BOTH the eval stage AND the distillation stage in the same migration. Replacements: **Promptfoo** (OpenAI's own named target), Braintrust, Langfuse, Agents SDK tracing — see `/eval-design`.
+
+**OOD-generalization caveat:** when out-of-distribution generalization matters, prefer **one multi-task fine-tune over a stack of per-task experts you then distill**. Distillation teaches the model to imitate task-specific expert behavior — it scales within the training distribution but does not generalize beyond it; multi-task RL develops more general capability (KARL / OAPL multi-task-RL-vs-multi-expert-distillation finding, Databricks 2026). Balance training tokens roughly equally across tasks.
 
 ## Managed fine-tune cost benchmarks (2026)
 

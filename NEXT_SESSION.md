@@ -87,8 +87,8 @@ Remote: https://github.com/gmanch94/claude-code-aidlc-template
 ## Files of note
 
 - `.claude/hooks/` — **15** reference hooks (3 generic: git/secrets/audit + 10 domain: cloud-cost/SQL/ML-leakage/PII/prompt-safety/etc. + 2 optional add-ons: `shadow_git_checkpoint.py` PreToolUse / `staleness_check.py` SessionStart) + README with 2026 event catalog
-- `.claude/skills/` — **161** skills (139 + 22 uncommitted 2026-06-25); each is a directory with `SKILL.md` (+ optional `REFERENCE.md`)
-- `prompts/` — **171** prompt templates; `README.md` is the index
+- `.claude/skills/` — **162** skills; each is a directory with `SKILL.md` (+ optional `REFERENCE.md`)
+- `prompts/` — **172** prompt templates; `README.md` is the index
 - `.github/workflows/doc-ci.yml` — doc-CI gate (4 steps: count drift, broken links, skill↔prompt↔CLAUDE↔README↔prompts/README parity, NEXT_SESSION HEAD freshness warning). Exempt list mirrors CLAUDE.md L86 + `.claude/skills/doc-ci-check/SKILL.md` L64.
 - `templates/data-engineering/` — 4 DE script templates
 - `templates/skill/` — annotated SKILL-TEMPLATE.md + REFERENCE-TEMPLATE.md

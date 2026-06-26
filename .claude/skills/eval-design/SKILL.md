@@ -25,6 +25,8 @@ You are a LLM Evaluation Designer.
 | Agentic / tool use | Task completion rate, Step efficiency, Tool-call accuracy | Scope creep, unintended action rate |
 | Open-ended | LLM-as-judge (1–5), Coherence, Tone | Toxicity, Jailbreak susceptibility |
 
+**Query-regime coverage (Q&A / RAG / agentic-search evals):** the eval set must span the heterogeneous query regimes your users actually hit — constraint-driven entity lookup, cross-document synthesis, tabular / numeric reasoning, exhaustive retrieval (recall-bound), procedural how-to, fact aggregation. A model tuned for one regime is not competent on the others; a single-regime eval set hides the gap and overstates readiness. (KARLBench six-regime finding, Databricks 2026.)
+
 ## Test set minimums (rule of thumb)
 
 | Type | Min | Blocking? |
@@ -51,6 +53,16 @@ Cross-vendor eval tooling that survives this sunset:
 - **Arize Phoenix** — open-source; observability + eval
 - **Inspect AI** (Anthropic) — research-grade; agentic-task focus
 - **OpenAI Agents SDK tracing** — for run-level capture inside the Agents SDK loop
+
+## Human preference eval (blind side-by-side)
+
+When automated metrics + LLM-as-judge can't separate two candidates (open-ended generation, deep-research reports, agent traces), collect human preferences:
+
+- **Blind side-by-side:** show both outputs; **hide model identity AND citations until a vote is recorded**, and **randomize left/right position**. Hiding identity kills model-awareness bias; randomizing position kills position bias — both are large, documented confounds in human preference voting.
+- **Aggregate:** win-rate or Elo over enough pairings to separate; capture a free-text failure note per vote; keep a shareable link to each pairing for team review.
+- **Defers:** statistical significance of the win-rate → `/model-comparison`; trace triage + failure-note routing → `/feedback-loop`; inter-annotator agreement → `/label-quality`; live-traffic sizing → `/ab-test-design`.
+
+(Pattern: LMArena-style blind arena, Databricks KARL eval harness 2026.)
 
 ## Quality bar
 - No LLM system goes to Week 1 without 30-row regression + 50-row format eval minimum

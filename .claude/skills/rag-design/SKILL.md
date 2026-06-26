@@ -44,6 +44,7 @@ Decision rule: pick the vector store that matches where your **source data alrea
 
 ## Key risks
 - Retrieval miss → tune top-k, add hybrid, improve chunking
+- Retrieval-count saturation → too many chunks per call floods the context window and answer quality plateaus, then degrades — more retrieval is not free. For agentic multi-step search, ~40 docs/call is past the knee: a single retrieval crowds out the room left for reasoning. Cap top-k and leave headroom for multi-step reasoning; cross-ref `/context-engineering` for per-source budget. (KARL search-environment ablation, Databricks 2026.)
 - Stale index → freshness indicator + re-index cadence
 - Cross-tenant leak → namespace/filter isolation per tenant
 - Embedding drift → version-pin; re-index on model change

@@ -1,6 +1,6 @@
 # claude-code-template
 
-A Claude Code template covering the full AI/ML development lifecycle — from problem framing to production monitoring. 100+ skills, persistent memory, and session continuity out of the box.
+A Claude Code template covering the full AI/ML development lifecycle — from problem framing to production monitoring. 162 skills, persistent memory, and session continuity out of the box.
 
 ---
 
@@ -35,7 +35,7 @@ This template fixes all four in under 5 minutes of setup.
 | `.claude/skills/security-model-init/SKILL.md` | `/security-model-init` — generate `docs/SECURITY_MODEL.md` scaffold for projects with user-facing surfaces. |
 | `templates/security-model/SECURITY_MODEL-TEMPLATE.md` | Annotated template for the per-(operation × role × surface) enforcement table; stack-specific scaffolding blocks for Supabase/Firebase/Hasura/FastAPI/Express. |
 | `context/MEMORY.md` | Index for Claude's persistent project memory. |
-| `prompts/` | **171** system prompt templates across ML, data engineering, LLM, auth, Databricks, cloud ML / GenAI platforms (Bedrock / Azure Foundry / OpenAI / Vertex), agent design (incl. memory + plan-mode + workflow-design), IaC, compliance, BI, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
+| `prompts/` | **172** system prompt templates across ML, data engineering, LLM, auth, Databricks, cloud ML / GenAI platforms (Bedrock / Azure Foundry / OpenAI / Vertex), agent design (incl. memory + plan-mode + workflow-design), IaC, compliance, BI, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
 | `templates/skill/SKILL-TEMPLATE.md` | Annotated template for authoring new skills. Copy to `.claude/skills/<name>/SKILL.md` and fill in. |
 | `.gitignore` | Gitignores `scratch/` (personal workspace), `.claude/settings.local.json`, and `.claude/logs/` (hook audit logs). |
 | `operating-philosophy.md` | Portable working philosophy — communication style, context-mode tool hierarchy, advisor protocol, primary-source verification, session management, git hygiene, Karpathy failure modes, design principles. Copy sections into any project's `CLAUDE.md`. |
@@ -213,6 +213,7 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/build-vs-buy` | **Build vs Buy Advisor** — 5-dimension scoring (cost/control/speed/risk/capability), AI tooling decision matrix, 3-year TCO, vendor alternatives, exit strategy |
 | `/prompt-management` | **PromptOps Lifecycle Engineer** — prompt-artifact CD pipeline: versioning + registry, build-once-promote-many env promotion, eval-gated promotion (consumes `/eval-design` thresholds), canary vs in-prod A/B, automated+manual rollback to last-good, change-control governance + audit. Defers eval metrics→`/eval-design`, one-time scoring→`/prompt-review`, model-object lifecycle→`/experiment-tracking` + `/model-deployment` |
 | `/context-engineering` | **Context Assembly Architect** — per-turn context-window assembly: budget allocation across system + tool defs + memory + chunks + history, position-of-evidence ordering (lost-in-the-middle + cache-stable prefix), overflow/compaction (truncate/summarize/evict), relevance gating + dedup, assembly-quality probes. Owns request-construction glue; defers retrieval→`/rag-design`, memory tiers→`/agent-memory`, cost math→`/cost-optimize` |
+| `/test-time-compute` | **Test-Time Compute Strategist** — whether + how to scale inference-time compute on a FIXED model: the TTC gate (single-shot enough? route-up cheaper than N×? latency budget?), method selection (self-consistency / best-of-N + verifier / generative aggregation / verifier-guided / sequential refinement), aggregator design (generative aggregation beats majority vote on open-ended tasks — synthesizes beyond candidates), N/T sizing on the concave quality-vs-compute knee, failure modes (verifier gap, diminishing returns, reward hacking, latency). Owns the scale-samples + aggregator decision; defers execution→`/workflow-design`, verifier/metrics→`/eval-design`, $→`/cost-optimize`, route-up→`/llm-routing`, train-bigger→`/fine-tune` |
 
 **Cloud ML platforms:**
 
@@ -478,7 +479,7 @@ At the end of each session, you (or Claude) update `NEXT_SESSION.md` with HEAD, 
 
 **More LESSONS_LEARNED entries.** Every time something goes wrong or unusually right, add a one-liner with a **Why:** line. The file compounds — after 10 sessions it's the most valuable thing in the repo.
 
-**Hooks.** **13** reference hooks ship with the template in `.claude/hooks/`. None are wired by default — paste the snippet from `.claude/hooks/README.md` into your `settings.json` to enable any of them.
+**Hooks.** **15** reference hooks ship with the template in `.claude/hooks/`. None are wired by default — paste the snippet from `.claude/hooks/README.md` into your `settings.json` to enable any of them.
 
 *Generic (3):*
 - `block_dangerous_git.py` — PreToolUse/Bash: blocks force-push, `reset --hard`, `--no-verify`, and other destructive git operations
@@ -487,6 +488,10 @@ At the end of each session, you (or Claude) update `NEXT_SESSION.md` with HEAD, 
 
 *Domain guardrails (10):*
 - `block_infra_destroy.py`, `check_sql_safety.py`, `check_unsafe_patterns.py`, `check_cloud_cost.py`, `check_programming_gotchas.py`, `check_ml_leakage.py`, `block_test_set_balancing.py`, `check_metric_guardrail.py`, `check_pii_in_logs.py`, `check_prompt_safety.py` — see `.claude/hooks/README.md` for the full inventory + behaviour table.
+
+*Optional add-ons (2):*
+- `shadow_git_checkpoint.py` — PreToolUse on mutating tools: snapshots the working tree into a shadow git repo before each edit (pairs with `/rollback-checkpoint`).
+- `staleness_check.py` — SessionStart: warns when `NEXT_SESSION.md` HEAD is more than 7 days old.
 
 To write your own, copy `templates/skill/SKILL-TEMPLATE.md` as a model for structure, then see `.claude/hooks/README.md` for the protocol (stdin format, exit codes, smoke tests).
 

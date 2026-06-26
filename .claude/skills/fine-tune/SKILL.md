@@ -63,6 +63,10 @@ Deploy distilled model at lower cost / latency
 
 **OOD-generalization caveat:** when out-of-distribution generalization matters, prefer **one multi-task fine-tune over a stack of per-task experts you then distill**. Distillation teaches the model to imitate task-specific expert behavior — it scales within the training distribution but does not generalize beyond it; multi-task RL develops more general capability (KARL / OAPL multi-task-RL-vs-multi-expert-distillation finding, arXiv:2603.05218, Databricks 2026). Balance training tokens roughly equally across tasks.
 
+**Teacher-selection caveat:** when you generate training data by distillation (teacher model → student), the strongest available model is **not always the best teacher** — bake off candidate teachers on YOUR target eval before committing the generation budget. A top-ranked model can be a measurably worse teacher than an older or weaker one, and the teacher's behavior is baked into every example you generate (OpenThoughts-Agent teacher ablation, arXiv:2606.24855).
+
+**SFT and RL compose:** SFT and RL post-training are not either/or — a two-stage SFT-then-RL recipe can beat the best single-stage model (OpenThoughts-Agent, arXiv:2606.24855). For curating the agentic *trajectory* data behind both stages (task sourcing, executable environments, teacher rollouts, trace filtering), see `/agentic-data-curation`.
+
 ## Managed fine-tune cost benchmarks (2026)
 
 | Provider | Approach | Cost floor |

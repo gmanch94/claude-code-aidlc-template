@@ -63,6 +63,8 @@ When synthesizing question–answer or reasoning traces to fine-tune an LLM (not
 
 Do NOT adopt the bootstrap-from-latest-policy regeneration loop unless you run your own RL post-training — that's frontier-lab machinery, out of scope for most teams. (Source: KARL agentic-synthesis pipeline, arXiv:2603.05218, Databricks 2026.)
 
+**Diversity over volume:** generating more samples/rollouts of the *same* tasks plateaus fast — task/instruction **diversity is the bottleneck, not sample count**. Spend the budget on new, varied task descriptions rather than repeated generations of the existing ones (observed: per-task rollout scaling flattened from 31.6K→100K while synthetic *task* augmentation kept improving — OpenThoughts-Agent, arXiv:2606.24855). For curating multi-turn tool-use / coding / terminal **trajectories** to fine-tune an agent (task sourcing, executable environments, teacher selection, trace filtering, source mixing), see `/agentic-data-curation`.
+
 ### Images
 
 ```

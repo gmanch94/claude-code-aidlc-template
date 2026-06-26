@@ -1,6 +1,6 @@
 # claude-code-template
 
-A Claude Code template covering the full AI/ML development lifecycle — from problem framing to production monitoring. 162 skills, persistent memory, and session continuity out of the box.
+A Claude Code template covering the full AI/ML development lifecycle — from problem framing to production monitoring. 163 skills, persistent memory, and session continuity out of the box.
 
 ---
 
@@ -35,7 +35,7 @@ This template fixes all four in under 5 minutes of setup.
 | `.claude/skills/security-model-init/SKILL.md` | `/security-model-init` — generate `docs/SECURITY_MODEL.md` scaffold for projects with user-facing surfaces. |
 | `templates/security-model/SECURITY_MODEL-TEMPLATE.md` | Annotated template for the per-(operation × role × surface) enforcement table; stack-specific scaffolding blocks for Supabase/Firebase/Hasura/FastAPI/Express. |
 | `context/MEMORY.md` | Index for Claude's persistent project memory. |
-| `prompts/` | **172** system prompt templates across ML, data engineering, LLM, auth, Databricks, cloud ML / GenAI platforms (Bedrock / Azure Foundry / OpenAI / Vertex), agent design (incl. memory + plan-mode + workflow-design), IaC, compliance, BI, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
+| `prompts/` | **173** system prompt templates across ML, data engineering, LLM, auth, Databricks, cloud ML / GenAI platforms (Bedrock / Azure Foundry / OpenAI / Vertex), agent design (incl. memory + plan-mode + workflow-design), IaC, compliance, BI, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
 | `templates/skill/SKILL-TEMPLATE.md` | Annotated template for authoring new skills. Copy to `.claude/skills/<name>/SKILL.md` and fill in. |
 | `.gitignore` | Gitignores `scratch/` (personal workspace), `.claude/settings.local.json`, and `.claude/logs/` (hook audit logs). |
 | `operating-philosophy.md` | Portable working philosophy — communication style, context-mode tool hierarchy, advisor protocol, primary-source verification, session management, git hygiene, Karpathy failure modes, design principles. Copy sections into any project's `CLAUDE.md`. |
@@ -214,6 +214,7 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/prompt-management` | **PromptOps Lifecycle Engineer** — prompt-artifact CD pipeline: versioning + registry, build-once-promote-many env promotion, eval-gated promotion (consumes `/eval-design` thresholds), canary vs in-prod A/B, automated+manual rollback to last-good, change-control governance + audit. Defers eval metrics→`/eval-design`, one-time scoring→`/prompt-review`, model-object lifecycle→`/experiment-tracking` + `/model-deployment` |
 | `/context-engineering` | **Context Assembly Architect** — per-turn context-window assembly: budget allocation across system + tool defs + memory + chunks + history, position-of-evidence ordering (lost-in-the-middle + cache-stable prefix), overflow/compaction (truncate/summarize/evict), relevance gating + dedup, assembly-quality probes. Owns request-construction glue; defers retrieval→`/rag-design`, memory tiers→`/agent-memory`, cost math→`/cost-optimize` |
 | `/test-time-compute` | **Test-Time Compute Strategist** — whether + how to scale inference-time compute on a FIXED model: the TTC gate (single-shot enough? route-up cheaper than N×? latency budget?), method selection (self-consistency / best-of-N + verifier / generative aggregation / verifier-guided / sequential refinement), aggregator design (generative aggregation beats majority vote on open-ended tasks — synthesizes beyond candidates), N/T sizing on the concave quality-vs-compute knee, failure modes (verifier gap, diminishing returns, reward hacking, latency). Owns the scale-samples + aggregator decision; defers execution→`/workflow-design`, verifier/metrics→`/eval-design`, $→`/cost-optimize`, route-up→`/llm-routing`, train-bigger→`/fine-tune` |
+| `/agentic-data-curation` | **Agentic Data Curation Strategist** — training-data recipe for post-training a tool-use / coding / terminal agent (SFT trajectories + optional RL): build gate (frontier API agent vs train-your-own), task sourcing (dataset-adaptation / perturb-real-code / seed+skill-taxonomy; **diversity-not-count is the bottleneck**), executable environments + verification axis (hard test-based vs soft no-tests; environments are the real bottleneck), teacher-rollout generation + teacher selection (**strongest model ≠ best teacher**), trajectory filtering (drop timeouts/subagent, keep ≥5-turn) + source mixing (top-4..8), SFT→RL composition. Grounded in SWE-smith / Nemotron-Terminal / SERA / daVinci-Env / OpenThoughts-Agent (arXiv:2606.24855). Defers fine-tune→`/fine-tune`, RL→`/rl-design`, general synthesis→`/synthetic-data-gen`, eval→`/eval-design`, runtime loop→`/agent-design` |
 
 **Cloud ML platforms:**
 

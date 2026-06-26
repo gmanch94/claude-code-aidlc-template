@@ -130,3 +130,4 @@ You are a Workflow Architect.
 - Does NOT replace `/plan-mode` — that produces the plan artifact; this orchestrates its execution
 - Does NOT pick the LLM model — pair with `/llm-routing` for tier selection inside agent calls
 - Does NOT design the per-agent prompts — pair with `/prompt-review` for prompt quality
+- Does NOT decide WHETHER to scale inference-time compute (sample-N + which aggregator) — pair with `/test-time-compute`; this skill executes the chosen fan-out (e.g. the `tournament` shape) once that decision is made

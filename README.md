@@ -24,6 +24,8 @@ This template fixes all four in under 5 minutes of setup.
 | File | What it does |
 |---|---|
 | `CLAUDE.md` | Auto-loaded every session. Defines project posture, session-start protocol, tone constraints, and things to avoid. Fill in 5 placeholders. |
+| `ARCHITECTURE.md` | Bird's-eye view of the template — the four layers (session runtime, capability library, governance, durable substrate), how a request flows through them, and the repo map. |
+| `SECURITY.md` | The template's own security posture — the execution-trust model (hooks run code on your machine once wired), a surface × control table, honest limits, and an adopter checklist. Distinct from the per-project `docs/SECURITY_MODEL.md` that `/security-model-init` generates. |
 | `LESSONS_LEARNED.md` | Process lessons that accumulate across sessions. Pre-seeded with 8 generalizable lessons; add project-specific ones as you work. |
 | `NEXT_SESSION.md` | Session bookmark — HEAD, branch, what landed, what's open. Claude reads it first after `/clear`. |
 | `.claude/settings.json` | Permission allowlist. Pre-populated with `Read`, `Glob`, `Grep`, safe git read commands, and context-mode MCP tools — so common read-only ops never prompt. Add project-specific patterns here; put machine-local ones in `.claude/settings.local.json` (gitignored). |

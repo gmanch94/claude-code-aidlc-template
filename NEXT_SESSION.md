@@ -6,6 +6,20 @@ Resume point after `/clear` or a new session. Read this first before any tool ca
 
 ---
 
+## Docs shipped — autonomous roll (2026-07-11, direct to master, `[skip ci]`)
+
+User said "keep rolling till I get back" (standing autonomy), then "ship it". 3 durable docs shipped **direct to master, docs-only, `[skip ci]`** — locally verified against the exact checks doc-ci would run. Matches this repo's current direct-to-master flow (DLP suite `36851d3`).
+
+- **`ARCHITECTURE.md`** (new) — bird's-eye 4-layer view (session runtime · capability library · governance · durable substrate), how a request flows, repo map. One **simple** Mermaid diagram, all labels double-quoted per `~/.claude/rules/mermaid-syntax.md`. ⚠️ Not render-tested (no local renderer) — eyeball it on GitHub before relying. Linked from README "What's included".
+- **`SECURITY.md`** (new) — bespoke security posture for the harness itself: the execution-trust model (**hooks run code on the adopter's machine once wired**), a surface × control table mapping each shipped hook/CI gate, honest limits, adopter checklist. Put at **root** (GitHub-standard, auto-surfaced) deliberately to avoid colliding with the per-project `docs/SECURITY_MODEL.md` that `/security-model-init` generates. Linked from README.
+- **`README.md`** (M) — 2 rows added to "What's included" (ARCHITECTURE.md, SECURITY.md), code-style like the other rows → **no new links, no count claims** → doc-ci link/count/parity unaffected.
+- **Verified locally:** all 17 ARCHITECTURE links + 1 SECURITY link resolve; CI-gated root-`*.md` link check clean; counts 164/174/18 consistent; skill↔prompt↔index parity unchanged (no new skill).
+- **Also (in-session, not a repo file):** rendered a detailed architecture SVG inline via the visualize widget.
+- **Backlog reconcile:** the 2026-07-10 item *"a `docs/SECURITY_MODEL.md` for the template"* is addressed here as root `SECURITY.md` (bespoke posture doc, **not** the RLS-shaped scaffold — that template is wrong-shaped for a skill library with no data layer). If you'd rather it live under `docs/`, move it and update the 2 README rows.
+- **Still backlog (untouched):** SRE/SLO skill ("confirm in-scope"); `egress_allowlist.txt` not created (egress hook warn-only); `/anthropic-api-design` + `/skills-api-deploy` gated on primary-source verify.
+
+---
+
 ## DLP guardrail suite (2026-07-10 — shipped DIRECT to master, `36851d3`)
 
 Built a Data Loss Prevention layer across the exits where sensitive data can leave a Claude Code session; shipped direct to master on user instruction (no PR). An independent security reviewer ran pre-push (security.md safety-property policy) → 1 HIGH + 3 MEDIUM found and fixed before the push.

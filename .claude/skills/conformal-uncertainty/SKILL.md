@@ -52,8 +52,8 @@ Rule: **LAC** minimizes average set size; **APS/RAPS** trade size for more stabl
 
 | Score | Interval | Use when | Failure mode / counter-indication |
 |---|---|---|---|
-| **Absolute residual** `s = |y − ŷ|` | `ŷ ± q_hat` — **constant width everywhere** | homoskedastic noise; simplest baseline | constant width is wrong when noise varies across x — wide where data is easy, too narrow where hard |
-| **Normalized / locally-weighted** `s = |y − ŷ| / σ̂(x)` | `ŷ ± q_hat·σ̂(x)` | heteroskedastic noise, you have/ can fit a spread estimate `σ̂(x)` | needs a second model for `σ̂(x)`; a bad `σ̂` gives valid-but-ugly intervals |
+| **Absolute residual** `s = \|y − ŷ\|` | `ŷ ± q_hat` — **constant width everywhere** | homoskedastic noise; simplest baseline | constant width is wrong when noise varies across x — wide where data is easy, too narrow where hard |
+| **Normalized / locally-weighted** `s = \|y − ŷ\| / σ̂(x)` | `ŷ ± q_hat·σ̂(x)` | heteroskedastic noise, you have/ can fit a spread estimate `σ̂(x)` | needs a second model for `σ̂(x)`; a bad `σ̂` gives valid-but-ugly intervals |
 | **CQR** (Conformalized Quantile Regression) | fit lower/upper quantile models (e.g. q_lo=alpha/2, q_hi=1−alpha/2); conformalize the quantile residual; interval adapts width to x | heteroskedasticity AND you can train quantile regressors (LightGBM/quantile NN) | best default for adaptive width; requires a quantile model — if you only have a point model, use normalized score |
 
 Rule: **CQR is the default for regression with non-constant noise**; absolute residual only when noise is roughly constant or you have no spread estimator.

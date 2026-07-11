@@ -9,6 +9,7 @@ name: doc-ci
 #   2. Broken relative links in root *.md files
 #   3. Skill ↔ prompt ↔ CLAUDE.md ↔ README ↔ prompts/README parity (excluding exempt list)
 #   4. NEXT_SESSION.md HEAD vs git HEAD
+#   5. Markdown table pipe integrity — stray-pipe phantom cells in real tables
 #
 # Does NOT catch (warn-only in the skill, skipped here): ungraded external facts.
 
@@ -27,6 +28,7 @@ on:
       - "templates/**"
       - "decisions/**"
       - ".github/workflows/doc-ci.yml"
+      - "scripts/check_md_tables.py"
   pull_request:
     branches: [master, main]
     paths:
@@ -41,6 +43,7 @@ on:
       - "templates/**"
       - "decisions/**"
       - ".github/workflows/doc-ci.yml"
+      - "scripts/check_md_tables.py"
 
 concurrency:
   group: doc-ci-${{ github.workflow }}-${{ github.ref }}
@@ -209,3 +212,14 @@ jobs:
           if [ "$declared" != "$actual" ]; then
             echo "::warning file=NEXT_SESSION.md::HEAD drift — declared $declared, actual $actual (acceptable on master pushes; bookmark refreshes on session end)"
           fi
+
+      - name: 5. Markdown table pipe integrity
+        shell: bash
+        run: |
+          # Stray-pipe phantom tables (markdown-render-gotchas rule): an unescaped
+          # '|' inside a REAL table cell (code span, math abs-value, type union) is
+          # parsed as a delimiter under GFM and shreds the row — cells shift and the
+          # trailing column is dropped. Hard-fails on that class; warns (non-fatal)
+          # on rows SHORT a cell (GFM pads those). Python matches
+          # scripts/dlp_fingerprint_scan.py; python3 is preinstalled on ubuntu-latest.
+          python3 scripts/check_md_tables.py .

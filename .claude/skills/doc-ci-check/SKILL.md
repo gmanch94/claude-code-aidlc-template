@@ -1,6 +1,6 @@
 ---
 name: doc-ci-check
-description: Doc-CI gate for repos whose deliverable includes a document set. Scans for (1) count drift across README/CLAUDE.md/NEXT_SESSION.md/prompts indices, (2) broken relative links, (3) skill↔prompt↔CLAUDE.md↔README↔prompts/README parity, (4) ungraded external facts. Severity-grouped report. Use BEFORE shipping any docs commit, AFTER adding a skill/prompt/hook, and as a pre-commit gate. Pair with `.github/workflows/doc-ci.yml` for CI enforcement.
+description: Doc-CI gate for repos whose deliverable includes a document set. Scans for (1) count drift across README/CLAUDE.md/NEXT_SESSION.md/prompts indices, (2) broken relative links, (3) skill↔prompt↔CLAUDE.md↔README↔prompts/README parity, (4) ungraded external facts, (5) markdown table pipe-integrity (stray-pipe phantom tables). Severity-grouped report. Use BEFORE shipping any docs commit, AFTER adding a skill/prompt/hook, and as a pre-commit gate. Pair with `.github/workflows/doc-ci.yml` for CI enforcement.
 ---
 
 # /doc-ci-check — Doc-CI Gate
@@ -43,6 +43,8 @@ None. Operates on the current working tree.
    e. **Ungraded-fact scan.** Surface external claims (years, percentages, dollar amounts, version numbers, model IDs) in root `*.md` files that carry no source grade (`[H]`/`[M]`/`[?]`) and look like assertions of fact. Warn-only.
 
    f. **NEXT_SESSION.md staleness.** Parse the documented `HEAD = <hash>`; compare to `git rev-parse HEAD`. If different, flag CRITICAL.
+
+   g. **Markdown table pipe-integrity.** For every real GFM table (header + `|---|` delimiter, outside code fences), each row's unescaped-pipe cell count must equal the delimiter's. A row with MORE cells means an unescaped `|` inside a cell (code span, math abs-value like `|y − ŷ|`, type union like `dict | None`) is shredding the table under GFM — flag CRITICAL, fix by escaping as `\|`. A row with FEWER cells (missing value; GFM pads a blank) is LOW/warn. Enforced in CI by `scripts/check_md_tables.py`.
 
 2. **Group findings by severity:**
    - **CRITICAL** — broken link, NEXT_SESSION HEAD mismatch, skill with no SKILL.md, missing required artifact
@@ -98,7 +100,7 @@ Fix recipe (if findings):
 
 ## Quality bar
 
-- Always run all six checks — never short-circuit even if the first one passes
+- Always run all seven checks — never short-circuit even if the first one passes
 - Always group by severity — never present findings as a flat list
 - Never auto-fix without user confirmation; always show the fix recipe first
 - Never flag a skill in the exempt list as missing-prompt
@@ -114,4 +116,4 @@ Fix recipe (if findings):
 
 ## Companion CI workflow
 
-See `.github/workflows/doc-ci.yml` for the GH-Action version of checks (a)–(d). The skill and the workflow share the same exempt list and the same count scans. When the rules change, update both.
+See `.github/workflows/doc-ci.yml` for the GH-Action version of checks (a)–(d) + (g) — the last via `scripts/check_md_tables.py`. The skill and the workflow share the same exempt list and the same count scans. When the rules change, update both.

@@ -16,7 +16,8 @@ Built a Data Loss Prevention layer across the exits where sensitive data can lea
 - **Review fixes landed:** [HIGH] egress fail-open on scheme-less `curl -d @f host` / `$VAR` destination → now fail-closed + scheme-less host extraction; [MED] redact card/truncated-PEM, multi-commit push base, docs-path key enforcement.
 - **Caveat:** `redact_tool_output` live-session mutation is a wire-time check (logic verified; fail-safe no-op on schema mismatch, never corruption).
 - **Counts moved:** skills 163→**164**, prompts 173→**174**, hooks 15→**18**.
-- **Not done (backlog):** wiring hooks into `settings.json` (ship unwired by convention — snippets in `.claude/hooks/README.md`); nc `-e`/glued-flag egress evasion (LOW, documented out-of-scope); a `docs/SECURITY_MODEL.md` for the template.
+- **Hooks WIRED LOCALLY (2026-07-10):** all 4 DLP hooks added to `.claude/settings.local.json` (gitignored, this machine only — template default stays unwired). Active next session: `scan_secrets` blocks writes with secrets/PII/cards; `check_egress_allowlist` WARNS (no `egress_allowlist.txt` yet — `cp` the `.example` to enforce); `scan_prompt_dlp` blocks secret-bearing prompts (escape `DLP_ALLOW_PROMPT_SECRETS=1` / `dlp-ok`); `redact_tool_output` masks Bash/Read/WebFetch output. Revert = delete the `hooks` block from `settings.local.json`.
+- **Not done (backlog):** `egress_allowlist.txt` not created (egress hook still warn-only); nc `-e`/glued-flag egress evasion (LOW, documented out-of-scope); a `docs/SECURITY_MODEL.md` for the template.
 
 ---
 

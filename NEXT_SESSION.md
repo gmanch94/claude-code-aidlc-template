@@ -2,7 +2,20 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-07-11. **Current branch:** `master`. **HEAD = 91d8585** (`docs: mark ARCHITECTURE.md mermaid verified [skip ci]`) — this session shipped `ARCHITECTURE.md` + `SECURITY.md` direct to master (`861f8ad`), then verified the `ARCHITECTURE.md` mermaid renders under mermaid 11 (GitHub's engine). All `[skip ci]` (docs-only, locally verified against doc-ci's checks). Prior code HEAD `36851d3` = DLP guardrail suite (doc-ci + dlp-scan green). Bookmark-refresh commit lags HEAD by one (this file's own commit).
+**Last working session:** 2026-07-11. **Current branch:** `master`. **HEAD = e0bba2b** (`docs(policy-ai-red-team): swap pipe separators to middot`) — this session applied `~/.claude/rules/markdown-render-gotchas.md` across all repo `.md`: fixed a real GFM table-corruption in `conformal-uncertainty` (in-cell abs-value pipes were shredding the row + dropping the rightmost column), added a **md-table pipe-integrity gate** to doc-ci (step 5 = `scripts/check_md_tables.py`), filled a missing `cdc-design` Cost cell, and middot-swapped the one kramdown-risky list. All **pushed**; doc-ci (incl. new step 5) + dlp-scan **green on the runner**. Prior: `ARCHITECTURE.md` + `SECURITY.md` + mermaid verify (`91d8585`); DLP suite (`36851d3`, wired locally). Bookmark-refresh commit lags HEAD by one (this file's own commit).
+
+---
+
+## Markdown-render sweep + md-table CI gate (2026-07-11 — pushed, `ba32444`→`e0bba2b`)
+
+Applied `~/.claude/rules/markdown-render-gotchas.md` to all repo `.md`. Publish target = **GFM** (github.com blob; no `_config.yml`/CNAME → not kramdown/Pages), which changes what actually bites:
+
+- **Empirically (GitHub Markdown API, cmark-gfm):** delimiter-less **prose/list pipes are GFM-SAFE** (render literally — the rule's "prose phantom table" is a *kramdown* behavior). The real GFM bug is an unescaped `|` **inside a real table cell** (code span / math abs-value / type union) → parsed as a delimiter → row shreds, rightmost column dropped. Fix: escape `\|` (pipe shows, backslash hidden).
+- **Fixed** `conformal-uncertainty/SKILL.md:55-56` — `|y − ŷ|` abs-value shredding a 4-col table (was live on github.com). `ba32444`.
+- **New CI gate** `scripts/check_md_tables.py` → `doc-ci.yml` **step 5** (+ synced into `/doc-ci-check`). Per table block (fence / escape / edge-pipe aware): hard-fail when a row's cell count > delimiter's (shred class), warn when < (missing cell). Rate-limit-free; scans all `.md`; retires the class at author-time.
+- **`cdc-design/SKILL.md:56`** Cost cell filled (`2cef4dd`) → gate now **0 errors / 0 warnings** repo-wide.
+- **Prophylactic** (`e0bba2b`): `policy-ai-red-team.md:49` list `|` → `·` (the one line that would phantom under kramdown if a fork enables Pages). No repo-wide prose rewrite (GFM-safe = churn).
+- **CI green on runner:** doc-ci run 29165795205 (7s, incl. step 5) + dlp-scan 29165795198 (9s). Lesson banked: memory `[[gfm-in-cell-table-pipes]]`.
 
 ---
 

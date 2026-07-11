@@ -201,6 +201,7 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 - `/runbook` — **Incident Runbook Author** — AI incident runbook (8 standard failure scenarios)
 - `/pii-scan` — **PII Exposure Auditor** — PII exposure audit across the AI data lifecycle
 - `/observability` — **Observability Stack Designer** — AI observability stack design (signal layers, metrics, alerts, drift indicators)
+- `/dlp-design` — **DLP System Designer** — Data Loss Prevention design: classify data (PII/PHI/PCI/secrets/IP) → enumerate egress surfaces (prompt / output / tool-action / logs / retrieval / files / network / third-party) → detection technique per class (regex+Luhn / NER / exact-match fingerprint / entropy / OCR) → enforcement per (class × surface) cell (block / redact / quarantine / named-scope override / warn) → policy engine → response+audit. Grounds each cell in a buildable control; ships with 4 DLP hooks + a CI fingerprint gate. Names an FP counter-metric and enforces warn→block progressively. Distinct from `/pii-scan` (detection audit) and `/threat-model` (attack enumeration)
 
 *Auth / Identity (OAuth / OIDC):*
 - `/oauth-flow-design` — **OAuth 2.x Flow Architect** — grant selection by client (auth-code+PKCE / client-credentials / device); redirect-URI exact-match allowlist; state + PKCE; implicit/password rejected
@@ -358,11 +359,11 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 
 **Permissions:** `.claude/settings.json` pre-allows safe read-only operations (`Read`, `Glob`, `Grep`, git read commands) so they never prompt. Destructive tools (`Write`, `Edit`, `Bash` broadly) are intentionally omitted — add them to `settings.local.json` (gitignored) for your own machine, or use the `update-config` skill.
 
-**Hooks:** See `.claude/hooks/README.md` for protocol, wiring snippet, smoke tests, the full inventory, and the **2026 event catalog** (Claude Code now exposes 12+ lifecycle events — `SessionStart` / `UserPromptSubmit` / `PreToolUse` / `PostToolUse` / `PostToolUseFailure` / `PostToolBatch` / `Stop` / `StopFailure` / `SubagentStop` / `TaskCreated` / `TaskCompleted` / `TeammateIdle` / `WorktreeCreate` / `WorktreeRemove` / `CwdChanged` / `SessionEnd` / `PreCompact`; `PostToolUse` ships `duration_ms` + can mutate output via `hookSpecificOutput.updatedToolOutput`). **15 reference hooks ship** (none wired by default) — 3 generic + 10 domain guardrails + 2 optional add-ons (`shadow_git_checkpoint.py` PreToolUse on mutating tools, `staleness_check.py` SessionStart). Authoring new hooks against the broader event surface (e.g. `UserPromptSubmit` prompt-time gates, `Stop` uncommitted-changes refusal, `SessionEnd` audit-log finalize) is on the backlog:
+**Hooks:** See `.claude/hooks/README.md` for protocol, wiring snippet, smoke tests, the full inventory, and the **2026 event catalog** (Claude Code now exposes 12+ lifecycle events — `SessionStart` / `UserPromptSubmit` / `PreToolUse` / `PostToolUse` / `PostToolUseFailure` / `PostToolBatch` / `Stop` / `StopFailure` / `SubagentStop` / `TaskCreated` / `TaskCompleted` / `TeammateIdle` / `WorktreeCreate` / `WorktreeRemove` / `CwdChanged` / `SessionEnd` / `PreCompact`; `PostToolUse` ships `duration_ms` + can mutate output via `hookSpecificOutput.updatedToolOutput`). **18 reference hooks ship** (none wired by default) — 3 generic + 10 domain guardrails + 3 DLP + 2 optional add-ons (`shadow_git_checkpoint.py` PreToolUse on mutating tools, `staleness_check.py` SessionStart). The DLP set exercises the broader event surface (`scan_prompt_dlp.py` is the first `UserPromptSubmit` gate; `redact_tool_output.py` is the first hook that mutates output via `hookSpecificOutput.updatedToolOutput`). Still on the backlog: `Stop` uncommitted-changes refusal, `SessionEnd` audit-log finalize.
 
 *Generic (3):*
 - `block_dangerous_git.py` (PreToolUse/Bash) — blocks force-push, `reset --hard`, `--no-verify`, and other destructive git ops
-- `scan_secrets.py` (PreToolUse/Write|Edit) — blocks files containing AWS/GitHub/Slack/OpenAI/Anthropic/Google/Stripe key shapes
+- `scan_secrets.py` (PreToolUse/Write|Edit) — blocks files containing AWS/GitHub/Slack/OpenAI/Anthropic/Google/Stripe key shapes, US SSNs, Luhn-valid payment cards, and keyword-gated high-entropy strings (the file-write DLP layer)
 - `audit_log.py` (PostToolUse/*) — passive; appends every tool call to `.claude/logs/audit.jsonl`
 
 *Domain guardrails (10):*
@@ -376,6 +377,13 @@ Full protocol: see `operating-philosophy.md` § Security thinking. Pre-merge ind
 - `check_metric_guardrail.py` — Goodhart's-law check on eval/experiment configs without counter-metric
 - `check_pii_in_logs.py` — warns when log calls reference PII-shaped vars
 - `check_prompt_safety.py` — warns on prompt-injection risk (f-string with user vars) + hardcoded model paths
+
+*DLP (3):*
+- `check_egress_allowlist.py` (PreToolUse/Bash) — gates data-exfil-shaped commands (curl/wget uploads, scp/rsync/sftp/nc) by destination host; warns until `.claude/dlp/egress_allowlist.txt` exists, then blocks non-listed egress. Git is out of scope (owned by `block_dangerous_git.py`).
+- `scan_prompt_dlp.py` (UserPromptSubmit) — blocks prompts containing a secret / SSN / Luhn-valid card before they enter model context + transcript
+- `redact_tool_output.py` (PostToolUse/Bash|Read|WebFetch) — redacts secrets/PII from tool output via `hookSpecificOutput.updatedToolOutput`; emits only on a real hit (fail-safe no-op otherwise)
+
+Plus a CI gate — `scripts/dlp_fingerprint_scan.py` + `.github/workflows/dlp-scan.yml`: pattern + exact-match fingerprint scan on every diff. Design the whole set with `/dlp-design`.
 
 **Scheduled routines:** None configured by default. Use `/schedule` to create recurring remote agents. Each routine runs on a cron schedule and can invoke any skill or task.
 

@@ -1,0 +1,44 @@
+name: dlp-scan
+
+# DLP gate. Runs scripts/dlp_fingerprint_scan.py over the diff on every push / PR
+# to catch secrets, US SSNs, Luhn-valid payment cards, keyword-gated high-entropy
+# strings, and exact-match fingerprints (SHA-256 of known-sensitive values listed
+# in .claude/dlp/fingerprints.txt) before they land.
+#
+# No paths-ignore: a leaked secret can appear in a doc as easily as in code, so the
+# DLP scan intentionally covers every path (unlike doc-ci, which is docs-scoped).
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+# A security gate; do NOT cancel in-progress runs. On a rapid push A then B,
+# cancelling A would leave A's commits unscanned (B diffs only against A).
+concurrency:
+  group: dlp-scan-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  dlp-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history so the script can diff against the PR base / previous commit.
+          fetch-depth: 0
+
+      - name: DLP scan (diff)
+        env:
+          # PR: base branch to diff against (github.base_ref).
+          GITHUB_BASE_REF: ${{ github.base_ref }}
+          # Push: the sha before this push, so a multi-commit push scans its FULL
+          # range (not just HEAD~1). Empty on PR events; first push is all-zeros,
+          # which the script falls back from to HEAD~1.
+          DLP_DIFF_BASE: ${{ github.event.before }}
+        run: python3 scripts/dlp_fingerprint_scan.py

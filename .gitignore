@@ -2,3 +2,5 @@ scratch/
 .claude/settings.local.json
 .claude/logs/
 .claude/checkpoints/
+__pycache__/
+*.pyc

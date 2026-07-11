@@ -1,0 +1,25 @@
+# DLP exact-match fingerprints -- consumed by scripts/dlp_fingerprint_scan.py
+#
+# This .example file is INERT. To enable exact-data-match scanning, copy it to
+# `fingerprints.txt` (same dir) and add SHA-256 hashes:
+#
+#     cp .claude/dlp/fingerprints.txt.example .claude/dlp/fingerprints.txt
+#
+# The scanner hashes each candidate token in a diff and fails the build on a match.
+# You store ONLY the hashes here -- the raw sensitive value never enters the repo.
+#
+# Format: one lowercase SHA-256 hex digest per line. `#` starts a comment.
+# Any line that is not exactly 64 hex chars is ignored.
+#
+# Generate a fingerprint for a known-sensitive token (canary string, a specific
+# customer email, an internal hostname):
+#
+#     printf '%s' 'the-secret-value' | sha256sum        # Linux
+#     python -c "import hashlib,sys;print(hashlib.sha256(sys.argv[1].encode()).hexdigest())" 'the-secret-value'
+#
+# Tokenization note: the scanner splits on non-[A-Za-z0-9._@+/-] and hashes tokens
+# of >= 8 chars, so fingerprint whole tokens (e.g. an email or hostname), not
+# phrases with spaces.
+
+# --- add your fingerprint hashes below (64 hex chars each) ---
+# e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855   # example: sha256 of ""

@@ -1,6 +1,6 @@
 # claude-code-template
 
-A Claude Code template covering the full AI/ML development lifecycle — from problem framing to production monitoring. 163 skills, persistent memory, and session continuity out of the box.
+A Claude Code template covering the full AI/ML development lifecycle — from problem framing to production monitoring. 164 skills, persistent memory, and session continuity out of the box.
 
 ---
 
@@ -27,7 +27,7 @@ This template fixes all four in under 5 minutes of setup.
 | `LESSONS_LEARNED.md` | Process lessons that accumulate across sessions. Pre-seeded with 8 generalizable lessons; add project-specific ones as you work. |
 | `NEXT_SESSION.md` | Session bookmark — HEAD, branch, what landed, what's open. Claude reads it first after `/clear`. |
 | `.claude/settings.json` | Permission allowlist. Pre-populated with `Read`, `Glob`, `Grep`, safe git read commands, and context-mode MCP tools — so common read-only ops never prompt. Add project-specific patterns here; put machine-local ones in `.claude/settings.local.json` (gitignored). |
-| `.claude/hooks/` | **15** reference guardrail hooks (none wired by default) — 3 generic (`block_dangerous_git`, `scan_secrets`, `audit_log`) + 10 domain (cloud-cost, SQL safety, ML leakage, PII-in-logs, prompt safety, OWASP patterns, infra-destroy, programming gotchas, test-set balancing, metric guardrails) + 2 optional add-ons (`shadow_git_checkpoint` on `PreToolUse` mutations, `staleness_check` on `SessionStart`). See `.claude/hooks/README.md` for the full inventory + wiring snippet. |
+| `.claude/hooks/` | **18** reference guardrail hooks (none wired by default) — 3 generic (`block_dangerous_git`, `scan_secrets`, `audit_log`) + 10 domain (cloud-cost, SQL safety, ML leakage, PII-in-logs, prompt safety, OWASP patterns, infra-destroy, programming gotchas, test-set balancing, metric guardrails) + 3 DLP (`check_egress_allowlist`, `scan_prompt_dlp`, `redact_tool_output`) + 2 optional add-ons (`shadow_git_checkpoint` on `PreToolUse` mutations, `staleness_check` on `SessionStart`). See `.claude/hooks/README.md` for the full inventory + wiring snippet. |
 | `.claude/skills/review/SKILL.md` | `/review` — code review with [BLOCKER] / [SUGGESTION] / [NITPICK] format. |
 | `.claude/skills/adr/SKILL.md` | `/adr` — draft an Architecture Decision Record with full rationale and alternatives. |
 | `.claude/skills/tradeoff/SKILL.md` | `/tradeoff` — structured tradeoff analysis: options × pros/cons/failure-mode + recommendation with named constraint. |
@@ -35,7 +35,7 @@ This template fixes all four in under 5 minutes of setup.
 | `.claude/skills/security-model-init/SKILL.md` | `/security-model-init` — generate `docs/SECURITY_MODEL.md` scaffold for projects with user-facing surfaces. |
 | `templates/security-model/SECURITY_MODEL-TEMPLATE.md` | Annotated template for the per-(operation × role × surface) enforcement table; stack-specific scaffolding blocks for Supabase/Firebase/Hasura/FastAPI/Express. |
 | `context/MEMORY.md` | Index for Claude's persistent project memory. |
-| `prompts/` | **173** system prompt templates across ML, data engineering, LLM, auth, Databricks, cloud ML / GenAI platforms (Bedrock / Azure Foundry / OpenAI / Vertex), agent design (incl. memory + plan-mode + workflow-design), IaC, compliance, BI, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
+| `prompts/` | **174** system prompt templates across ML, data engineering, LLM, auth, Databricks, cloud ML / GenAI platforms (Bedrock / Azure Foundry / OpenAI / Vertex), agent design (incl. memory + plan-mode + workflow-design), IaC, compliance, BI, DLP, and production AI categories. Each has placeholders, usage notes, and a prompt health score. |
 | `templates/skill/SKILL-TEMPLATE.md` | Annotated template for authoring new skills. Copy to `.claude/skills/<name>/SKILL.md` and fill in. |
 | `.gitignore` | Gitignores `scratch/` (personal workspace), `.claude/settings.local.json`, and `.claude/logs/` (hook audit logs). |
 | `operating-philosophy.md` | Portable working philosophy — communication style, context-mode tool hierarchy, advisor protocol, primary-source verification, session management, git hygiene, Karpathy failure modes, design principles. Copy sections into any project's `CLAUDE.md`. |
@@ -175,6 +175,7 @@ Type these in the Claude Code prompt. Skills live in `.claude/skills/<name>/SKIL
 | `/runbook` | **Incident Runbook Author** — AI incident runbook — 8 standard failure scenarios (degradation, hallucination spike, cost blowout, agentic loop runaway, etc.) with detection/triage/mitigation/escalation |
 | `/pii-scan` | **PII Exposure Auditor** — PII exposure audit — maps data elements across 10 AI lifecycle stages; surfaces governance gaps; recommends ADRs |
 | `/observability` | **Observability Stack Designer** — AI observability stack design — 5 signal layers, required metrics + alert thresholds, drift indicators, dashboard spec |
+| `/dlp-design` | **DLP System Designer** — Data Loss Prevention design — classify data (PII/PHI/PCI/secrets/IP) → egress surfaces → detection per class (regex+Luhn / NER / fingerprint / entropy) → enforcement matrix per (class × surface) → policy engine → response+audit. Ships with 4 DLP hooks + a CI fingerprint gate; enforces warn→block progressively with an FP counter-metric |
 
 **Auth / Identity (OAuth / OIDC):**
 
@@ -480,7 +481,7 @@ At the end of each session, you (or Claude) update `NEXT_SESSION.md` with HEAD, 
 
 **More LESSONS_LEARNED entries.** Every time something goes wrong or unusually right, add a one-liner with a **Why:** line. The file compounds — after 10 sessions it's the most valuable thing in the repo.
 
-**Hooks.** **15** reference hooks ship with the template in `.claude/hooks/`. None are wired by default — paste the snippet from `.claude/hooks/README.md` into your `settings.json` to enable any of them.
+**Hooks.** **18** reference hooks ship with the template in `.claude/hooks/`. None are wired by default — paste the snippet from `.claude/hooks/README.md` into your `settings.json` to enable any of them.
 
 *Generic (3):*
 - `block_dangerous_git.py` — PreToolUse/Bash: blocks force-push, `reset --hard`, `--no-verify`, and other destructive git operations

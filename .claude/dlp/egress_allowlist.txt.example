@@ -1,0 +1,23 @@
+# DLP egress allowlist -- consumed by .claude/hooks/check_egress_allowlist.py
+#
+# This .example file is INERT. To switch the egress hook from warn-only to
+# BLOCK mode, copy it to `egress_allowlist.txt` (same dir) and edit:
+#
+#     cp .claude/dlp/egress_allowlist.txt.example .claude/dlp/egress_allowlist.txt
+#
+# Once egress_allowlist.txt exists, any data-upload command (curl/wget upload,
+# scp/rsync/sftp, nc) to a host NOT listed here is BLOCKED (exit 2).
+#
+# Format: one host or dot-suffix per line. `#` starts a comment.
+#   api.example.com        -> matches exactly that host
+#   .internal.example.com  -> matches any subdomain (foo.internal.example.com)
+# Built-in always-allowed (no need to list): localhost 127.0.0.1 ::1 0.0.0.0
+#
+# An EMPTY egress_allowlist.txt = block ALL exfil to non-local hosts (max lockdown).
+
+# --- add your legitimate egress destinations below ---
+# api.openai.com
+# api.anthropic.com
+# hooks.slack.com
+# .s3.amazonaws.com
+# uploads.mycompany.com

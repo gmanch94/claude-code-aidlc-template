@@ -2,7 +2,21 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-06-26. **Current branch:** `master`. **HEAD = 07da69f** (`feat(skills): /agentic-data-curation + 3 trajectory-data enhancements (162 to 163) (#42)`, squash-merged). Bookmark-refresh commit lags HEAD by one (this file's own commit), per the #37→#38 pattern.
+**Last working session:** 2026-07-10. **Current branch:** `master`. **HEAD = 36851d3** (`feat(dlp): DLP guardrail suite - 4 hooks + CI fingerprint gate + /dlp-design (163 to 164)`) — committed DIRECT to master (user-instructed direct ship, no PR). doc-ci + dlp-scan CI both green on the push. Bookmark-refresh commit lags HEAD by one (this file's own commit).
+
+---
+
+## DLP guardrail suite (2026-07-10 — shipped DIRECT to master, `36851d3`)
+
+Built a Data Loss Prevention layer across the exits where sensitive data can leave a Claude Code session; shipped direct to master on user instruction (no PR). An independent security reviewer ran pre-push (security.md safety-property policy) → 1 HIGH + 3 MEDIUM found and fixed before the push.
+
+- **New skill `/dlp-design`** (Production systems) — classify data → egress surfaces → detection per class → enforcement matrix (class × surface) → policy → response/audit. Full 5-artifact wiring.
+- **4 DLP hooks** (unwired by default, per convention): `scan_secrets.py` extended (+US SSN reserved-range-validated, Luhn cards, keyword-entropy, NotebookEdit, key/PEM on ALL paths with documented-vector exemption); `check_egress_allowlist.py` (Bash egress, warn→block, **fails CLOSED** on an unconfirmable destination); `scan_prompt_dlp.py` (UserPromptSubmit — first of its event); `redact_tool_output.py` (PostToolUse `updatedToolOutput` — first mutating hook, fail-safe).
+- **CI gate:** `scripts/dlp_fingerprint_scan.py` + `.github/workflows/dlp-scan.yml` — pattern + SHA-256 fingerprint scan on every diff; `github.event.before` base, `cancel-in-progress: false`.
+- **Review fixes landed:** [HIGH] egress fail-open on scheme-less `curl -d @f host` / `$VAR` destination → now fail-closed + scheme-less host extraction; [MED] redact card/truncated-PEM, multi-commit push base, docs-path key enforcement.
+- **Caveat:** `redact_tool_output` live-session mutation is a wire-time check (logic verified; fail-safe no-op on schema mismatch, never corruption).
+- **Counts moved:** skills 163→**164**, prompts 173→**174**, hooks 15→**18**.
+- **Not done (backlog):** wiring hooks into `settings.json` (ship unwired by convention — snippets in `.claude/hooks/README.md`); nc `-e`/glued-flag egress evasion (LOW, documented out-of-scope); a `docs/SECURITY_MODEL.md` for the template.
 
 ---
 
@@ -50,7 +64,8 @@ To ship: `git status` to confirm the 44 untracked paths + 4 modified files, then
 ## State
 
 ```
-07da69f  feat(skills): /agentic-data-curation + 3 trajectory-data enhancements (162 to 163) (#42)   ← HEAD
+36851d3  feat(dlp): DLP guardrail suite - 4 hooks + CI fingerprint gate + /dlp-design (163 to 164)   ← HEAD (direct to master)
+07da69f  feat(skills): /agentic-data-curation + 3 trajectory-data enhancements (162 to 163) (#42)
 75d6cb7  docs(skills): add arXiv:2603.05218 to KARL inline citations for verifiability (#41)
 8d33b24  chore: refresh bookmark - HEAD=fd71a25 (PR #39 merged, /test-time-compute + 4 KARL enhancements, 161 to 162) (#40)
 fd71a25  feat(skills): /test-time-compute + 4 KARL-derived enhancements (161 to 162) (#39)
@@ -114,8 +129,8 @@ Remote: https://github.com/gmanch94/claude-code-aidlc-template
 ## Files of note
 
 - `.claude/hooks/` — **15** reference hooks (3 generic: git/secrets/audit + 10 domain: cloud-cost/SQL/ML-leakage/PII/prompt-safety/etc. + 2 optional add-ons: `shadow_git_checkpoint.py` PreToolUse / `staleness_check.py` SessionStart) + README with 2026 event catalog
-- `.claude/skills/` — **163** skills; each is a directory with `SKILL.md` (+ optional `REFERENCE.md`)
-- `prompts/` — **173** prompt templates; `README.md` is the index
+- `.claude/skills/` — **164** skills; each is a directory with `SKILL.md` (+ optional `REFERENCE.md`)
+- `prompts/` — **174** prompt templates; `README.md` is the index
 - `.github/workflows/doc-ci.yml` — doc-CI gate (4 steps: count drift, broken links, skill↔prompt↔CLAUDE↔README↔prompts/README parity, NEXT_SESSION HEAD freshness warning). Exempt list mirrors CLAUDE.md L86 + `.claude/skills/doc-ci-check/SKILL.md` L64.
 - `templates/data-engineering/` — 4 DE script templates
 - `templates/skill/` — annotated SKILL-TEMPLATE.md + REFERENCE-TEMPLATE.md

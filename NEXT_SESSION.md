@@ -2,7 +2,7 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-07-10. **Current branch:** `master`. **HEAD = 36851d3** (`feat(dlp): DLP guardrail suite - 4 hooks + CI fingerprint gate + /dlp-design (163 to 164)`) — committed DIRECT to master (user-instructed direct ship, no PR). doc-ci + dlp-scan CI both green on the push. Bookmark-refresh commit lags HEAD by one (this file's own commit).
+**Last working session:** 2026-07-11. **Current branch:** `master`. **HEAD = 861f8ad** (`docs: add ARCHITECTURE.md + SECURITY.md, index both in README [skip ci]`) — docs shipped DIRECT to master, `[skip ci]` (docs-only, locally verified against doc-ci's checks). Prior code HEAD `36851d3` = DLP guardrail suite (doc-ci + dlp-scan green). Bookmark-refresh commit lags HEAD by one (this file's own commit).
 
 ---
 

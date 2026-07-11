@@ -53,7 +53,7 @@ The hard part. You must (a) load all existing rows, then (b) switch to streaming
 |---|---|---|---|
 | **Lock-free / incremental snapshot** (preferred — Debezium incremental snapshot, "DBLog"-style chunked) | Read the table in keyed chunks while the stream runs concurrently; a watermark window dedupes any row that appears in both the chunk and the live stream | No gap, no dupe; **no long lock** | Slightly more bookkeeping; the gold standard |
 | **Consistent snapshot at a log position** | Take a transactionally consistent read at a recorded log offset (LSN/GTID/SCN), then start the stream from exactly that offset | No gap, no dupe — the offset is the seam | Brief consistency hold; may need a short lock on some engines |
-| **Snapshot then stream from "now"** (naive) | Bulk-copy the table, then start streaming from the current log tail | **GAP RISK** — changes during the copy are lost unless the stream start ≤ snapshot start offset; **DUPE RISK** if it overlaps. Avoid unless you can pin the offset |
+| **Snapshot then stream from "now"** (naive) | Bulk-copy the table, then start streaming from the current log tail | **GAP RISK** — changes during the copy are lost unless the stream start ≤ snapshot start offset; **DUPE RISK** if it overlaps. Avoid unless you can pin the offset | No lock or bookkeeping; the correctness risk is the real cost |
 
 **Cutover contract (must hold regardless of mode):**
 - The stream **start offset must be ≤ the snapshot's consistency point**, never after it. Starting the stream *after* the snapshot read = a gap window equal to the copy duration.

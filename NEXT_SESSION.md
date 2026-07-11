@@ -2,7 +2,7 @@
 
 Resume point after `/clear` or a new session. Read this first before any tool calls beyond orientation.
 
-**Last working session:** 2026-07-11. **Current branch:** `master`. **HEAD = 861f8ad** (`docs: add ARCHITECTURE.md + SECURITY.md, index both in README [skip ci]`) — docs shipped DIRECT to master, `[skip ci]` (docs-only, locally verified against doc-ci's checks). Prior code HEAD `36851d3` = DLP guardrail suite (doc-ci + dlp-scan green). Bookmark-refresh commit lags HEAD by one (this file's own commit).
+**Last working session:** 2026-07-11. **Current branch:** `master`. **HEAD = 91d8585** (`docs: mark ARCHITECTURE.md mermaid verified [skip ci]`) — this session shipped `ARCHITECTURE.md` + `SECURITY.md` direct to master (`861f8ad`), then verified the `ARCHITECTURE.md` mermaid renders under mermaid 11 (GitHub's engine). All `[skip ci]` (docs-only, locally verified against doc-ci's checks). Prior code HEAD `36851d3` = DLP guardrail suite (doc-ci + dlp-scan green). Bookmark-refresh commit lags HEAD by one (this file's own commit).
 
 ---
 

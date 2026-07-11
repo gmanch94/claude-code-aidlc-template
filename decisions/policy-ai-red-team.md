@@ -46,7 +46,7 @@ Agentic systems of any tier must include the OWASP Agentic Top 10 battery regard
 3. **After a model version change** — full re-run; HIGH and MED tiers
 4. **After adding a new tool or plugin** — re-run LLM03 (supply chain) + LLM06 (excessive agency); all tiers
 5. **After a security incident or near-miss** — full re-run; all tiers
-6. **Scheduled cadence** — HIGH: quarterly | MED: semi-annual | LOW: annual
+6. **Scheduled cadence** — HIGH: quarterly · MED: semi-annual · LOW: annual
 
 ### Ownership & Process
 

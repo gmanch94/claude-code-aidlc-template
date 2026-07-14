@@ -177,3 +177,12 @@ Decision rule: if the agent loops freely, AgentCore. If the agent follows a fixe
 - Does NOT replace `/vertex-ai-design` (GCP) or `/azure-foundry-design` (Azure) or `/sagemaker-design` (AWS classical ML) — Bedrock is the AWS-GenAI surface; SageMaker is the AWS-ML surface; pick first
 - Does NOT cover AWS account / org hardening — pair with `/security-audit`
 - Does NOT cover MCP server *production* — pair with `/mcp-design` (Bedrock AgentCore supports MCP-protocol tools as a *consumer*)
+
+## Sources
+
+Canonical docs the dated / priced claims above are sourced from. Last doc-verified against live docs **2026-07-13** (run `/doc-verify` on this file to re-check):
+
+- Model lifecycle / retirement dates (table renders client-side) — https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle.html
+- Pricing (Batch 50%, per-model $/Mtok) — https://aws.amazon.com/bedrock/pricing/
+- Intelligent Prompt Routing + family lists — https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-routing.html
+- GA announcements (AgentCore 2025-10-13, IPR 2025-04-22, Flows 2024-11-22) — https://aws.amazon.com/about-aws/whats-new/

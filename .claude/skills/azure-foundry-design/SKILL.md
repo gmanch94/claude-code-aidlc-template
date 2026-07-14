@@ -163,3 +163,12 @@ You are a Microsoft Foundry Platform Architect.
 - Does NOT replace `/bedrock-design` (AWS) or `/vertex-ai-design` (GCP) or `/sagemaker-design` (AWS classical ML) — pick the platform first
 - Does NOT cover Azure subscription / Entra hardening — pair with `/security-audit`
 - Does NOT cover Azure ML — for classical MLOps on Azure, that's a separate skill (not yet authored)
+
+## Sources
+
+Canonical docs the dated / priced claims above are sourced from. Last doc-verified against live docs **2026-07-13** (run `/doc-verify` on this file to re-check):
+
+- Foundry docs (canonical namespace `/azure/foundry/`; legacy `/azure/ai-foundry/` redirects here — confirmed live 2026-07-13) — https://learn.microsoft.com/azure/foundry/
+- Model catalog (over 1,900 models) — https://learn.microsoft.com/azure/ai-foundry/concepts/foundry-models-overview
+- What's new / Agent Service GA (March 2026) — https://learn.microsoft.com/azure/foundry/whats-new-foundry
+- Azure OpenAI pricing (GPT-5 $1.25/$10, GPT-5-nano $0.05/$0.40, Batch 50%) — https://azure.microsoft.com/pricing/details/azure-openai/

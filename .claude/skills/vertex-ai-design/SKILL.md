@@ -161,3 +161,11 @@ Decision rule: pick **one**. Vertex AI Search for off-the-shelf enterprise searc
 - Does NOT design the model itself — assumes a trained-or-trainable artifact exists
 - Does NOT replace `/sagemaker-design` (AWS) or `/databricks-asset-bundles` (Databricks) — pick the platform first, then this skill scopes the Vertex side
 - Does NOT cover Google Cloud security in depth — pair with `/security-audit` for the auth/IAM hardening pass
+
+## Sources
+
+Canonical GCP docs the claims above are sourced from. NOT re-verified in the 2026-07-13 pass — see the "verified 2026-06-22" snapshot note near the top; run `/doc-verify` on this file to re-check:
+
+- Vertex AI docs — https://cloud.google.com/vertex-ai/docs
+- Generative AI on Vertex (Model Garden, Gemini) — https://cloud.google.com/vertex-ai/generative-ai/docs
+- Pricing — https://cloud.google.com/vertex-ai/pricing

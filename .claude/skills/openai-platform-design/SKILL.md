@@ -158,3 +158,13 @@ You are an OpenAI Platform Architect.
 - Does NOT replace `/bedrock-design` (AWS) or `/vertex-ai-design` (GCP) or `/anthropic-api-design` (when authored) — pick the platform first
 - Does NOT cover OpenAI account / org / SSO hardening — pair with `/security-audit`
 - Does NOT cover ChatGPT product features — this is the API platform side
+
+## Sources
+
+Canonical docs the dated / priced claims above are sourced from. Last doc-verified against live docs **2026-07-13** (run `/doc-verify` on this file to re-check):
+
+- Sunset / deprecation dates (Assistants 2026-08-26, Evals read-only 2026-10-31 / shutdown 2026-11-30) — https://platform.openai.com/docs/deprecations
+- Model catalog + per-Mtok pricing — https://platform.openai.com/docs/pricing
+- Model IDs — https://platform.openai.com/docs/models
+- Prompt caching (automatic, ≥1024-token threshold) — https://platform.openai.com/docs/guides/prompt-caching
+- Release history (Responses API Mar 2025, gpt-realtime GA 2025-08-28) — https://platform.openai.com/docs/changelog
